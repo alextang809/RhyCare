@@ -4,27 +4,29 @@ Android App RhythmCare for Orbital 2021.
 
 
 
-### For Milestone 1
+## For Milestone 1
 
-#### Proposed Level of Achievement
+
+
+### Proposed Level of Achievement
 
 Apollo 11
 
 
 
-#### Motivation
+### Motivation
 
 Statistics show that many diseases are often diagnosed when the best time for treatment has passed. Also, many people have a vague impression about how long their symptoms last when they are seeing doctors. We believe that the root of maintaining good health lies not in seeing a doctor when symptoms are severe, but in preventing diseases in a long run and strengthening the immune system.
 
  
 
-#### Aim
+### Aim
 
 We hope to provide users with a platform (specifically, an Android mobile app) to record their health conditions and better manage their health status through some ways (e.g. C2C services subscription, reminder functions).
 
 
 
-#### User Stories
+### User Stories
 
 1. As a software engineer [those whose job requires long-time sitting without exercise] who is at risk of lumbar disc herniation, I want to record my lumber discomfort during work and get advice on exercising from professionals to ease my pain and prevent the disease in an early stage.
 
@@ -36,7 +38,7 @@ We hope to provide users with a platform (specifically, an Android mobile app) t
 
 
 
-#### Scope of Project (To be updated!)
+### Scope of Project (To be updated!)
 
 The Android app provides a platform for users to (1) record their health conditions, which will be used to generate health guides for them, and (2) subscribe to *health management* specialist services which will provide personal health advice for them.
 
@@ -94,4 +96,5 @@ Features that can be extended in the future:
 
 
 
-#### Program Flow (To be updated!!)
+### Program Flow (To be updated!!)
+
