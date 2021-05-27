@@ -24,7 +24,7 @@ We hope to provide users with a platform (specifically, an Android mobile app) t
 
 <br/>
 
-### User Stories
+### User Stories (To be updated by Weichun!)
 
 1. As a software engineer [those whose job requires long-time sitting without exercise] who is at risk of lumbar disc herniation, I want to record my lumber discomfort during work and get advice on exercising from professionals to ease my pain and prevent the disease in an early stage.
 
@@ -36,7 +36,7 @@ We hope to provide users with a platform (specifically, an Android mobile app) t
 
 <br/>
 
-### Scope of Project (To be updated!)
+### Scope of Project (To be updated by Weichun!)
 
 The Android app provides a platform for users to (1) record their health conditions, which will be used to generate health guides for them, and (2) subscribe to *health management* specialist services which will provide personal health advice for them.
 
@@ -94,6 +94,6 @@ Features that can be extended in the future:
 
 <br/>
 
-### Program Flow (To be updated!!)
+### Program Flow
 ![](https://github.com/alextang809/RhyCare/blob/main/pictures/RhythmCare%20App%20Flow.jpg)
 <br/>
