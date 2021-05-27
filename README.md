@@ -95,5 +95,5 @@ Features that can be extended in the future:
 <br/>
 
 ### Program Flow (To be updated!!)
-![](pictures/RhythmCare App Flow.jpg)
+![](https://github.com/alextang809/RhyCare/blob/main/pictures/RhythmCare%20App%20Flow.jpg)
 <br/>
