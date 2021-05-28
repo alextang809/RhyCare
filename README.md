@@ -24,21 +24,21 @@ We hope to provide users with a platform (specifically, an Android mobile app) t
 
 <br/>
 
-### User Stories (To be updated by Weichun!)
+### User Stories
 
-1. As a software engineer [those whose job requires long-time sitting without exercise] who is at risk of lumbar disc herniation, I want to record my lumber discomfort during work and get advice on exercising from professionals to ease my pain and prevent the disease in an early stage.
+1. As a software engineer, David have to sit still for a long time and do not have much time for him to do excises, which put him at risk of lumbar disc herniation. The RhythmCare App can record his lumber discomfort during work and offer professional advice on exercising to ease his pain and prevent the disease in an early stage.
 
-2. As a student who is at risk of suffering from myopia (or other eye diseases), I want to get a periodical reminder for relaxing my eyes.
+2. As a student, Oliver is at risk of suffering from myopia (or other eye diseases), RhythmCare, however, can set a periodical reminder for relaxing my eyes.
 
-3. As a psychological consultant, I want there to be a way for my “patients” (e.g. people with depression) to record their everyday emotions for me to offer better treatment. Also, I hope there is a platform to identify those facing potential psychological problems and offer early help to them.
+3. As a psychological consultant, Alex want there to be a way for my “patients” (e.g. people with depression) to record their everyday emotions for them to offer better treatment. Also, he hope there is a platform to identify those facing potential psychological problems and offer early help to them.
 
-4. As a doctor/fitness instructor/nutritionist who has spare time, I want to earn extra money by providing help and suggestions to people in need to make their life healthier.
+4. As a doctor/fitness instructor/nutritionist who has spare time, Lerron want to earn extra money by providing help and suggestions to people in need to make their life healthier.
 
 <br/>
 
-### Scope of Project (To be updated by Weichun!)
+### Scope of Project
 
-The Android app provides a platform for users to (1) record their health conditions, which will be used to generate health guides for them, and (2) subscribe to *health management* specialist services which will provide personal health advice for them.
+The Android app provides a platform for users to (1) record their daily discomfort (physically or mentally), which will be used to compare with a disease database, and advise the user with their potential disease (2) subscribe to *health management* specialist services which will provide personal health advice for them.
 
 <br/>
 
