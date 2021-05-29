@@ -89,8 +89,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           decoration: InputDecoration(labelText: 'Email'),
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'email cannot be empty';
+                            if (value!.isEmpty) {
+                              return 'please enter email address';
                             }
                             return null;
                           },
@@ -104,8 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           decoration: InputDecoration(labelText: 'Password'),
                           obscureText: true,
                           validator: (value) {
-                            if (value == null || value.length < 6) {
-                              return 'password must have at least six characters';
+                            if (value!.isEmpty) {
+                              return 'please enter password';
                             }
                             return null;
                           },

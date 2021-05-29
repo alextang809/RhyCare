@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:io';
 
 import 'login_screen.dart';
 
@@ -30,6 +31,11 @@ class _SignupScreenState extends State<SignupScreen> {
         final user = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
         print('Registered user: ${user.user!.uid}');
+        Fluttertoast.showToast(
+          msg: 'Your account has been created successfully! Please login!',
+          toastLength: Toast.LENGTH_LONG,
+        );
+        sleep(Duration(seconds:1));
         Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
       } catch (error) {
         print('$error');
@@ -92,7 +98,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'email cannot be empty';
+                              return 'email address cannot be empty';
                             }
                             return null;
                           },
@@ -103,11 +109,13 @@ class _SignupScreenState extends State<SignupScreen> {
 
                         // password
                         TextFormField(
-                          decoration: InputDecoration(labelText: 'Password'),
+                          decoration: InputDecoration(labelText: 'Password (at least six characters)'),
                           obscureText: true,
                           controller: passwordController,
                           validator: (value) {
-                            if (value == null || value.length < 6) {
+                            if (value!.isEmpty) {
+                              return 'password cannot be empty';
+                            } else if (value.length < 6) {
                               return 'password must have at least six characters';
                             }
                             return null;

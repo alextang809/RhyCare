@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   // const HomeScreen({Key key}) : super(key: key);
@@ -12,9 +15,23 @@ class HomeScreen extends StatelessWidget {
         title: Text('RhythmCare Home Screen'),
         backgroundColor: Colors.purple[900],
       ),
-      body: Center(
-        child: Image(
-          image: AssetImage('images/icon.png'),
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset('images/icon.png'),
+              SizedBox(
+                height: 100.0,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+                },
+                child: Text('Sign out'),
+              ),
+            ],
+          ),
         ),
       ),
     );
