@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 
+import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/signup_screen.dart';
+
 void main() {
   runApp(
     MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.purple[100],
-        appBar: AppBar(
-          title: Text('RhythmCare'),
-          backgroundColor: Colors.purple[900],
-        ),
-        body: Center(
-          child: Image(
-            image: AssetImage('images/icon.png'),
-          ),
-        ),
-      ),
+      title: 'RhythmCare',
+      initialRoute: LoginScreen.routeName,
+      routes: {
+        LoginScreen.routeName: (context) => LoginScreen(),
+        SignupScreen.routeName: (context) => SignupScreen(),
+        HomeScreen.routeName: (context) => HomeScreen(),
+      },
     ),
   );
 }
