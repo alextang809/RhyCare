@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "311046869513",
+    "firebase_url": "https://rhythmcare-f3beb-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "rhythmcare-f3beb",
+    "storage_bucket": "rhythmcare-f3beb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311046869513:android:fa7821eac75b628f449ed8",
+        "android_client_info": {
+          "package_name": "orbital.rhythmcare.rhythmcare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311046869513-npt8rnauafbod6cfc7f188cmhbk2n70o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg98oorY97nrdHWTsCQMC4OKYS0QpdFxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311046869513-npt8rnauafbod6cfc7f188cmhbk2n70o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

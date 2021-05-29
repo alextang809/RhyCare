@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'signup_screen.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   // const LoginScreen({Key key}) : super(key: key);
@@ -11,10 +14,42 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  var email;
+  var password;
 
-  void signIn() {
+  final GlobalKey<FormState> formKey = new GlobalKey<FormState>();
+  void signIn() async {
+    final form = formKey.currentState;
+    if (form!.validate()) {
+      form.save();
 
+      try {
+        print('Form is valid.');
+        final user = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+        print('Signed in: ${user.user!.uid}');
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      } catch (error) {
+        print('$error');
+        String errorCode = (error as FirebaseAuthException).code;
+        if (errorCode == 'invalid-email') {
+          Fluttertoast.showToast(
+            msg: 'Please use a valid email address.',
+            toastLength: Toast.LENGTH_LONG,
+          );
+        } else if (errorCode == 'user-not-found' || errorCode == 'wrong-password') {
+          Fluttertoast.showToast(
+            msg: 'Fail to login: please check your email address or password.',
+            toastLength: Toast.LENGTH_LONG,
+          );
+        } else {
+          Fluttertoast.showToast(
+            msg: 'Login failed! Please try again later or contact support.',
+            toastLength: Toast.LENGTH_LONG,
+          );
+        }
+      }
+    }
   }
 
   @override
@@ -42,58 +77,62 @@ class _LoginScreenState extends State<LoginScreen> {
 
               Card(
                 child: Container(
-                  height: 270.0,
+                  height: 310.0,
                   width: 300.0,
                   padding: EdgeInsets.all(10.0),
-                  child: Center(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          // user name
-                          TextFormField(
-                            decoration: InputDecoration(labelText: 'User Name'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'user name cannot be empty';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {},
-                          ),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: <Widget>[
+                        // user name
+                        TextFormField(
+                          decoration: InputDecoration(labelText: 'Email'),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'email cannot be empty';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            email = value;
+                          },
+                        ),
 
-                          // password
-                          TextFormField(
-                            decoration: InputDecoration(labelText: 'Password'),
-                            obscureText: true,
-                            validator: (value) {
-                              if (value == null || value.length <= 4) {
-                                return 'invalid password';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {},
-                          ),
+                        // password
+                        TextFormField(
+                          decoration: InputDecoration(labelText: 'Password'),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value == null || value.length < 6) {
+                              return 'password must have at least six characters';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            password = value;
+                          },
+                        ),
 
-                          SizedBox(
-                            height: 30.0,
-                          ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
 
-                          ElevatedButton(
-                            onPressed: () {
-                              signIn();
-                            },
-                            child: Text('Sign IN'),
-                          ),
+                        ElevatedButton(
+                          onPressed: () {
+                            signIn();
+                          },
+                          child: Text('Login'),
+                        ),
 
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pushReplacementNamed(SignupScreen.routeName);
-                            },
-                            child: Text('Register an account >'),
-                          ),
-                        ],
-                      ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(SignupScreen.routeName);
+                          },
+                          child: Text('Register an account >'),
+                        ),
+                      ],
                     ),
                   ),
                 ),

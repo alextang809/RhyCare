@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'login_screen.dart';
 
@@ -11,11 +14,44 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey();
-  TextEditingController _passwordController = new TextEditingController();
+  var email;
+  var password;
 
-  void signIn() {
+  final GlobalKey<FormState> formKey = new GlobalKey<FormState>();
+  TextEditingController passwordController = new TextEditingController();
 
+  void signUp() async {
+    final form = formKey.currentState;
+    if (form!.validate()) {
+      form.save();
+
+      try {
+        print('Form is valid.');
+        final user = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        print('Registered user: ${user.user!.uid}');
+        Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+      } catch (error) {
+        print('$error');
+        String errorCode = (error as FirebaseAuthException).code;
+        if (errorCode == 'email-already-in-use') {
+          Fluttertoast.showToast(
+            msg: 'The email address already exists! Please login.',
+            toastLength: Toast.LENGTH_LONG,
+          );
+        } else if (errorCode == 'invalid-email') {
+          Fluttertoast.showToast(
+            msg: 'Please use a valid email address.',
+            toastLength: Toast.LENGTH_LONG,
+          );
+        } else {
+          Fluttertoast.showToast(
+            msg: 'Register failed! Please try again later or contact support.',
+            toastLength: Toast.LENGTH_LONG,
+          );
+        }
+      }
+    }
   }
 
   @override
@@ -43,72 +79,78 @@ class _SignupScreenState extends State<SignupScreen> {
 
               Card(
                 child: Container(
-                  height: 330.0,
+                  height: 390.0,
                   width: 300.0,
                   padding: EdgeInsets.all(10.0),
-                  child: Center(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          // user name
-                          TextFormField(
-                            decoration: InputDecoration(labelText: 'User Name'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'user name cannot be empty';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {},
-                          ),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: <Widget>[
+                        // user name
+                        TextFormField(
+                          decoration: InputDecoration(labelText: 'Email'),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'email cannot be empty';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            email = value;
+                          },
+                        ),
 
-                          // password
-                          TextFormField(
-                            decoration: InputDecoration(labelText: 'Password'),
-                            obscureText: true,
-                            controller: _passwordController,
-                            validator: (value) {
-                              if (value == null || value.length <= 4) {
-                                return 'invalid password';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {},
-                          ),
+                        // password
+                        TextFormField(
+                          decoration: InputDecoration(labelText: 'Password'),
+                          obscureText: true,
+                          controller: passwordController,
+                          validator: (value) {
+                            if (value == null || value.length < 6) {
+                              return 'password must have at least six characters';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            password = value;
+                          },
+                        ),
 
-                          // confirm password
-                          TextFormField(
-                            decoration: InputDecoration(labelText: 'Confirm Password'),
-                            obscureText: true,
-                            validator: (value) {
-                              if (value == null || value != _passwordController.text) {
-                                return 'password not the same';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {},
-                          ),
+                        // confirm password
+                        TextFormField(
+                          decoration:
+                              InputDecoration(labelText: 'Confirm Password'),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value == null ||
+                                value != passwordController.text) {
+                              return 'password does not match';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {},
+                        ),
 
-                          SizedBox(
-                            height: 30.0,
-                          ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
 
-                          ElevatedButton(
-                            onPressed: () {
-                              signIn();
-                            },
-                            child: Text('Register'),
-                          ),
+                        ElevatedButton(
+                          onPressed: () {
+                            signUp();
+                          },
+                          child: Text('Register'),
+                        ),
 
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
-                            },
-                            child: Text('< Go back to login'),
-                          ),
-                        ],
-                      ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(LoginScreen.routeName);
+                          },
+                          child: Text('< Go back to login'),
+                        ),
+                      ],
                     ),
                   ),
                 ),
