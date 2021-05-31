@@ -1,6 +1,6 @@
 # RhythmCare (Orbital 2021)
 
-Android App RhythmCare for Orbital 2021.
+A health management app for Android users.
 
 <br/>
 
@@ -16,11 +16,11 @@ Apollo 11
 
 Statistics show that many diseases are often diagnosed when the best time for treatment has passed. Also, many people have a vague impression about how long their symptoms last when they are seeing doctors. We believe that the root of maintaining good health lies not in seeing a doctor when symptoms are severe, but in preventing diseases in a long run and strengthening the immune system.
 
- <br/>
+<br/>
 
 ### Aim
 
-We hope to provide users with a platform (specifically, an Android mobile app) to record their health conditions and better manage their health status through some ways (e.g. C2C services subscription, reminder functions).
+We hope to provide users with a platform (specifically, an Android mobile app) to record their health conditions and better manage their health status through some ways (e.g. health-related services subscription, reminder functions).
 
 <br/>
 
@@ -38,23 +38,13 @@ We hope to provide users with a platform (specifically, an Android mobile app) t
 
 ### Scope of Project
 
-The Android app provides a platform for users to (1) record their daily discomfort (physically or mentally), which will be used to compare with a disease database, and advise the user with their potential disease (2) subscribe to *health management* specialist services which will provide personal health advice for them.
-
-<br/>
-
-Now – 31st May:
-
-1. design (prototype)
-
-2. development plan
-
-3. pick up necessary technologies: Git, Java, Flutter, Firebase
+The Android app provides a platform for users to (1) record their daily physical discomfort, which will be used to compare with a disease database to generate users' potential health issues, and (2) subscribe to personal health professionals, who can provide personal health suggestions for them.
 
 <br/>
 
 Features to be completed by the end of May:
 
-1. (basic function of the app) Sign up/Log in function
+1. Sign up/Login function
 
    The app requires users to sign up for an account before logging in to use it. Users can also sign in using their Google account.
 
@@ -62,35 +52,25 @@ Features to be completed by the end of May:
 
 Features to be completed by the end of June:
 
-1. (basic function of the app) User profile page + Setting page
+1. User profile page + Settings page
 
-   The app has a Profile bar which allows users to view their profile and there is a setting page for users to do basic settings.
+   The app has a Settings bar which allows users to view their profile and do basic settings.
 
-   There is also a reminder setting function on the setting page for users to set reminders.
+   [This is a could-have feature and will only be implemented if time permits.] There is also a reminder setting function on the setting page for users to set reminders.
 
-2. (1st key feature of the app) Smart Recorder and Analyser
+2. Smart Recorder and Analyser
 
    The **Smart Recorder** allows users to record their slight physical discomfort (which may not be urgent for them to see a doctor but indeed reflecting the possibility for them to suffer underlying chronic diseases). These records can be used for in-app analysis or presentation purposes when users go to see a doctor.
 
-   The **Smart Analyzer** is an analysis algorithm to label symptoms (input by users) with the corresponding potential chronic diseases and compare them with people sharing the same occupations/in same age groups, after which provides users with useful healthy-living guides (e.g. recommendations for diet, exercise, periodical reminders).
+   The **Smart Analyzer** is an analysis algorithm to label symptoms (input by users) with the corresponding potential chronic diseases [we will use a medical approach to conduct the analysis (e.g. assign a disease weight to each symptom)], after which provides users with useful healthy-living guides (e.g. recommendations for diet, exercise, periodical reminders).
 
 <br/>
 
 Features to be completed by the end of July:
 
-1. (2nd key feature of the app) Health Master
+1. Health Master
 
-   The **Health Master** allows users to subscribe to health-related personal services, including 1) fitness coach; 2) nutritionists; and 3) consultants. This is a paid service, and the app allows users to pay within the app.
-
-<br/>
-
-Features that can be extended in the future:
-
-1. Associate with other applications (or companies) to augment the data record process
-
-   e.g. Cooperate with Huawei to upload the health-related data recorded by their Smart Watch to the Smart Recorder to supplement the active data input by users now
-
-2. Extend the Chat Companion to make it a chat-like interface and able to analyse voice and text messages
+   The **Health Master** allows users to subscribe to their personal health professionals [Information of professionals are uploaded directly at backend.]. This is a paid service, and the app allows users to pay within the app.
 
 <br/>
 
