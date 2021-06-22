@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rhythmcare/services/add_record.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_screen.dart';
 
@@ -54,8 +56,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
-                  // Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.remove('email');
+
+                  Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
                 },
                 child: Text('Sign out'),
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'register_screen.dart';
 import 'home_screen.dart';
@@ -28,6 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
         final user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
         print('Signed in: ${user.user!.uid}');
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('email', email);
+
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       } catch (error) {
         print('$error');
