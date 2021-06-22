@@ -43,9 +43,9 @@ class _RecordScreenState extends State<RecordScreen> {
                         return Center(
                           child: ListTile(
                             title: Text(user['email']),
-                            onLongPress: () {
-                              user.reference.delete();
-                            },
+                            // onLongPress: () {
+                            //   user.reference.delete();
+                            // },
                           ),
                         );
                       }).toList(),

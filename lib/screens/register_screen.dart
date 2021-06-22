@@ -3,18 +3,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rhythmcare/components/record.dart';
 
 import 'login_screen.dart';
+import 'record_screen.dart';
 
-class SignupScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   // const LoginScreen({Key key}) : super(key: key);
   static const routeName = 'signup_screen';
 
   @override
-  _SignupScreenState createState() => _SignupScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   var email;
   var password;
 
@@ -27,16 +31,39 @@ class _SignupScreenState extends State<SignupScreen> {
       form.save();
 
       try {
-        print('Form is valid.');
-        final user = await FirebaseAuth.instance
+        // print('Form is valid.');
+        final userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
-        print('Registered user: ${user.user!.uid}');
+
+        print('Registered user: ${userCredential.user!.uid}');
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .set({
+          'email': email,
+          'userId': userCredential.user!.uid,
+        });
+
+        await FirebaseFirestore.instance
+            .collection('records')
+            .doc(userCredential.user!.uid)
+            .collection("user_records")
+            .add({
+          'date': '20210622',
+          'time': '12:34:11',
+          'height': '170.5',
+          'weight': '60.0',
+          'bmi': '',
+        });
+
+        // TODO: add a progress indicator
+
         Fluttertoast.showToast(
           msg: 'Your account has been created successfully! Please login!',
           toastLength: Toast.LENGTH_LONG,
         );
-        sleep(Duration(seconds:1));
-        Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+        sleep(Duration(seconds: 1));
+        Navigator.of(context).pushReplacementNamed(RecordScreen.routeName);
       } catch (error) {
         print('$error');
         String errorCode = (error as FirebaseAuthException).code;
@@ -109,7 +136,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
                         // password
                         TextFormField(
-                          decoration: InputDecoration(labelText: 'Password (at least six characters)'),
+                          decoration: InputDecoration(
+                              labelText: 'Password (at least six characters)'),
                           obscureText: true,
                           controller: passwordController,
                           validator: (value) {

@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
-import 'screens/signup_screen.dart';
+import 'screens/register_screen.dart';
 import 'screens/record_screen.dart';
 
 void main() async {
@@ -12,10 +12,10 @@ void main() async {
   runApp(
     MaterialApp(
       title: 'RhythmCare',
-      initialRoute: RecordScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
-        SignupScreen.routeName: (context) => SignupScreen(),
+        RegisterScreen.routeName: (context) => RegisterScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         RecordScreen.routeName: (context) => RecordScreen(),
       },

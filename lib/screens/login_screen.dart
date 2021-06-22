@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'signup_screen.dart';
+import 'register_screen.dart';
 import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextButton(
                           onPressed: () {
                             Navigator.of(context)
-                                .pushReplacementNamed(SignupScreen.routeName);
+                                .pushReplacementNamed(RegisterScreen.routeName);
                           },
                           child: Text('Register an account >'),
                         ),

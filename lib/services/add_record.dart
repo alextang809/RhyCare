@@ -3,28 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddUserRecord {
-  /*
-  final String email;
-
-  final String date;
-  final String time;
-  final String height;
-  final String weight;
-  final String bmi;
-
-  AddUserRecord({
-    required this.email,
-
-    required this.date,
-    required this.time,
-    required this.height,
-    required this.weight,
-    required this.bmi,
-
-
-  });
-
-     */
 
   // Create a CollectionReference called users that references the firestore collection
   CollectionReference users = FirebaseFirestore.instance.collection('users');
