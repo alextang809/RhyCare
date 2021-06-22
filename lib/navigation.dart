@@ -35,22 +35,25 @@ class _NavigationState extends State<Navigation> {
       ),
       body: pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.purple,
+        selectedItemColor: Colors.white,
+        type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.orange,
+            // backgroundColor: Colors.orange,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.note),
             label: 'Records',
-            backgroundColor: Colors.orange,
+            // backgroundColor: Colors.orange,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
-            backgroundColor: Colors.orange,
+            // backgroundColor: Colors.orange,
           ),
         ],
         onTap: (index) {

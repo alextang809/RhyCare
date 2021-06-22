@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rhythmcare/services/add_record.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rhythmcare/services/add_record.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:math';
+import 'package:fluttertoast/fluttertoast.dart';
 
-import 'login_screen.dart';
-
-FirebaseFirestore firestore = FirebaseFirestore.instance;
-String text = "";
+import '../components/reusable_card.dart';
+import '../components/round_icon_button.dart';
+import '../constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -21,45 +23,205 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  double height = 165.0;
+  int weight = 55;
+  int age = 20;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Flexible(
-              child: Image.asset('images/icon.png'),
-            ),
-            SizedBox(
-              height: 100.0,
-            ),
-            TextField(
-              onChanged: (value) {
-                text = value;
-                print(text);
-              },
-            ),
-            TextButton(
-              onPressed: () async {
-                // await AddUserRecord().addUserRecord(text);  // TODO: to implement this function to add a record to the database
-                // Navigator.pop(context);
-              },
-              child: Text(
-                "Add Record",
+            Expanded(
+              child: ReusableCard(
+                color: kCardColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'HEIGHT',
+                      style: kLabelTextStyle,
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: <Widget>[
+                        Text(
+                          height.toStringAsFixed(1),
+                          style: kNumberTextStyle,
+                        ),
+                        Text(
+                          'cm',
+                          style: kLabelTextStyle,
+                        ),
+                      ],
+                    ),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        activeTrackColor: Colors.white,
+                        inactiveTrackColor: Color(0xFF8D8E98),
+                        thumbColor: Color(0xFFEB1555),
+                        overlayColor: Color(0x29EB1555),
+                        thumbShape:
+                            RoundSliderThumbShape(enabledThumbRadius: 13.0),
+                        overlayShape:
+                            RoundSliderOverlayShape(overlayRadius: 20.0),
+                      ),
+                      child: Slider(
+                          value: height.toDouble(),
+                          min: 130.0,
+                          max: 200.0,
+                          onChanged: (double newValue) {
+                            setState(() {
+                              height = newValue;
+                            });
+                          }),
+                    ),
+                  ],
+                ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
+            Expanded(
+              child: ReusableCard(
+                color: kCardColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'WEIGHT',
+                      style: kLabelTextStyle,
+                    ),
+                    SizedBox(
+                      height: 2.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: <Widget>[
+                        Text(
+                          weight.toString(),
+                          style: kNumberTextStyle,
+                        ),
+                        Text(
+                          'kg',
+                          style: kLabelTextStyle,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        RoundIconButton(
+                          icon: FontAwesomeIcons.minus,
+                          onPressed: () {
+                            setState(() {
+                              if (weight > 20) weight--;
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          width: 20.0,
+                        ),
+                        RoundIconButton(
+                          icon: FontAwesomeIcons.plus,
+                          onPressed: () {
+                            setState(() {
+                              if (weight < 200) weight++;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: ReusableCard(
+                color: kCardColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'AGE',
+                      style: kLabelTextStyle,
+                    ),
+                    SizedBox(
+                      height: 2.0,
+                    ),
+                    Text(
+                      age.toString(),
+                      style: kNumberTextStyle,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        RoundIconButton(
+                          icon: FontAwesomeIcons.minus,
+                          onPressed: () {
+                            setState(() {
+                              if (age > 10) age--;
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          width: 20.0,
+                        ),
+                        RoundIconButton(
+                          icon: FontAwesomeIcons.plus,
+                          onPressed: () {
+                            setState(() {
+                              if (age < 90) age++;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 40.0,
+              ),
+              child: MaterialButton(
+                color: Colors.blue,
+                minWidth: 50.0,
+                height: 45.0,
+                textColor: Colors.white,
+                onPressed: () async {
+                  var now = DateTime.now();
+                  User? user = FirebaseAuth.instance.currentUser;
+                  double bmi = weight / pow(height / 100, 2);
+                  // print(now);
 
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.remove('email');
-
-                Navigator.of(context)
-                    .pushReplacementNamed(LoginScreen.routeName);
-              },
-              child: Text('Sign out'),
+                  await FirebaseFirestore.instance
+                      .collection('records')
+                      .doc(user!.uid)
+                      .collection("user_records")
+                      .add({
+                    'date_time': now.toString(),
+                    'height': height,
+                    'weight': weight,
+                    'bmi': bmi.toStringAsFixed(1),
+                  }).then((value) {
+                    Fluttertoast.showToast(
+                      msg: 'Upload successfully',
+                      toastLength: Toast.LENGTH_SHORT,
+                    );
+                  });  // TODO: catch any error
+                },
+                child: Text('UPLOAD'),
+              ),
             ),
           ],
         ),

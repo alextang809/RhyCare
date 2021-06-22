@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rhythmcare/screens/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() => runApp(RecordScreen());
 
@@ -17,15 +17,18 @@ class RecordScreen extends StatefulWidget {
 class _RecordScreenState extends State<RecordScreen> {
   @override
   Widget build(BuildContext context) {
-    CollectionReference records =
-        FirebaseFirestore.instance.collection('users');
+    User? user = FirebaseAuth.instance.currentUser;
+    CollectionReference records = FirebaseFirestore.instance
+        .collection('records')
+        .doc(user!.uid)
+        .collection('user_records');
 
     return SafeArea(
       child: Column(
         children: <Widget>[
           Expanded(
             child: StreamBuilder(
-                stream: records.snapshots(),
+                stream: records.orderBy('date_time').snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
@@ -35,11 +38,11 @@ class _RecordScreenState extends State<RecordScreen> {
                     );
                   } else {
                     return ListView(
-                      children: snapshot.data!.docs.map((user) {
+                      children: snapshot.data!.docs.reversed.map((user) {
                         // TODO: this should actually list record, which is the inner collection
                         return Center(
                           child: ListTile(
-                            title: Text(user['email']),
+                            title: Text(user['date_time']),
                             // onLongPress: () {
                             //   user.reference.delete();
                             // },

@@ -17,6 +17,10 @@ void main() async {
   runApp(
     MaterialApp(
       title: 'RhythmCare',
+      theme: ThemeData.light().copyWith(
+        primaryColor: Colors.purple,
+        scaffoldBackgroundColor: Colors.purple,
+      ),
       home: email == null ? LoginScreen() : Navigation(),  // check user has logged in or not
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
