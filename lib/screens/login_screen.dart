@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rhythmcare/navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'register_screen.dart';
-import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   // const LoginScreen({Key key}) : super(key: key);
@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('email', email);
 
-        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        Navigator.of(context).pushReplacementNamed(Navigation.routeName);
       } catch (error) {
         print('$error');
         String errorCode = (error as FirebaseAuthException).code;

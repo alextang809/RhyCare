@@ -23,51 +23,45 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.purple[100],
-      appBar: AppBar(
-        title: Text('RhythmCare Home Screen'),
-        backgroundColor: Colors.purple[900],
-      ),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Flexible(
-                child: Image.asset('images/icon.png'),
+    return SafeArea(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              child: Image.asset('images/icon.png'),
+            ),
+            SizedBox(
+              height: 100.0,
+            ),
+            TextField(
+              onChanged: (value) {
+                text = value;
+                print(text);
+              },
+            ),
+            TextButton(
+              onPressed: () async {
+                // await AddUserRecord().addUserRecord(text);  // TODO: to implement this function to add a record to the database
+                // Navigator.pop(context);
+              },
+              child: Text(
+                "Add Record",
               ),
-              SizedBox(
-                height: 100.0,
-              ),
-              TextField(
-                onChanged: (value) {
-                  text = value;
-                  print(text);
-                },
-              ),
-              TextButton(
-                onPressed: () async {
-                  await AddUserRecord().addUserRecord(text);
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  "Add User",
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
 
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                  prefs.remove('email');
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove('email');
 
-                  Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
-                },
-                child: Text('Sign out'),
-              ),
-            ],
-          ),
+                Navigator.of(context)
+                    .pushReplacementNamed(LoginScreen.routeName);
+              },
+              child: Text('Sign out'),
+            ),
+          ],
         ),
       ),
     );

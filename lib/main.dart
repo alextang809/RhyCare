@@ -6,6 +6,7 @@ import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/record_screen.dart';
+import 'navigation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,12 +17,13 @@ void main() async {
   runApp(
     MaterialApp(
       title: 'RhythmCare',
-      home: email == null ? LoginScreen() : HomeScreen(),
+      home: email == null ? LoginScreen() : Navigation(),  // check user has logged in or not
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
-        HomeScreen.routeName: (context) => HomeScreen(),
-        RecordScreen.routeName: (context) => RecordScreen(),
+        Navigation.routeName: (context) => Navigation(),
+        // HomeScreen.routeName: (context) => HomeScreen(),
+        // RecordScreen.routeName: (context) => RecordScreen(),
       },
     ),
   );

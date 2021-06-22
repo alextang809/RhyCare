@@ -6,9 +6,9 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rhythmcare/components/record.dart';
+import 'package:rhythmcare/navigation.dart';
 
 import 'login_screen.dart';
-import 'record_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   // const LoginScreen({Key key}) : super(key: key);
@@ -63,7 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           toastLength: Toast.LENGTH_LONG,
         );
         sleep(Duration(seconds: 1));
-        Navigator.of(context).pushReplacementNamed(RecordScreen.routeName);
+        Navigator.of(context).pushReplacementNamed(Navigation.routeName);
       } catch (error) {
         print('$error');
         String errorCode = (error as FirebaseAuthException).code;

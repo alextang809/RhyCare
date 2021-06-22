@@ -20,11 +20,8 @@ class _RecordScreenState extends State<RecordScreen> {
     CollectionReference records =
         FirebaseFirestore.instance.collection('users');
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Records'),
-      ),
-      body: Column(
+    return SafeArea(
+      child: Column(
         children: <Widget>[
           Expanded(
             child: StreamBuilder(
@@ -52,12 +49,6 @@ class _RecordScreenState extends State<RecordScreen> {
                     );
                   }
                 }),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, HomeScreen.routeName);
-            },
-            child: Text('Add a record'),
           ),
         ],
       ),
