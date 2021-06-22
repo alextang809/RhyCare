@@ -35,10 +35,10 @@ class _NavigationState extends State<Navigation> {
       ),
       body: pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
         backgroundColor: Colors.purple,
         selectedItemColor: Colors.white,
         type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
