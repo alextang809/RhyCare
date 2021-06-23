@@ -1,42 +1,44 @@
-**RhythmCare (Orbital 2021)**
+# RhythmCare (Orbital 2021)
 
 A lightweight Android app that helps record your body height and weight.
 
- 
+<br/>
 
-**For Milestone 2**
+**NOTE: THIS IS A BRAND NEW APP DUE TO A REFACTOR OF OUR PROJECT IDEA. We apologize for any inconvience caused, but don't worry since this app the much simpler than the last one.**
 
-**Proposed Level of Achievement**
+<br/>
 
-Apollo 11 Gemini
+### Proposed Level of Achievement
 
- 
+~~Apollo 11~~ Gemini
 
-**Motivation**
+<br/>
+
+### Motivation
 
 There are some people who cares about changes of their body height and weight over time. Instead of taking notes on paper or downloading some complex applications, it is good to have a pure platform to achieve this simple function.
 
- 
+<br/>
 
-**Aim**
+### Aim
 
 We hope to provide users with a platform (specifically, an Android mobile app) to record their body height and weight at any time and view all of their records.
 
- 
+<br/>
 
-**User Stories**
+### User Stories
 
-\1. As someone who is trying to lose weight, I want to be able to use the app to keep track of my weight, so that I can know my progress.
+1. As someone who is trying to lose weight, I want to be able to use the app to keep track of my weight, so that I can know my progress.
 
-\2. As someone who is growing up, I want to be able to use the app to keep track of my height, so that I can see the process of my physical growth.
+2. As someone who is growing up, I want to be able to use the app to keep track of my height, so that I can see the process of my physical growth.
 
- 
+<br/>
 
-**Scope of Project & Development Plan**
+### Scope of Project & Development Plan
 
 The Android app provides a pure platform for users to (1) record their body height and weight at any time they want (2) view all of their records.
 
- 
+<br/>
 
 Features completed by the end of May:
 
@@ -44,7 +46,7 @@ Features completed by the end of May:
 
 The app requires users to sign up for an account before logging in to use it. Users can then use the same account to login on any Android phone with the app and data will be synced on all devices.
 
- 
+<br/>
 
 Features completed by the end of June [must-have features]:
 
@@ -54,134 +56,137 @@ Features completed by the end of June [must-have features]:
 
 **Settings Page** allows users to sign out.
 
- 
+<br/>
 
 Features to be completed by the end of July:
 
 **Sign up/Login function**
 
-\1. [should-have] The app should check that the email users register with is valid by sending confirmation emails to check.
+1. [should-have] The app should check that the email users register with is valid by sending confirmation emails to check.
 
-\2. [could-have] Users could also use their Google account to sign up.
+2. [could-have] Users could also use their Google account to sign up.
 
 **Home Page**
 
-\1. [should-have] The **–** and **+** buttons for adjusting weight should be able to be long pressed to adjust faster.
+1. [should-have] The **–** and **+** buttons for adjusting weight should be able to be long pressed to adjust faster.
 
-\2. [won’t-have] The input of age data will be removed if it is proven to be useless.
+2. [won’t-have] The input of age data will be removed if it is proven to be useless.
 
 **Records Page**
 
-\1. [should-have] The app should have a filter for users to select to only view height/weight/BMI data.
+1. [should-have] The app should have a filter for users to select to only view height/weight/BMI data.
 
-\2. [could-have] The app could have functions to generate graphs to better reflect changes of height/weight.
+2. [could-have] The app could have functions to generate graphs to better reflect changes of height/weight.
 
-\3. [could-have] Users could share a record (and share graphs generated) to their friends.
+3. [could-have] Users could share a record (and share graphs generated) to their friends.
 
 **Settings Page**
 
-\1. [should-have] The app should provide a way for users to change their password.
+1. [should-have] The app should provide a way for users to change their password.
 
-\2. [could-have] The app could provide a way for users to change their email address.
+2. [could-have] The app could provide a way for users to change their email address.
 
-\3. [could-have] The app could allow users to have a nickname and an avatar (for sharing their records).
+3. [could-have] The app could allow users to have a nickname and an avatar (for sharing their records).
 
-\4. [could-have] The app could have a reminder function to remind users to make records periodically.
+4. [could-have] The app could have a reminder function to remind users to make records periodically.
 
- 
+<br/>
 
-**Development Processes**
+### Development Processes
 
-\1. Tech Stack
+1. Tech Stack
 
-Flutter + Firebase
+   Flutter + Firebase
 
-\2. Backend database
+<br/>
 
-We chose to use Firebase as our backend and database. More specifically, we are using the Authentication function as well as the Firebase Database.
+2. Backend database
 
-Database structure:
+   We chose to use Firebase as our backend and database. More specifically, we are using the Authentication function as well as the Firebase Database.
 
-Firebase Cloud Firestore consists of simply collections and documents.
+   <br/>
 
-<picture>
+   - Database structure:
 
-Interactions with database:
+     Firebase Cloud Firestore consists of simply collections and documents.
 
-A user is created by Firebase Authentication when a user presses the “Register” button.
+     picture
 
-The user will be signed in by Firebase Authentication when he/she presses the “Login” button.
+     <br/>
 
-The user will be signed out by Firebase Authentication when he/she presses the “Sign out” button.
+   - Interactions with database:
+     - A user is created by Firebase Authentication when a user presses the “Register” button.
+     - The user will be signed in by Firebase Authentication when he/she presses the “Login” button.
+     - The user will be signed out by Firebase Authentication when he/she presses the “Sign out” button.
+     - A document is created under collection “users” **when a user registers a new account**, and the document id is the same as the users’ id issued by Firebase Authentication.
+     - A document is created under collection “records” **when a user registers a new account**, and the document id is the same as the users’ id issued by Firebase Authentication.
+     - A sub-collection named “user_records” with a dummy document (i.e., one dummy record) under it is created, under the above-mentioned document with the users’ id under collection “records”, **when a user registers a new account**.
+     - A new document with specific fields and values is created when the user presses the “UPLOAD” button on the Home Page.
+     - Any changes made to the user’s “user_records” collection are listened to using Streams, so that any upload of records can be immediately shown on the Record Page.
 
-A document is created under collection “users” **when a user registers a new account**, and the document id is the same as the users’ id issued by Firebase Authentication.
+<br/>
 
-A document is created under collection “records” **when a user registers a new account**, and the document id is the same as the users’ id issued by Firebase Authentication.
+3. A rough development process so far
 
-A sub-collection named “user_records” with a dummy document (i.e., one dummy record) under it is created, under the above-mentioned document with the users’ id under collection “records”, **when a user registers a new account**.
+   1. create a new GitHub repository
 
-A new document with specific fields and values is created when the user presses the “UPLOAD” button on the Home Page.
+   2. create a new Flutter project locally
 
-Any changes made to the user’s “user_records” collection are listened to using Streams, so that any upload of records can be immediately shown on the Record Page.
+   3. git push the project to GitHub
 
-\3. A rough development process so far
+   4. create a new project on Firebase and link the app to the Firebase project
 
-(1) create a new GitHub repository
+   5. Login/Register frontend
 
-(2) create a new Flutter project locally
+      - Design note: The app uses the “fluttertoast” package to show toast messages during many situations to provide feedbacks to users’ actions, such as successful registration, invalid email address/password, and successful upload of record.
 
-(3) git push the project to GitHub
+   6. Login/Register backend
 
-(4) create a new project on Firebase and link the app to the Firebase project
+   7. Settings Page and Sign out
 
-(5) Login/Register frontend
+      * Design note: The app uses the “shared_preferences” package to memorize a user’s signed in/out status. When a user has logged in and exits the app, he/she won’t be required to login again next time he/she opens the app. When a user has signed out and exits the app, he/she will be required to login again next time he/she opens the app.
 
-\* Design note: The app uses the “fluttertoast” package to show toast messages during many situations to provide feedbacks to users’ actions, such as successful registration, invalid email address/password, and successful upload of record.
+   8. add a bottom navigation bar
 
-(6) Login/Register backend
+      * Implementation note: Using variable makes it possible to have different titles on app bar on different pages with a single navigation bar.
 
-(7) Settings Page and Sign out
+   9. Home Page frontend
 
-\* Design note: The app uses the “shared_preferences” package to memorize a user’s signed in/out status. When a user has logged in and exits the app, he/she won’t be required to login again next time he/she opens the app. When a user has signed out and exits the app, he/she will be required to login again next time he/she opens the app.
+   10. Home Page backend
 
-(8) add a bottom navigation bar
+   11. Records Page backend
 
-\* Implementation note: Using variable makes it possible to have different titles on app bar on different pages with a single navigation bar.
+       * Design note: The app shows a progress indicator when data is being fetched from database.
+       * Implementation note: We first developed the backend of Records Page to make sure the system is working since this is more crucial to this page, and then proceeded to develop the frontend.
 
-(9) Home Page frontend
+   12. Records Page frontend
 
-(10) Home Page backend
+       * Design note: The app uses the “rflutter_alert” package to pop out an alert message when user long presses a record. Only when the user confirms the deletion, the record will be deleted.
 
-(11) Records Page backend
+   13. Generate apk
 
-\* Design note: The app shows a progress indicator when data is being fetched from database.
+       * To generate apk, run “flutter build apk --split-per-abi”
 
-\* Implementation note: We first developed the backend of Records Page to make sure the system is working since this is more crucial to this page, and then proceeded to develop the frontend.
+       * The apk is located at <project>/build/app/outputs/apk/release/
 
-(12) Records Page frontend
+<br/>
 
-\* Design note: The app uses the “rflutter_alert” package to pop out an alert message when user long presses a record. Only when the user confirms the deletion, the record will be deleted.
+### System Testing
 
-(13) Generate apk
+<br/>
 
-\* To generate apk, run “flutter build apk --split-per-abi”
+<br/>
 
-\* The apk is located at <project>/build/app/outputs/apk/release/
+<br/>
 
- 
-
-**System Testing**
-
- 
-
-**User Instructions**
+### User Instructions
 
 It’s very easy to use the app since it has a very simple and clear interface.
 
 To use it on an Android phone:
 
-(1) Download the apk at <link> and install it on your phone
+1. Download the apk at <link> and install it on your phone
 
-(2) Register an account and start using it
+2. Register an account and start using it
 
 Note that the app must be used inside countries where Google services are not banned or you can connect to a stable VPN before using it.
