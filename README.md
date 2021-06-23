@@ -1,79 +1,187 @@
-# RhythmCare (Orbital 2021)
+**RhythmCare (Orbital 2021)**
 
-A health management app for Android users.
+A lightweight Android app that helps record your body height and weight.
 
-<br/>
+ 
 
-## For Milestone 1
+**For Milestone 2**
 
-### Proposed Level of Achievement
+**Proposed Level of Achievement**
 
-Apollo 11
+Apollo 11 Gemini
 
-<br/>
+ 
 
-### Motivation
+**Motivation**
 
-Statistics show that many diseases are often diagnosed when the best time for treatment has passed. Also, many people have a vague impression about how long their symptoms last when they are seeing doctors. We believe that the root of maintaining good health lies not in seeing a doctor when symptoms are severe, but in preventing diseases in a long run and strengthening the immune system.
+There are some people who cares about changes of their body height and weight over time. Instead of taking notes on paper or downloading some complex applications, it is good to have a pure platform to achieve this simple function.
 
-<br/>
+ 
 
-### Aim
+**Aim**
 
-We hope to provide users with a platform (specifically, an Android mobile app) to record their health conditions and better manage their health status through some ways (e.g. health-related services subscription, reminder functions).
+We hope to provide users with a platform (specifically, an Android mobile app) to record their body height and weight at any time and view all of their records.
 
-<br/>
+ 
 
-### User Stories
+**User Stories**
 
-1. As a software engineer, David have to sit still for a long time and do not have much time for him to do excises, which put him at risk of lumbar disc herniation. The RhythmCare App can record his lumber discomfort during work and offer professional advice on exercising to ease his pain and prevent the disease in an early stage.
+\1. As someone who is trying to lose weight, I want to be able to use the app to keep track of my weight, so that I can know my progress.
 
-2. As a student, Oliver is at risk of suffering from myopia (or other eye diseases), RhythmCare, however, can set a periodical reminder for relaxing my eyes.
+\2. As someone who is growing up, I want to be able to use the app to keep track of my height, so that I can see the process of my physical growth.
 
-3. As a psychological consultant, Alex want there to be a way for my “patients” (e.g. people with depression) to record their everyday emotions for them to offer better treatment. Also, he hope there is a platform to identify those facing potential psychological problems and offer early help to them.
+ 
 
-4. As a doctor/fitness instructor/nutritionist who has spare time, Lerron want to earn extra money by providing help and suggestions to people in need to make their life healthier.
+**Scope of Project & Development Plan**
 
-<br/>
+The Android app provides a pure platform for users to (1) record their body height and weight at any time they want (2) view all of their records.
 
-### Scope of Project
+ 
 
-The Android app provides a platform for users to (1) record their daily physical discomfort, which will be used to compare with a disease database to generate users' potential health issues, and (2) subscribe to personal health professionals, who can provide personal health suggestions for them.
+Features completed by the end of May:
 
-<br/>
+**Sign up/Login function**
 
-Features to be completed by the end of May:
+The app requires users to sign up for an account before logging in to use it. Users can then use the same account to login on any Android phone with the app and data will be synced on all devices.
 
-1. Sign up/Login function
+ 
 
-   The app requires users to sign up for an account before logging in to use it. Users can also sign in using their Google account.
+Features completed by the end of June [must-have features]:
 
-<br/>
+**Home Page** allows users to make an input of their current height, weight, and age, after which they can upload the data to the system to make a record.
 
-Features to be completed by the end of June:
+**Records Page** allows users to view all the records (including height, weight, and calculated BMI) they have made so far in a list form. The latest record is shown at the top. Users can long press a record to delete it.
 
-1. User profile page + Settings page
+**Settings Page** allows users to sign out.
 
-   The app has a Settings bar which allows users to view their profile and do basic settings.
-
-   [This is a could-have feature and will only be implemented if time permits.] There is also a reminder setting function on the setting page for users to set reminders.
-
-2. Smart Recorder and Analyser
-
-   The **Smart Recorder** allows users to record their slight physical discomfort (which may not be urgent for them to see a doctor but indeed reflecting the possibility for them to suffer underlying chronic diseases). These records can be used for in-app analysis or presentation purposes when users go to see a doctor.
-
-   The **Smart Analyzer** is an analysis algorithm to label symptoms (input by users) with the corresponding potential chronic diseases [we will use a medical approach to conduct the analysis (e.g. assign a disease weight to each symptom)], after which provides users with useful healthy-living guides (e.g. recommendations for diet, exercise, periodical reminders).
-
-<br/>
+ 
 
 Features to be completed by the end of July:
 
-1. Health Master
+**Sign up/Login function**
 
-   The **Health Master** allows users to subscribe to their personal health professionals [Information of professionals are uploaded directly at backend.]. This is a paid service, and the app allows users to pay within the app.
+\1. [should-have] The app should check that the email users register with is valid by sending confirmation emails to check.
 
-<br/>
+\2. [could-have] Users could also use their Google account to sign up.
 
-### App Flow
-![RhythmCare App Flow](https://github.com/alextang809/RhyCare/blob/main/pictures/RhythmCare%20App%20Flow.jpg)
-<br/>
+**Home Page**
+
+\1. [should-have] The **–** and **+** buttons for adjusting weight should be able to be long pressed to adjust faster.
+
+\2. [won’t-have] The input of age data will be removed if it is proven to be useless.
+
+**Records Page**
+
+\1. [should-have] The app should have a filter for users to select to only view height/weight/BMI data.
+
+\2. [could-have] The app could have functions to generate graphs to better reflect changes of height/weight.
+
+\3. [could-have] Users could share a record (and share graphs generated) to their friends.
+
+**Settings Page**
+
+\1. [should-have] The app should provide a way for users to change their password.
+
+\2. [could-have] The app could provide a way for users to change their email address.
+
+\3. [could-have] The app could allow users to have a nickname and an avatar (for sharing their records).
+
+\4. [could-have] The app could have a reminder function to remind users to make records periodically.
+
+ 
+
+**Development Processes**
+
+\1. Tech Stack
+
+Flutter + Firebase
+
+\2. Backend database
+
+We chose to use Firebase as our backend and database. More specifically, we are using the Authentication function as well as the Firebase Database.
+
+Database structure:
+
+Firebase Cloud Firestore consists of simply collections and documents.
+
+<picture>
+
+Interactions with database:
+
+A user is created by Firebase Authentication when a user presses the “Register” button.
+
+The user will be signed in by Firebase Authentication when he/she presses the “Login” button.
+
+The user will be signed out by Firebase Authentication when he/she presses the “Sign out” button.
+
+A document is created under collection “users” **when a user registers a new account**, and the document id is the same as the users’ id issued by Firebase Authentication.
+
+A document is created under collection “records” **when a user registers a new account**, and the document id is the same as the users’ id issued by Firebase Authentication.
+
+A sub-collection named “user_records” with a dummy document (i.e., one dummy record) under it is created, under the above-mentioned document with the users’ id under collection “records”, **when a user registers a new account**.
+
+A new document with specific fields and values is created when the user presses the “UPLOAD” button on the Home Page.
+
+Any changes made to the user’s “user_records” collection are listened to using Streams, so that any upload of records can be immediately shown on the Record Page.
+
+\3. A rough development process so far
+
+(1) create a new GitHub repository
+
+(2) create a new Flutter project locally
+
+(3) git push the project to GitHub
+
+(4) create a new project on Firebase and link the app to the Firebase project
+
+(5) Login/Register frontend
+
+\* Design note: The app uses the “fluttertoast” package to show toast messages during many situations to provide feedbacks to users’ actions, such as successful registration, invalid email address/password, and successful upload of record.
+
+(6) Login/Register backend
+
+(7) Settings Page and Sign out
+
+\* Design note: The app uses the “shared_preferences” package to memorize a user’s signed in/out status. When a user has logged in and exits the app, he/she won’t be required to login again next time he/she opens the app. When a user has signed out and exits the app, he/she will be required to login again next time he/she opens the app.
+
+(8) add a bottom navigation bar
+
+\* Implementation note: Using variable makes it possible to have different titles on app bar on different pages with a single navigation bar.
+
+(9) Home Page frontend
+
+(10) Home Page backend
+
+(11) Records Page backend
+
+\* Design note: The app shows a progress indicator when data is being fetched from database.
+
+\* Implementation note: We first developed the backend of Records Page to make sure the system is working since this is more crucial to this page, and then proceeded to develop the frontend.
+
+(12) Records Page frontend
+
+\* Design note: The app uses the “rflutter_alert” package to pop out an alert message when user long presses a record. Only when the user confirms the deletion, the record will be deleted.
+
+(13) Generate apk
+
+\* To generate apk, run “flutter build apk --split-per-abi”
+
+\* The apk is located at <project>/build/app/outputs/apk/release/
+
+ 
+
+**System Testing**
+
+ 
+
+**User Instructions**
+
+It’s very easy to use the app since it has a very simple and clear interface.
+
+To use it on an Android phone:
+
+(1) Download the apk at <link> and install it on your phone
+
+(2) Register an account and start using it
+
+Note that the app must be used inside countries where Google services are not banned or you can connect to a stable VPN before using it.
