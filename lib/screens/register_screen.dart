@@ -59,7 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // TODO: add a progress indicator
 
         Fluttertoast.showToast(
-          msg: 'Your account has been created successfully! Please login!',
+          msg: 'Your account has been created successfully!',
           toastLength: Toast.LENGTH_LONG,
         );
         sleep(Duration(seconds: 1));
