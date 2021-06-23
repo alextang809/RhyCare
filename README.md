@@ -98,21 +98,15 @@ Features to be completed by the end of July:
 
    Flutter + Firebase
 
-<br/>
-
 2. Backend database
 
    We chose to use Firebase as our backend and database. More specifically, we are using the Authentication function as well as the Firebase Database.
-
-   <br/>
 
    - Database structure:
 
      Firebase Cloud Firestore consists of simply collections and documents.
 
-     picture
-
-     <br/>
+     ![Cloud Firestore Structure](https://github.com/alextang809/RhyCare/blob/main/pictures/structure.png)
 
    - Interactions with database:
      - A user is created by Firebase Authentication when a user presses the “Register” button.
@@ -123,8 +117,6 @@ Features to be completed by the end of July:
      - A sub-collection named “user_records” with a dummy document (i.e., one dummy record) under it is created, under the above-mentioned document with the users’ id under collection “records”, **when a user registers a new account**.
      - A new document with specific fields and values is created when the user presses the “UPLOAD” button on the Home Page.
      - Any changes made to the user’s “user_records” collection are listened to using Streams, so that any upload of records can be immediately shown on the Record Page.
-
-<br/>
 
 3. A rough development process so far
 
