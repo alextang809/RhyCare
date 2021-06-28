@@ -166,6 +166,12 @@ Features to be completed by the end of July:
 ### System Testing
 
 <br/>
+   
+1. End to end scenario testing: the application works fine and components interact with one another is smooth and bug free
+   
+2. Many types of input were checked in the text boxes, desired outputs was generated well
+   
+3. User experience testing: only our team was involved in, but user experience is fine, deriving from the large possibility of extension although the application is super easy to use
 
 <br/>
 
