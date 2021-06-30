@@ -4,7 +4,7 @@ A lightweight Android app that helps record your body height and weight.
 
 <br/>
 
-**NOTE: THIS IS A BRAND NEW APP DUE TO A REFACTOR OF OUR PROJECT IDEA. We apologize for any inconvience caused, but don't worry since this app the much simpler than the last one.**
+**NOTE: THIS IS A BRAND NEW APP DUE TO A REFACTOR OF OUR PROJECT IDEA. We apologize for any inconvenience caused, but don't worry since this app is much simpler than the last one.**
 
 <br/>
 
@@ -16,7 +16,7 @@ A lightweight Android app that helps record your body height and weight.
 
 ### Motivation
 
-There are some people who cares about changes of their body height and weight over time. Instead of taking notes on paper or downloading some complex applications, it is good to have a pure platform to achieve this simple function.
+There are some people who care about changes of their body height and weight over time. Instead of taking notes on paper or downloading some complex apps, it is good to have a pure platform to achieve this simple function.
 
 <br/>
 
@@ -68,7 +68,7 @@ Features to be completed by the end of July:
 
 **Home Page**
 
-1. [should-have] The **–** and **+** buttons for adjusting weight should be able to be long pressed to adjust faster.
+1. [should-have] The **–** and **+** buttons for adjusting weight should be able to be long pressed to faster decrease and increase.
 
 2. [won’t-have] The input of age data will be removed if it is proven to be useless.
 
@@ -104,7 +104,7 @@ Features to be completed by the end of July:
 
    - Database structure:
 
-     Firebase Cloud Firestore consists of simply collections and documents.
+     Firebase Cloud Firestore simply consists of collections and documents.
 
      ![Cloud Firestore Structure](https://github.com/alextang809/RhyCare/blob/main/pictures/structure.png)
 
@@ -116,6 +116,7 @@ Features to be completed by the end of July:
      - A document is created under collection “records” **when a user registers a new account**, and the document id is the same as the users’ id issued by Firebase Authentication.
      - A sub-collection named “user_records” with a dummy document (i.e., one dummy record) under it is created, under the above-mentioned document with the users’ id under collection “records”, **when a user registers a new account**.
      - A new document with specific fields and values is created when the user presses the “UPLOAD” button on the Home Page.
+     - The specific document is deleted from the database when the user deletes a record.
      - Any changes made to the user’s “user_records” collection are listened to using Streams, so that any upload of records can be immediately shown on the Record Page.
 
 3. A rough development process so far
@@ -130,7 +131,7 @@ Features to be completed by the end of July:
 
    5. Login/Register frontend
 
-      - Design note: The app uses the “fluttertoast” package to show toast messages during many situations to provide feedbacks to users’ actions, such as successful registration, invalid email address/password, and successful upload of record.
+      * Design note: The app uses the “fluttertoast” package to show toast messages during many situations to provide feedbacks to users’ actions, such as successful registration, wrong email address/password, and successful upload of record.
 
    6. Login/Register backend
 
@@ -140,7 +141,7 @@ Features to be completed by the end of July:
 
    8. add a bottom navigation bar
 
-      * Implementation note: Using variable makes it possible to have different titles on app bar on different pages with a single navigation bar.
+      * Implementation note: Using variables makes it possible to have different titles on app bar on different pages with a single navigation bar.
 
    9. Home Page frontend
 
@@ -148,7 +149,8 @@ Features to be completed by the end of July:
 
    11. Records Page backend
 
-       * Design note: The app shows a progress indicator when data is being fetched from database.
+       * Design note: The app shows a progress indicator when data are being fetched from database.
+
        * Implementation note: We first developed the backend of Records Page to make sure the system is working since this is more crucial to this page, and then proceeded to develop the frontend.
 
    12. Records Page frontend
@@ -165,15 +167,11 @@ Features to be completed by the end of July:
 
 ### System Testing
 
-<br/>
-   
 1. End to end scenario testing: the application works fine and components interact with one another is smooth and bug free
    
 2. Many types of input were checked in the text boxes, desired outputs was generated well
    
 3. User experience testing: only our team was involved in, but user experience is fine, deriving from the large possibility of extension although the application is super easy to use
-
-<br/>
 
 <br/>
 
