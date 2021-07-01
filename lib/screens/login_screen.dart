@@ -25,10 +25,10 @@ class _LoginScreenState extends State<LoginScreen> {
       form.save();
 
       try {
-        print('Form is valid.');
+        // print('Form is valid.');
         final user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
-        print('Signed in: ${user.user!.uid}');
+        // print('Signed in: ${user.user!.uid}');
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('email', email);
@@ -93,6 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextFormField(
                           decoration: InputDecoration(labelText: 'Email'),
                           keyboardType: TextInputType.emailAddress,
+                          // autofillHints: [AutofillHints.email],
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'please enter email address';

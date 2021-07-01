@@ -22,6 +22,7 @@ class RecordScreen extends StatefulWidget {
 }
 
 class _RecordScreenState extends State<RecordScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
   bool delete = false;
 
   @override
@@ -123,6 +124,14 @@ class _RecordScreenState extends State<RecordScreen> {
                                       style: TextStyle(color: Colors.white, fontSize: 20),
                                     ),
                                     onPressed: () {
+                                      if (!user.emailVerified) {
+                                        Fluttertoast.showToast(
+                                          msg: 'Deletion failed! Please verify your email address first!',
+                                          toastLength: Toast.LENGTH_LONG,
+                                        );
+                                        Navigator.pop(context);
+                                        return;
+                                      }
                                       delete = true;
                                       Navigator.pop(context);
                                     },

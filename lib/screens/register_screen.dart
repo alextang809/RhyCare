@@ -7,6 +7,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rhythmcare/components/record.dart';
 import 'package:rhythmcare/navigation.dart';
+import 'package:rhythmcare/screens/email_verify_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_screen.dart';
 
@@ -35,35 +37,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
         final userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
 
-        print('Registered user: ${userCredential.user!.uid}');
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(userCredential.user!.uid)
-            .set({
-          'email': email,
-          'userId': userCredential.user!.uid,
-        });
-
-        await FirebaseFirestore.instance
-            .collection('records')
-            .doc(userCredential.user!.uid)
-            .collection("user_records")
-            .add({
-          'date': '20210622',
-          'time': '12:34:11',
-          'height': '170.5',
-          'weight': '60.0',
-          'bmi': '',
-        });
+        // print('Registered user: ${userCredential.user!.uid}');
 
         // TODO: add a progress indicator
 
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('email', email);
+
         Fluttertoast.showToast(
-          msg: 'Your account has been created successfully!',
-          toastLength: Toast.LENGTH_LONG,
+          msg: 'Please verify your email address!',
+          toastLength: Toast.LENGTH_SHORT,
         );
-        sleep(Duration(seconds: 1));
-        Navigator.of(context).pushReplacementNamed(Navigation.routeName);
+        // sleep(Duration(seconds: 1));
+        Navigator.of(context).pushReplacementNamed(EmailVerifyScreen.routeName);
       } catch (error) {
         print('$error');
         String errorCode = (error as FirebaseAuthException).code;

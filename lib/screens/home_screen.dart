@@ -23,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
   double height = 165.0;
   int weight = 55;
   int age = 20;
@@ -199,8 +200,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 45.0,
                 textColor: Colors.white,
                 onPressed: () async {
+                  if (!user!.emailVerified) {
+                    Fluttertoast.showToast(
+                      msg: 'Upload failed! Please verify your email address first!',
+                      toastLength: Toast.LENGTH_LONG,
+                    );
+                    return;
+                  }
                   var now = DateTime.now();
-                  User? user = FirebaseAuth.instance.currentUser;
                   double bmi = weight / pow(height / 100, 2);
                   // print(now);
 
