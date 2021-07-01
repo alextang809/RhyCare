@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rhythmcare/navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'register_screen.dart';
 
@@ -24,6 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
     if (form!.validate()) {
       form.save();
 
+      EasyLoading.show(status: 'processing...');
+
       try {
         // print('Form is valid.');
         final user = await FirebaseAuth.instance
@@ -33,8 +36,12 @@ class _LoginScreenState extends State<LoginScreen> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('email', email);
 
+        EasyLoading.dismiss();
+
         Navigator.of(context).pushReplacementNamed(Navigation.routeName);
       } catch (error) {
+        EasyLoading.dismiss();
+
         print('$error');
         String errorCode = (error as FirebaseAuthException).code;
         if (errorCode == 'invalid-email') {
@@ -71,13 +78,18 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               // icon
-              Image.asset(
-                'images/icon.png',
-                width: 100.0,
+              Text(
+                'Rhythm Care',
+                style: TextStyle(
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
 
-              SizedBox(
-                height: 50.0,
+              Flexible(
+                child: SizedBox(
+                  height: 50.0,
+                ),
               ),
 
               Card(

@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../components/reusable_card.dart';
 import '../components/round_icon_button.dart';
@@ -200,7 +201,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 45.0,
                 textColor: Colors.white,
                 onPressed: () async {
+                  EasyLoading.show(status: 'processing...');
+
                   if (!user!.emailVerified) {
+                    EasyLoading.dismiss();
+
                     Fluttertoast.showToast(
                       msg: 'Upload failed! Please verify your email address first!',
                       toastLength: Toast.LENGTH_LONG,
@@ -221,6 +226,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     'weight': weight.toStringAsFixed(1),
                     'bmi': bmi.toStringAsFixed(1),
                   }).then((value) {
+                    EasyLoading.dismiss();
+
                     Fluttertoast.showToast(
                       msg: 'Upload successfully',
                       toastLength: Toast.LENGTH_SHORT,

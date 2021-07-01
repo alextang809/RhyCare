@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rhythmcare/screens/email_verify_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:rhythmcare/navigation.dart';
 
@@ -27,12 +28,16 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
     if (form!.validate()) {
       form.save();
 
+      EasyLoading.show(status: 'processing...');
+
       try {
         if (newEmail.toString() ==
             _firebaseAuth.currentUser!.email!.toString()) {
           throw Exception();
         }
       } catch (error) {
+        EasyLoading.dismiss();
+
         Fluttertoast.showToast(
           msg: 'Your new email address is the same as the current one!',
           toastLength: Toast.LENGTH_LONG,
@@ -46,6 +51,8 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         await _firebaseAuth.currentUser!
             .reauthenticateWithCredential(credential);
       } catch (error) {
+        EasyLoading.dismiss();
+
         String errorCode = (error as FirebaseAuthException).code;
         if (errorCode == 'wrong-password') {
           Fluttertoast.showToast(
@@ -63,6 +70,8 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
 
       try {
         await _firebaseAuth.currentUser!.updateEmail(newEmail!).then((value) {
+          EasyLoading.dismiss();
+
           // print('success');
           Fluttertoast.showToast(
             msg: 'Your email address has been updated.',
@@ -71,6 +80,8 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
           Navigator.pop(context);
         });
       } catch (error) {
+        EasyLoading.dismiss();
+
         String errorCode = (error as FirebaseAuthException).code;
         if (errorCode == 'email-already-in-use') {
           Fluttertoast.showToast(

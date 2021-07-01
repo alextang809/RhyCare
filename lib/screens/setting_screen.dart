@@ -5,6 +5,7 @@ import 'package:rhythmcare/screens/change_password_screen.dart';
 import 'package:rhythmcare/screens/change_email_screen.dart';
 import 'email_verify_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'login_screen.dart';
 
@@ -129,10 +130,12 @@ class _SettingScreenState extends State<SettingScreen> {
           SizedBox(),
           ElevatedButton(
             onPressed: () async {
+              EasyLoading.show(status: 'signing out...');
               await _firebaseAuth.signOut();
 
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.remove('email');
+              EasyLoading.dismiss();
 
               Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
             },

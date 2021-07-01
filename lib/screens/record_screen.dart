@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rhythmcare/components/reusable_card.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../components/reusable_card.dart';
 import '../constants.dart';
@@ -141,7 +142,9 @@ class _RecordScreenState extends State<RecordScreen> {
                               ).show();
 
                               if (delete) {
-                                record.reference.delete();
+                                EasyLoading.show(status: 'deleting...');
+                                await record.reference.delete();
+                                EasyLoading.dismiss();
                                 Fluttertoast.showToast(
                                   msg: 'Record deleted',
                                   toastLength: Toast.LENGTH_SHORT,

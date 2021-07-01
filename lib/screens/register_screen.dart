@@ -9,6 +9,7 @@ import 'package:rhythmcare/components/record.dart';
 import 'package:rhythmcare/navigation.dart';
 import 'package:rhythmcare/screens/email_verify_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'login_screen.dart';
 
@@ -32,6 +33,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (form!.validate()) {
       form.save();
 
+      EasyLoading.show(status: 'processing...');
+
       try {
         // print('Form is valid.');
         final userCredential = await FirebaseAuth.instance
@@ -39,10 +42,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         // print('Registered user: ${userCredential.user!.uid}');
 
-        // TODO: add a progress indicator
-
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('email', email);
+
+        EasyLoading.dismiss();
 
         Fluttertoast.showToast(
           msg: 'Please verify your email address!',
@@ -51,6 +54,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // sleep(Duration(seconds: 1));
         Navigator.of(context).pushReplacementNamed(EmailVerifyScreen.routeName);
       } catch (error) {
+        EasyLoading.dismiss();
+        
         print('$error');
         String errorCode = (error as FirebaseAuthException).code;
         if (errorCode == 'email-already-in-use') {
@@ -87,13 +92,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               // icon
-              Image.asset(
-                'images/icon.png',
-                width: 100.0,
+              Text(
+                'Rhythm Care',
+                style: TextStyle(
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
 
-              SizedBox(
-                height: 50.0,
+              Flexible(
+                child: SizedBox(
+                  height: 50.0,
+                ),
               ),
 
               Card(

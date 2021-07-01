@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:rhythmcare/navigation.dart';
 
@@ -38,7 +39,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
     }
   }
 
-  Future<void> createEmptyRecords() async {
+  Future<void> createEmptyRecords() async {  // TODO: check behavior of this method
     final user = _firebaseAuth.currentUser;
     await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
       'email': user.email,
@@ -104,7 +105,9 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
           ),
           ElevatedButton(
             onPressed: () async {
-              await createEmptyRecords();
+              EasyLoading.show(status: 'just a moment...');
+              await createEmptyRecords();  // TODO: check behavior
+              EasyLoading.dismiss();
               Navigator.of(context).pushReplacementNamed(Navigation.routeName);
             },
             child: Text('Continue'),

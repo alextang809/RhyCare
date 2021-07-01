@@ -6,6 +6,7 @@ import 'package:rhythmcare/screens/change_email_screen.dart';
 import 'package:rhythmcare/screens/email_verify_screen.dart';
 import 'package:rhythmcare/screens/setting_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
@@ -41,6 +42,7 @@ void main() async {
         // HomeScreen.routeName: (context) => HomeScreen(),
         // RecordScreen.routeName: (context) => RecordScreen(),
       },
+      builder: EasyLoading.init(),
     ),
   );
 }

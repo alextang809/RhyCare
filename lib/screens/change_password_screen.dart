@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);
@@ -24,11 +25,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     if (form!.validate()) {
       form.save();
 
+      EasyLoading.show(status: 'processing...');
+
       try {
         if (oldPassword.toString() == newPassword.toString()) {
           throw Exception();
         }
       } catch (error) {
+        EasyLoading.dismiss();
+
         Fluttertoast.showToast(
           msg: 'Your new password is the same as the original one!',
           toastLength: Toast.LENGTH_LONG,
@@ -42,6 +47,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         await _firebaseAuth.currentUser!
             .reauthenticateWithCredential(credential);
       } catch (error) {
+        EasyLoading.dismiss();
+
         String errorCode = (error as FirebaseAuthException).code;
         if (errorCode == 'wrong-password') {
           Fluttertoast.showToast(
@@ -61,6 +68,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         await _firebaseAuth.currentUser!
             .updatePassword(newPassword!)
             .then((value) {
+          EasyLoading.dismiss();
+
           // print('success');
           Fluttertoast.showToast(
             msg: 'Your password has been reset.',
@@ -69,6 +78,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           Navigator.pop(context);
         });
       } catch (error) {
+        EasyLoading.dismiss();
+
         Fluttertoast.showToast(
           msg: 'Failed! Please try again later or contact support.',
           toastLength: Toast.LENGTH_LONG,
