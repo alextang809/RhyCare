@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rhythmcare/components/reusable_card.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -15,9 +14,7 @@ import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 
-import '../components/reusable_card.dart';
-import '../constants.dart';
-import '../components/record.dart';
+import '../components/record_card.dart';
 
 void main() => runApp(RecordScreen());
 
@@ -88,8 +85,6 @@ class _RecordScreenState extends State<RecordScreen> {
     );
   }
 
-  List<Record> recordList = [];
-
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
@@ -117,83 +112,12 @@ class _RecordScreenState extends State<RecordScreen> {
                       child: ListView.builder(
                           itemCount: snapshot.data!.docs.reversed.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return buildRecordCard(
+                            return RecordCard(
                                 snapshot.data!.docs.reversed.elementAt(index));
                           }),
                     );
                   }
                 }),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildRecordCard(QueryDocumentSnapshot<Object?> record) {
-    Record thisRecord = Record.fromSnapshot(record);
-
-    return Container(
-      margin: EdgeInsets.all(6.0),
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: kCardColor,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                thisRecord.date_time,
-                style: TextStyle(
-                  color: Colors.grey[700],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 12.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Height: ${thisRecord.height} cm',
-                    style: kRecordSmallTextStyle,
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Text(
-                    'Weight: ${thisRecord.weight} kg',
-                    style: kRecordSmallTextStyle,
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 25.0,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Your BMI',
-                    style: kRecordSmallTextStyle,
-                  ),
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  Text(
-                    '${thisRecord.bmi}',
-                    style: kRecordLargeTextStyle,
-                  ),
-                ],
-              ),
-            ],
           ),
         ],
       ),
