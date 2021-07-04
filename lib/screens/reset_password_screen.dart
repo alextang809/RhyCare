@@ -58,7 +58,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Scaffold(
       backgroundColor: Colors.teal[200],
       appBar: AppBar(
-        title: Text('Change Password'),
+        title: Text('Forgot Password'),
         backgroundColor: Colors.teal[900],
       ),
       body: SafeArea(
@@ -91,7 +91,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
 
                 ElevatedButton(
-                  child: Text('Reset Password'),
+                  child: Text('Send Password Reset Email'),
                   onPressed: () {
                     sendPasswordResetEmail();
                   },

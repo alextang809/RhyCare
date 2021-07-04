@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:rhythmcare/screens/change_password_screen.dart';
 import 'package:rhythmcare/screens/change_email_screen.dart';
 import 'package:rhythmcare/screens/email_verify_screen.dart';
+import 'package:rhythmcare/screens/loading_screen.dart';
 import 'package:rhythmcare/screens/reset_password_screen.dart';
 import 'package:rhythmcare/screens/setting_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,15 +17,6 @@ import 'screens/record_screen.dart';
 import 'navigation.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var email = prefs.getString('email');
-  // print(email);
-  if (email != null) {
-    FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-    await _firebaseAuth.currentUser!.reload();
-  }
   runApp(
     MaterialApp(
       title: 'RhythmCare',
@@ -32,7 +24,7 @@ void main() async {
         primaryColor: Colors.purple,
         scaffoldBackgroundColor: Colors.purple,
       ),
-      home: email == null ? LoginScreen() : Navigation(),  // check user has logged in or not
+      home: LoadingScreen(),  // check user has logged in or not
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
