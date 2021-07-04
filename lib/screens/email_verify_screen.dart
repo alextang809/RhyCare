@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:rhythmcare/navigation.dart';
+import '../components/record.dart';
 
 class EmailVerifyScreen extends StatefulWidget {
   const EmailVerifyScreen({Key? key}) : super(key: key);
@@ -39,7 +40,8 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
     }
   }
 
-  Future<void> createEmptyRecords() async {  // TODO: check behavior of this method
+  Future<void> createEmptyRecords() async {
+    // TODO: check behavior of this method
     final user = _firebaseAuth.currentUser;
     await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
       'email': user.email,
@@ -50,13 +52,14 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
         .collection('records')
         .doc(user.uid)
         .collection("user_records")
-        .add({
-      'date': '20210622',
-      'time': '12:34:11',
-      'height': '170.5',
-      'weight': '60.0',
-      'bmi': '',
-    });
+        .add(
+          Record(
+            date_time: '',
+            height: '',
+            weight: '',
+            bmi: '',
+          ).toJson(),
+        );
 
     // TODO: add a progress indicator
   }
@@ -106,7 +109,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
           ElevatedButton(
             onPressed: () async {
               EasyLoading.show(status: 'just a moment...');
-              await createEmptyRecords();  // TODO: check behavior
+              await createEmptyRecords(); // TODO: check behavior
               EasyLoading.dismiss();
               Navigator.of(context).pushReplacementNamed(Navigation.routeName);
             },

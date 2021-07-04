@@ -17,6 +17,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 import '../components/reusable_card.dart';
 import '../constants.dart';
+import '../components/record.dart';
 
 void main() => runApp(RecordScreen());
 
@@ -52,8 +53,7 @@ class _RecordScreenState extends State<RecordScreen> {
       if (await Permission.storage.request().isGranted) {
         // Either the permission was already granted before or the user just granted it.
         Fluttertoast.showToast(
-          msg:
-          "Image will be saved to your gallery",
+          msg: "Image will be saved to your gallery",
           toastLength: Toast.LENGTH_SHORT,
         );
         ImageGallerySaver.saveImage(
@@ -62,8 +62,7 @@ class _RecordScreenState extends State<RecordScreen> {
         );
       } else {
         Fluttertoast.showToast(
-          msg:
-          "Image can't be saved to gallery",
+          msg: "Image can't be saved to gallery",
           toastLength: Toast.LENGTH_SHORT,
         );
       }
@@ -89,6 +88,8 @@ class _RecordScreenState extends State<RecordScreen> {
     );
   }
 
+  List<Record> recordList = [];
+
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
@@ -113,87 +114,94 @@ class _RecordScreenState extends State<RecordScreen> {
                   } else {
                     return Screenshot(
                       controller: screenshotController,
-                      child: ListView(
-                        children: snapshot.data!.docs.reversed.map((record) {
-                          return Center(
-                            child: ReusableCard(
-                              color: kCardColor,
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        record['date_time']
-                                            .toString()
-                                            .substring(0, 16),
-                                        style: TextStyle(
-                                          color: Colors.grey[700],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 12.0,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Height: ${record['height']} cm',
-                                            style: kRecordSmallTextStyle,
-                                          ),
-                                          SizedBox(
-                                            height: 8.0,
-                                          ),
-                                          Text(
-                                            'Weight: ${record['weight']} kg',
-                                            style: kRecordSmallTextStyle,
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: 25.0,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            'Your BMI',
-                                            style: kRecordSmallTextStyle,
-                                          ),
-                                          SizedBox(
-                                            height: 5.0,
-                                          ),
-                                          Text(
-                                            '${record['bmi']}',
-                                            style: kRecordLargeTextStyle,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        Share.share('testing text');
-                                      },
-                                      child: Text(
-                                        'Share',
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ))
-                                ],
-                              ),
+                      child: ListView.builder(
+                          itemCount: snapshot.data!.docs.reversed.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return buildRecordCard(
+                                snapshot.data!.docs.reversed.elementAt(index));
+                          }),
+                    );
+                  }
+                }),
+          ),
+        ],
+      ),
+    );
+  }
 
-                              /*
+  Widget buildRecordCard(QueryDocumentSnapshot<Object?> record) {
+    Record thisRecord = Record.fromSnapshot(record);
+
+    return Container(
+      margin: EdgeInsets.all(6.0),
+      padding: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: kCardColor,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                thisRecord.date_time,
+                style: TextStyle(
+                  color: Colors.grey[700],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 12.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Height: ${thisRecord.height} cm',
+                    style: kRecordSmallTextStyle,
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  Text(
+                    'Weight: ${thisRecord.weight} kg',
+                    style: kRecordSmallTextStyle,
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 25.0,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Your BMI',
+                    style: kRecordSmallTextStyle,
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(
+                    '${thisRecord.bmi}',
+                    style: kRecordLargeTextStyle,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/*
                               onLongPress: () async {
                                 await Alert(
                                   context: context,
@@ -238,19 +246,18 @@ class _RecordScreenState extends State<RecordScreen> {
                               },
                               */
 
-                              onLongPress: () async {
-                                await takeScreenshotAndShare();
-                              },
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    );
-                  }
-                }),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// onLongPress: () async {
+// await takeScreenshotAndShare();
+// },
+
+// ElevatedButton(
+// onPressed: () {
+// Share.share('testing text');
+// },
+// child: Text(
+// 'Share',
+// style: TextStyle(
+// fontSize: 20.0,
+// fontWeight: FontWeight.bold,
+// ),
+// ))

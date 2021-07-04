@@ -13,6 +13,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../components/reusable_card.dart';
 import '../components/round_icon_button.dart';
 import '../constants.dart';
+import '../components/record.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -207,7 +208,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     EasyLoading.dismiss();
 
                     Fluttertoast.showToast(
-                      msg: 'Upload failed! Please verify your email address first!',
+                      msg:
+                          'Upload failed! Please verify your email address first!',
                       toastLength: Toast.LENGTH_LONG,
                     );
                     return;
@@ -220,19 +222,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       .collection('records')
                       .doc(user!.uid)
                       .collection("user_records")
-                      .add({
-                    'date_time': now.toString(),
-                    'height': height.toStringAsFixed(1),
-                    'weight': weight.toStringAsFixed(1),
-                    'bmi': bmi.toStringAsFixed(1),
-                  }).then((value) {
+                      .add(
+                        Record(
+                          date_time: now.toString(),
+                          height: height.toStringAsFixed(1),
+                          weight: weight.toStringAsFixed(1),
+                          bmi: bmi.toStringAsFixed(1),
+                        ).toJson(),
+                      )
+                      .then((value) {
                     EasyLoading.dismiss();
 
                     Fluttertoast.showToast(
                       msg: 'Upload successfully',
                       toastLength: Toast.LENGTH_SHORT,
                     );
-                  });  // TODO: catch any error
+                  }); // TODO: catch any error
                 },
                 child: Text('UPLOAD'),
               ),
