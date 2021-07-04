@@ -32,6 +32,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
     // print('${user!.emailVerified}');
     if (user!.emailVerified) {
       timer!.cancel();
+      updateUserInfo(); // TODO: potential bugs
       // print('44444');
       setState(() {
         // print('55555');
@@ -40,35 +41,20 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
     }
   }
 
-  Future<void> createEmptyRecords() async {
-    // TODO: check behavior of this method
-    final user = _firebaseAuth.currentUser;
+  static Future<void> updateUserInfo() async {
+    final user = FirebaseAuth.instance.currentUser;
     await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
-      'email': user.email,
       'userId': user.uid,
+      'temp_email': '',
+      'verified_email': user.email,
     });
-
-    await FirebaseFirestore.instance
-        .collection('records')
-        .doc(user.uid)
-        .collection("user_records")
-        .add(
-          Record(
-            date_time: '',
-            height: '',
-            weight: '',
-            bmi: '',
-          ).toJson(),
-        );
-
-    // TODO: add a progress indicator
   }
 
   @override
   void initState() {
     user = _firebaseAuth.currentUser;
     user!.sendEmailVerification();
-    timer = Timer.periodic(Duration(seconds: 4), (timer) async {
+    timer = Timer.periodic(Duration(seconds: 3), (timer) async {
       // print('11111');
       await checkEmailVerified();
       // print('22222');
@@ -110,7 +96,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
           ElevatedButton(
             onPressed: () async {
               EasyLoading.show(status: 'just a moment...');
-              await createEmptyRecords(); // TODO: check behavior
+              await updateUserInfo();
               EasyLoading.dismiss();
               Navigator.of(context).pushReplacementNamed(Navigation.routeName);
             },

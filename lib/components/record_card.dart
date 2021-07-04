@@ -28,7 +28,7 @@ class RecordCard extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.4),
-              spreadRadius: 5,
+              spreadRadius: 3,
               blurRadius: 3,
               offset: Offset(0, 3), // changes position of shadow
             ),

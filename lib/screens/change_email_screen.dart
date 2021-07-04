@@ -22,6 +22,8 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
   var newEmail;
   var password;
 
+  // String verified_email = FirebaseAuth.instance.currentUser!.emailVerified ? FirebaseAuth.instance.currentUser!.email! : '';
+
   final GlobalKey<FormState> formKey = new GlobalKey<FormState>();
   void resetEmail() async {
     final form = formKey.currentState;
@@ -70,6 +72,17 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
 
       try {
         await _firebaseAuth.currentUser!.updateEmail(newEmail!).then((value) {
+          final user = _firebaseAuth.currentUser;
+          FirebaseFirestore.instance.collection('users').doc(user!.uid).set(
+            {
+              'userId': user.uid,
+              'temp_email':
+                  newEmail, // temp_email is the email address user changes to and has not been verified yet
+              // 'verified_email': user.verified_email,  // verified_email is the last email address user verified before or empty if user has never verified any email address
+            },
+            SetOptions(merge: true),
+          );
+
           EasyLoading.dismiss();
 
           // print('success');
