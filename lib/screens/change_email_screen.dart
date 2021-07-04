@@ -124,7 +124,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                   decoration: InputDecoration(labelText: 'Login Password'),
                   obscureText: true,
                   validator: (value) {
-                    if (value!.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return 'please enter password';
                     }
                     return null;
@@ -139,7 +139,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                   decoration: InputDecoration(labelText: 'New Email Address'),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
-                    if (value!.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return 'email address cannot be empty';
                     }
                     return null;

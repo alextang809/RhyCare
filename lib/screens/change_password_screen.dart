@@ -104,9 +104,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // original password
+                // user email address
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Original Password'),
+                  decoration: InputDecoration(labelText: 'Enter your registered email address'),
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {

@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:rhythmcare/screens/change_password_screen.dart';
 import 'package:rhythmcare/screens/change_email_screen.dart';
 import 'package:rhythmcare/screens/email_verify_screen.dart';
+import 'package:rhythmcare/screens/reset_password_screen.dart';
 import 'package:rhythmcare/screens/setting_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -39,6 +40,7 @@ void main() async {
         EmailVerifyScreen.routeName: (context) => EmailVerifyScreen(),
         ChangePasswordScreen.routeName: (context) => ChangePasswordScreen(),
         ChangeEmailScreen.routeName: (context) => ChangeEmailScreen(),
+        ResetPasswordScreen.routeName: (context) => ResetPasswordScreen(),
         // HomeScreen.routeName: (context) => HomeScreen(),
         // RecordScreen.routeName: (context) => RecordScreen(),
       },

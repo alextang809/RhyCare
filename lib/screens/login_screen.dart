@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rhythmcare/navigation.dart';
+import 'package:rhythmcare/screens/reset_password_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -49,7 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
             msg: 'Please use a valid email address.',
             toastLength: Toast.LENGTH_LONG,
           );
-        } else if (errorCode == 'user-not-found' || errorCode == 'wrong-password') {
+        } else if (errorCode == 'user-not-found' ||
+            errorCode == 'wrong-password') {
           Fluttertoast.showToast(
             msg: 'Fail to login: please check your email address or password.',
             toastLength: Toast.LENGTH_LONG,
@@ -94,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               Card(
                 child: Container(
-                  height: 310.0,
+                  height: 330.0,
                   width: 300.0,
                   padding: EdgeInsets.all(10.0),
                   child: Form(
@@ -133,7 +136,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
 
                         SizedBox(
-                          height: 30.0,
+                          height: 10.0,
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, ResetPasswordScreen.routeName);
+                              },
+                              child: Text(
+                                'Forgot your password?',
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(
+                          height: 20.0,
                         ),
 
                         ElevatedButton(
