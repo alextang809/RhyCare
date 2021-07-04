@@ -88,7 +88,8 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Text(
-            'A verification email has been sent to ${user!.email}',
+            'A verification email has been sent to\n${user!.email}',
+            textAlign: TextAlign.center,
           ),
           TextButton(
             onPressed: () {
@@ -129,8 +130,11 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
         backgroundColor: Colors.teal[900],
       ),
       body: SafeArea(
-        child: Center(
-          child: body(verified),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: body(verified),
+          ),
         ),
       ),
     );

@@ -71,7 +71,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               children: <Widget>[
                 // original password
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Your registered email address'),
+                  decoration: InputDecoration(labelText: 'Enter your registered email address'),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'record.dart';
 import 'package:rhythmcare/constants.dart';
@@ -13,6 +15,7 @@ class RecordCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Record thisRecord = Record.fromSnapshot(record);
+    FirebaseAuth _firebaseauth = FirebaseAuth.instance;
 
     return InkWell(
       splashColor: Color(0x6600c1b7),
@@ -91,6 +94,16 @@ class RecordCard extends StatelessWidget {
         ),
       ),
       onTap: () {
+        // check whether email has been verified
+        if (!_firebaseauth.currentUser!.emailVerified) {
+          Fluttertoast.showToast(
+            msg:
+            'Please verify your email address before viewing details!',
+            toastLength: Toast.LENGTH_LONG,
+          );
+          return;
+        }
+
         Navigator.push(
           context,
           MaterialPageRoute(

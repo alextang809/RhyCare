@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:async';
 
 import 'login_screen.dart';
 import '../navigation.dart';
@@ -18,25 +20,45 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    initializeApp();
+    Future<void> initialization = initializeApp();
+    initialization.timeout(
+      Duration(seconds: 10),
+      onTimeout: () {
+        Fluttertoast.showToast(
+          msg: 'Loading is taking longer than normal... You may want to check your Internet connection or try again later.',
+          toastLength: Toast.LENGTH_LONG,
+        );
+        Fluttertoast.showToast(
+          msg: 'Loading is taking longer than normal... You may want to check your Internet connection or try again later.',
+          toastLength: Toast.LENGTH_LONG,
+        );
+      },
+    );
   }
 
-  void initializeApp() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var email = prefs.getString('email');
-    // print(email);
-    if (email != null) {
-      FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-      await _firebaseAuth.currentUser!.reload();
-    }
+  Future<void> initializeApp() async {
+    try {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var email = prefs.getString('email');
+      // print(email);
+      if (email != null) {
+        FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+        await _firebaseAuth.currentUser!.reload();
+      }
 
-    await Future.delayed(Duration(seconds: 1));
-    if (email == null) {
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-    } else {
-      Navigator.pushReplacementNamed(context, Navigation.routeName);
+      await Future.delayed(Duration(seconds: 1));
+      if (email == null) {
+        Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+      } else {
+        Navigator.pushReplacementNamed(context, Navigation.routeName);
+      }
+    } catch (error) {
+      Fluttertoast.showToast(
+        msg: error.toString(),
+        toastLength: Toast.LENGTH_LONG,
+      );
     }
   }
 

@@ -24,10 +24,12 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget emailStatus() {
     if (!user!.emailVerified) {
       return Padding(
-        padding: const EdgeInsets.only(left: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Icon(
                   Icons.cancel_rounded,
@@ -36,7 +38,14 @@ class _SettingScreenState extends State<SettingScreen> {
                 SizedBox(
                   width: 5.0,
                 ),
-                Text('Please verify your email before using other services'),
+                Container(
+                  child: Flexible(
+                    child: Text(
+                      'Please verify your email before using other services',
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
               ],
             ),
             ElevatedButton(
@@ -70,78 +79,90 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Text(
-            'Settings Page',
-            style: TextStyle(fontSize: 30.0),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, ChangeEmailScreen.routeName)
-                  .then((value) => setState(() {
-                        user = _firebaseAuth.currentUser;
-                        // print('${user!.email}');
-                      }));
-            },
-            child: Container(
-              width: double.infinity,
-              color: Colors.purple[50],
-              height: 40.0,
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('EMAIL'),
-                  Row(
-                    children: [
-                      Text('${user!.email}'),
-                      Icon(Icons.arrow_forward_ios_rounded),
-                    ],
-                  ),
-                ],
+    double screen_width = MediaQuery.of(context).size.width;
+
+    return SafeArea(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text(
+              'Settings Page',
+              style: TextStyle(fontSize: 30.0),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, ChangeEmailScreen.routeName)
+                    .then((value) => setState(() {
+                          user = _firebaseAuth.currentUser;
+                          // print('${user!.email}');
+                        }));
+              },
+              child: Container(
+                width: double.infinity,
+                color: Colors.purple[50],
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('EMAIL'),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          width: screen_width * 0.5,
+                          child: Text(
+                            '${user!.email}',
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        Icon(Icons.arrow_forward_ios_rounded),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          emailStatus(),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, ChangePasswordScreen.routeName)
-                  .then((value) => setState(() {
-                        user = _firebaseAuth.currentUser;
-                      }));
-            },
-            child: Container(
-              width: double.infinity,
-              color: buttonColor,
-              height: 40.0,
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('Change Password'),
-                  Icon(Icons.arrow_forward_ios_rounded),
-                ],
+            emailStatus(),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, ChangePasswordScreen.routeName)
+                    .then((value) => setState(() {
+                          user = _firebaseAuth.currentUser;
+                        }));
+              },
+              child: Container(
+                width: double.infinity,
+                color: buttonColor,
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Change Password'),
+                    Icon(Icons.arrow_forward_ios_rounded),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(),
-          ElevatedButton(
-            onPressed: () async {
-              EasyLoading.show(status: 'signing out...');
-              await _firebaseAuth.signOut();
+            SizedBox(),
+            ElevatedButton(
+              onPressed: () async {
+                EasyLoading.show(status: 'signing out...');
+                await _firebaseAuth.signOut();
 
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.remove('email');
-              EasyLoading.dismiss();
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove('email');
+                EasyLoading.dismiss();
 
-              Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
-            },
-            child: Text('Sign out'),
-          ),
-        ],
+                Navigator.of(context)
+                    .pushReplacementNamed(LoginScreen.routeName);
+              },
+              child: Text('Sign out'),
+            ),
+          ],
+        ),
       ),
     );
   }
