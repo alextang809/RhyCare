@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'dart:async';
 
 import '../components/reusable_card.dart';
 import '../components/round_icon_button.dart';
@@ -29,6 +30,10 @@ class _HomeScreenState extends State<HomeScreen> {
   double height = 165.0;
   int weight = 55;
   int age = 20;
+  Timer? _weightMinusTimer;
+  Timer? _weightPlusTimer;
+  Timer? _ageMinusTimer;
+  Timer? _agePlusTimer;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           value: height.toDouble(),
                           min: 130.0,
                           max: 200.0,
+                          divisions: 140,
                           onChanged: (double newValue) {
                             setState(() {
                               height = newValue;
@@ -121,24 +127,64 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        RoundIconButton(
-                          icon: FontAwesomeIcons.minus,
-                          onPressed: () {
-                            setState(() {
-                              if (weight > 20) weight--;
+                        GestureDetector(
+                          onTapDown: (TapDownDetails details) {
+                            // print('down');
+                            _weightMinusTimer = Timer.periodic(
+                                Duration(milliseconds: 50), (t) {
+                              setState(() {
+                                if (weight > 20) weight--;
+                              });
+                              // print('value $weight');
                             });
                           },
+                          onTapUp: (TapUpDetails details) {
+                            // print('up');
+                            _weightMinusTimer!.cancel();
+                          },
+                          onTapCancel: () {
+                            // print('cancel');
+                            _weightMinusTimer!.cancel();
+                          },
+                          child: RoundIconButton(
+                            icon: FontAwesomeIcons.minus,
+                            onPressed: () {
+                              setState(() {
+                                if (weight > 20) weight--;
+                              });
+                            },
+                          ),
                         ),
                         SizedBox(
                           width: 20.0,
                         ),
-                        RoundIconButton(
-                          icon: FontAwesomeIcons.plus,
-                          onPressed: () {
-                            setState(() {
-                              if (weight < 200) weight++;
+                        GestureDetector(
+                          onTapDown: (TapDownDetails details) {
+                            // print('down');
+                            _weightPlusTimer = Timer.periodic(
+                                Duration(milliseconds: 50), (t) {
+                              setState(() {
+                                if (weight < 200) weight++;
+                              });
+                              // print('value $weight');
                             });
                           },
+                          onTapUp: (TapUpDetails details) {
+                            // print('up');
+                            _weightPlusTimer!.cancel();
+                          },
+                          onTapCancel: () {
+                            // print('cancel');
+                            _weightPlusTimer!.cancel();
+                          },
+                          child: RoundIconButton(
+                            icon: FontAwesomeIcons.plus,
+                            onPressed: () {
+                              setState(() {
+                                if (weight < 200) weight++;
+                              });
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -166,24 +212,64 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        RoundIconButton(
-                          icon: FontAwesomeIcons.minus,
-                          onPressed: () {
-                            setState(() {
-                              if (age > 10) age--;
+                        GestureDetector(
+                          onTapDown: (TapDownDetails details) {
+                            // print('down');
+                            _ageMinusTimer = Timer.periodic(
+                                Duration(milliseconds: 50), (t) {
+                              setState(() {
+                                if (age > 10) age--;
+                              });
+                              // print('value $weight');
                             });
                           },
+                          onTapUp: (TapUpDetails details) {
+                            // print('up');
+                            _ageMinusTimer!.cancel();
+                          },
+                          onTapCancel: () {
+                            // print('cancel');
+                            _ageMinusTimer!.cancel();
+                          },
+                          child: RoundIconButton(
+                            icon: FontAwesomeIcons.minus,
+                            onPressed: () {
+                              setState(() {
+                                if (age > 10) age--;
+                              });
+                            },
+                          ),
                         ),
                         SizedBox(
                           width: 20.0,
                         ),
-                        RoundIconButton(
-                          icon: FontAwesomeIcons.plus,
-                          onPressed: () {
-                            setState(() {
-                              if (age < 90) age++;
+                        GestureDetector(
+                          onTapDown: (TapDownDetails details) {
+                            // print('down');
+                            _agePlusTimer = Timer.periodic(
+                                Duration(milliseconds: 50), (t) {
+                              setState(() {
+                                if (age < 90) age++;
+                              });
+                              // print('value $weight');
                             });
                           },
+                          onTapUp: (TapUpDetails details) {
+                            // print('up');
+                            _agePlusTimer!.cancel();
+                          },
+                          onTapCancel: () {
+                            // print('cancel');
+                            _agePlusTimer!.cancel();
+                          },
+                          child: RoundIconButton(
+                            icon: FontAwesomeIcons.plus,
+                            onPressed: () {
+                              setState(() {
+                                if (age < 90) age++;
+                              });
+                            },
+                          ),
                         ),
                       ],
                     ),
