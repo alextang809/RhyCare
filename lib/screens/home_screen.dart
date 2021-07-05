@@ -28,7 +28,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   double height = 165.0;
-  int weight = 55;
+  double weight = 55;
   int age = 20;
   Timer? _weightMinusTimer;
   Timer? _weightPlusTimer;
@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       textBaseline: TextBaseline.alphabetic,
                       children: <Widget>[
                         Text(
-                          weight.toString(),
+                          weight.toStringAsFixed(1),
                           style: kNumberTextStyle,
                         ),
                         Text(
@@ -130,10 +130,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         GestureDetector(
                           onTapDown: (TapDownDetails details) {
                             // print('down');
-                            _weightMinusTimer = Timer.periodic(
-                                Duration(milliseconds: 50), (t) {
+                            _weightMinusTimer =
+                                Timer.periodic(Duration(milliseconds: 3), (t) {
                               setState(() {
-                                if (weight > 20) weight--;
+                                if (weight > 20) weight -= 0.1;
                               });
                               // print('value $weight');
                             });
@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             icon: FontAwesomeIcons.minus,
                             onPressed: () {
                               setState(() {
-                                if (weight > 20) weight--;
+                                if (weight > 20) weight -= 0.1;
                               });
                             },
                           ),
@@ -161,10 +161,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         GestureDetector(
                           onTapDown: (TapDownDetails details) {
                             // print('down');
-                            _weightPlusTimer = Timer.periodic(
-                                Duration(milliseconds: 50), (t) {
+                            _weightPlusTimer =
+                                Timer.periodic(Duration(milliseconds: 3), (t) {
                               setState(() {
-                                if (weight < 200) weight++;
+                                if (weight < 200) weight += 0.1;
                               });
                               // print('value $weight');
                             });
@@ -181,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             icon: FontAwesomeIcons.plus,
                             onPressed: () {
                               setState(() {
-                                if (weight < 200) weight++;
+                                if (weight < 200) weight += 0.1;
                               });
                             },
                           ),
@@ -215,8 +215,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         GestureDetector(
                           onTapDown: (TapDownDetails details) {
                             // print('down');
-                            _ageMinusTimer = Timer.periodic(
-                                Duration(milliseconds: 50), (t) {
+                            _ageMinusTimer =
+                                Timer.periodic(Duration(milliseconds: 50), (t) {
                               setState(() {
                                 if (age > 10) age--;
                               });
@@ -246,8 +246,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         GestureDetector(
                           onTapDown: (TapDownDetails details) {
                             // print('down');
-                            _agePlusTimer = Timer.periodic(
-                                Duration(milliseconds: 50), (t) {
+                            _agePlusTimer =
+                                Timer.periodic(Duration(milliseconds: 50), (t) {
                               setState(() {
                                 if (age < 90) age++;
                               });
