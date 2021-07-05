@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +12,7 @@ import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/reusable_card.dart';
 import '../components/round_icon_button.dart';
@@ -28,12 +31,40 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   double height = 165.0;
-  double weight = 55;
+  double weight = 55.0;
   int age = 20;
   Timer? _weightMinusTimer;
   Timer? _weightPlusTimer;
   Timer? _ageMinusTimer;
   Timer? _agePlusTimer;
+
+  void retrieveUserLastUpdatedData() async {
+    await SharedPreferences.getInstance().then((prefs) {
+      height = prefs.getDouble('height') == null
+          ? 165.0
+          : prefs.getDouble('height')!;
+      weight =
+          prefs.getDouble('weight') == null ? 55.0 : prefs.getDouble('weight')!;
+      age = prefs.getInt('age') == null ? 20 : prefs.getInt('age')!;
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    retrieveUserLastUpdatedData();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setDouble('height', height);
+      prefs.setDouble('weight', weight);
+      prefs.setInt('age', age);
+    });
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           divisions: 140,
                           onChanged: (double newValue) {
                             setState(() {
+                              print(newValue);
                               height = newValue;
                             });
                           }),

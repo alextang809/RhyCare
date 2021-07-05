@@ -22,7 +22,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     super.initState();
     Future<void> initialization = initializeApp();
     initialization.timeout(
-      Duration(seconds: 10),
+      Duration(seconds: 15),
       onTimeout: () {
         Fluttertoast.showToast(
           msg: 'Loading is taking longer than normal... You may want to check your Internet connection or try again later.',
