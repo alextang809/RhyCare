@@ -119,7 +119,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           divisions: 140,
                           onChanged: (double newValue) {
                             setState(() {
-                              print(newValue);
                               height = newValue;
                             });
                           }),

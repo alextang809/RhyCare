@@ -181,7 +181,7 @@ It’s very easy to use the app since it has a very simple and clear interface.
 
 To use it on an Android phone:
 
-1. Download the apk at [here](https://drive.google.com/file/d/1wv20UUb5xNFdzZyDafMFh3PBvEQjk8oV/view?usp=sharing) and install it on your phone
+1. Download the apk at [here](https://drive.google.com/file/d/1wv20UUb5xNFdzZyDafMFh3PBvEQjk8oV/view?usp=sharing) (not the latest version) for Milestone 2 evaluation and install it on your phone
 
 2. Register an account and start using it
 
