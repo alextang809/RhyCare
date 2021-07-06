@@ -49,7 +49,7 @@ class _SettingScreenState extends State<SettingScreen> {
               ],
             ),
             ElevatedButton(
-              child: Text('Verify Email'),
+              child: Text('Verify'),
               onPressed: () {
                 Navigator.pushReplacementNamed(
                     context, EmailVerifyScreen.routeName);
@@ -60,8 +60,10 @@ class _SettingScreenState extends State<SettingScreen> {
       );
     } else {
       return Padding(
-        padding: const EdgeInsets.only(left: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Icon(
               Icons.check_circle,
@@ -70,7 +72,12 @@ class _SettingScreenState extends State<SettingScreen> {
             SizedBox(
               width: 5.0,
             ),
-            Text('Your email has been verified'),
+            Flexible(
+              child: Text(
+                'Your email has been verified',
+                textAlign: TextAlign.left,
+              ),
+            ),
           ],
         ),
       );
@@ -80,73 +87,90 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     double screen_width = MediaQuery.of(context).size.width;
+    double screen_height = MediaQuery.of(context).size.height;
 
     return SafeArea(
       child: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
               'Settings Page',
               style: TextStyle(fontSize: 30.0),
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, ChangeEmailScreen.routeName)
-                    .then((value) => setState(() {
-                          user = _firebaseAuth.currentUser;
-                          // print('${user!.email}');
-                        }));
-              },
-              child: Container(
-                width: double.infinity,
-                color: Colors.purple[50],
-                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('EMAIL'),
-                    SizedBox(
-                      width: 5.0,
-                    ),
-                    Row(
+            SizedBox(
+              height: screen_height * 0.1,
+            ),
+            Column(
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, ChangeEmailScreen.routeName)
+                        .then((value) => setState(() {
+                              user = _firebaseAuth.currentUser;
+                              // print('${user!.email}');
+                            }));
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.purple[50],
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                    margin: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Container(
-                          width: screen_width * 0.5,
-                          child: Text(
-                            '${user!.email}',
-                            textAlign: TextAlign.right,
-                          ),
+                        Text('EMAIL'),
+                        SizedBox(
+                          width: 5.0,
                         ),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              width: screen_width * 0.5,
+                              child: Text(
+                                '${user!.email}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                            Icon(Icons.arrow_forward_ios_rounded),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  child: emailStatus(),
+                  color: Colors.transparent,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, ChangePasswordScreen.routeName)
+                        .then((value) => setState(() {
+                              user = _firebaseAuth.currentUser;
+                            }));
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    color: buttonColor,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                    margin: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text('Change Password'),
                         Icon(Icons.arrow_forward_ios_rounded),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-            emailStatus(),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, ChangePasswordScreen.routeName)
-                    .then((value) => setState(() {
-                          user = _firebaseAuth.currentUser;
-                        }));
-              },
-              child: Container(
-                width: double.infinity,
-                color: buttonColor,
-                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Change Password'),
-                    Icon(Icons.arrow_forward_ios_rounded),
-                  ],
-                ),
-              ),
+            SizedBox(
+              height: screen_height * 0.2,
             ),
-            SizedBox(),
             ElevatedButton(
               onPressed: () async {
                 EasyLoading.show(status: 'signing out...');
