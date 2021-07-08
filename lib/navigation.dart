@@ -1,5 +1,11 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rhythmcare/screens/login_screen.dart';
 
 import 'screens/home_screen.dart';
 import 'screens/record_screen.dart';
@@ -32,7 +38,9 @@ class _NavigationState extends State<Navigation> {
     RecordScreen(),
     SettingScreen(),
   ];
-  final PageStorageBucket bucket = PageStorageBucket();
+  // final PageStorageBucket bucket = PageStorageBucket();
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  Timer? timer;
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
@@ -48,7 +56,33 @@ class _NavigationState extends State<Navigation> {
   @override
   void initState() {
     _currentIndex = widget.initialPageIndex;
+    print('init');
+    if (!_firebaseAuth.currentUser!.emailVerified) {
+      Fluttertoast.showToast(
+        msg:
+        'You will be auto signed out after three minutes!',
+        toastLength: Toast.LENGTH_LONG,
+      );
+      timer = Timer(Duration(minutes: 3), () async {
+        EasyLoading.show(status: 'Signing out...');
+        await _firebaseAuth.signOut().then((value) async {
+          await Future.delayed(Duration(seconds: 3)).then((value) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, LoginScreen.routeName, (route) => false);
+            EasyLoading.dismiss();
+          });
+        });
+      });
+    }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (timer != null) {
+      timer!.cancel();
+    }
+    super.dispose();
   }
 
   @override
@@ -59,10 +93,7 @@ class _NavigationState extends State<Navigation> {
         title: Text(titles[_currentIndex]),
       ),
       body: WillPopScope(
-        child: PageStorage(
-          child: pages[_currentIndex],
-          bucket: bucket,
-        ),
+        child: pages[_currentIndex],
         onWillPop: onWillPop,
       ),
       bottomNavigationBar: BottomNavigationBar(

@@ -75,10 +75,9 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
           final user = _firebaseAuth.currentUser;
           FirebaseFirestore.instance.collection('users').doc(user!.uid).set(
             {
-              'userId': user.uid,
-              'temp_email':
-                  newEmail, // temp_email is the email address user changes to and has not been verified yet
-              // 'verified_email': user.verified_email,  // verified_email is the last email address user verified before or empty if user has never verified any email address
+              // 'userId': user.uid,
+              'email': newEmail,
+              // 'google_sign_in': 'false',
             },
             SetOptions(merge: true),
           );

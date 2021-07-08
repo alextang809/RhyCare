@@ -26,6 +26,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
   bool verified = false;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   DateTime? currentBackPressTime;
+  int popCount = 0;
 
   Future<void> checkEmailVerified() async {
     await user!.reload();
@@ -85,6 +86,11 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
           TextButton(
             onPressed: () {
               timer!.cancel();
+              // Fluttertoast.showToast(
+              //   msg:
+              //   'You will be auto signed out after one minute!',
+              //   toastLength: Toast.LENGTH_LONG,
+              // );
               Navigator.of(context)
                   .pushReplacementNamed(Navigation.p2RouteName);
             },
@@ -105,7 +111,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
               await updateUserInfo();
               EasyLoading.dismiss();
               Navigator.of(context)
-                  .pushReplacementNamed(Navigation.p0RouteName);
+                  .pushReplacementNamed(Navigation.p2RouteName);
             },
             child: Text('Continue'),
           ),
@@ -116,6 +122,10 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
+    popCount++;
+    if (popCount >= 3) {
+      return Future.value(false);
+    }
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime!) > Duration(microseconds: 10)) {
       currentBackPressTime = now;

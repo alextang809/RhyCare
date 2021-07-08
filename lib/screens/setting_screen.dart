@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../navigation.dart';
 
 import 'login_screen.dart';
 
@@ -110,6 +111,8 @@ class _SettingScreenState extends State<SettingScreen> {
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       prefs.setString('email', 'VERIFIED');
+                      EasyLoading.dismiss();
+                      Navigator.pushNamedAndRemoveUntil(context, Navigation.p2RouteName, (route) => false);
                     }
                     EasyLoading.dismiss();
                     setState(() {});
@@ -327,15 +330,15 @@ class _SettingScreenState extends State<SettingScreen> {
                     await googleSignIn.signOut();
                     (await SharedPreferences.getInstance()).remove('google');
                   }
-                  await _firebaseAuth.signOut();
+                  await _firebaseAuth.signOut().then((value) async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.remove('email');
+                    EasyLoading.dismiss();
 
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  prefs.remove('email');
-                  EasyLoading.dismiss();
-
-                  Navigator.of(context)
-                      .pushReplacementNamed(LoginScreen.routeName);
+                    Navigator.of(context)
+                        .pushReplacementNamed(LoginScreen.routeName);
+                  });
                 },
                 child: Text('Sign out'),
               ),
