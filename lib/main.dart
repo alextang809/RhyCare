@@ -27,7 +27,9 @@ class MyApp extends StatelessWidget {
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
           RegisterScreen.routeName: (context) => RegisterScreen(),
-          Navigation.routeName: (context) => Navigation(),
+          Navigation.p0RouteName: (context) => Navigation(0),
+          Navigation.p1RouteName: (context) => Navigation(1),
+          Navigation.p2RouteName: (context) => Navigation(2),
           EmailVerifyScreen.routeName: (context) => EmailVerifyScreen(),
           ChangePasswordScreen.routeName: (context) => ChangePasswordScreen(),
           ChangeEmailScreen.routeName: (context) => ChangeEmailScreen(),

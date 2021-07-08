@@ -40,10 +40,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
         final userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
 
+        final user = userCredential.user;
+
+        await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
+          'userId': user.uid,
+          'email': user.email,
+          'google_sign_in': 'false',  // If a user can register, it is for sure that he hasn't signed in with Google before.
+        });
+
         // print('Registered user: ${userCredential.user!.uid}');
 
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('email', email);
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        // prefs.setString('email', email);
 
         EasyLoading.dismiss();
 

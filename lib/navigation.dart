@@ -6,9 +6,14 @@ import 'screens/record_screen.dart';
 import 'screens/setting_screen.dart';
 
 class Navigation extends StatefulWidget {
-  const Navigation({Key? key}) : super(key: key);
+  // const Navigation({Key? key}) : super(key: key);
 
-  static const routeName = 'nav';
+  static const p0RouteName = 'nav_p0';
+  static const p1RouteName = 'nav_p1';
+  static const p2RouteName = 'nav_p2';
+  int initialPageIndex = 0;
+
+  Navigation(this.initialPageIndex);
 
   @override
   _NavigationState createState() => _NavigationState();
@@ -27,6 +32,7 @@ class _NavigationState extends State<Navigation> {
     RecordScreen(),
     SettingScreen(),
   ];
+  final PageStorageBucket bucket = PageStorageBucket();
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
@@ -40,6 +46,12 @@ class _NavigationState extends State<Navigation> {
   }
 
   @override
+  void initState() {
+    _currentIndex = widget.initialPageIndex;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.purple[100],
@@ -47,7 +59,10 @@ class _NavigationState extends State<Navigation> {
         title: Text(titles[_currentIndex]),
       ),
       body: WillPopScope(
-        child: pages[_currentIndex],
+        child: PageStorage(
+          child: pages[_currentIndex],
+          bucket: bucket,
+        ),
         onWillPop: onWillPop,
       ),
       bottomNavigationBar: BottomNavigationBar(

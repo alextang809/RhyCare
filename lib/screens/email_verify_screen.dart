@@ -5,9 +5,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rhythmcare/screens/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:rhythmcare/navigation.dart';
-import '../components/record.dart';
 
 class EmailVerifyScreen extends StatefulWidget {
   const EmailVerifyScreen({Key? key}) : super(key: key);
@@ -23,6 +25,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
   Timer? timer;
   bool verified = false;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  DateTime? currentBackPressTime;
 
   Future<void> checkEmailVerified() async {
     await user!.reload();
@@ -43,11 +46,13 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
 
   static Future<void> updateUserInfo() async {
     final user = FirebaseAuth.instance.currentUser;
-    await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
-      'userId': user.uid,
-      'temp_email': '',
-      'verified_email': user.email,
-    });
+    // await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
+    //   'userId': user.uid,
+    //   'verified_email': user.email,
+    //   'google_sign_in': 'false',
+    // });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', 'VERIFIED');
   }
 
   @override
@@ -80,7 +85,8 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
           TextButton(
             onPressed: () {
               timer!.cancel();
-              Navigator.of(context).pushReplacementNamed(Navigation.routeName);
+              Navigator.of(context)
+                  .pushReplacementNamed(Navigation.p2RouteName);
             },
             child: Text('skip for now >'),
           )
@@ -98,13 +104,29 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
               EasyLoading.show(status: 'just a moment...');
               await updateUserInfo();
               EasyLoading.dismiss();
-              Navigator.of(context).pushReplacementNamed(Navigation.routeName);
+              Navigator.of(context)
+                  .pushReplacementNamed(Navigation.p0RouteName);
             },
             child: Text('Continue'),
           ),
         ],
       );
     }
+  }
+
+  Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > Duration(microseconds: 10)) {
+      currentBackPressTime = now;
+      Fluttertoast.showToast(
+        msg:
+            'Please remain on this screen when verifying or press skip for now to verify later.',
+        toastLength: Toast.LENGTH_SHORT,
+      );
+      return Future.value(false);
+    }
+    return Future.value(true);
   }
 
   @override
@@ -119,7 +141,10 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-            child: body(verified),
+            child: WillPopScope(
+              child: body(verified),
+              onWillPop: onWillPop,
+            ),
           ),
         ),
       ),

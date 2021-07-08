@@ -48,11 +48,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
         await _firebaseAuth.currentUser!.reload();
       }
 
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(Duration(seconds: 8));
+      print(email);
       if (email == null) {
         Navigator.pushReplacementNamed(context, LoginScreen.routeName);
       } else {
-        Navigator.pushReplacementNamed(context, Navigation.routeName);
+        Navigator.pushReplacementNamed(context, Navigation.p0RouteName);
       }
     } catch (error) {
       Fluttertoast.showToast(
