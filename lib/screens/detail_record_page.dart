@@ -20,8 +20,9 @@ class DetailRecordPage extends StatefulWidget {
 
   final Record record;
   final DocumentReference recordReference;
+  final Color backgroundColor;
 
-  DetailRecordPage({required this.record, required this.recordReference});
+  DetailRecordPage({required this.record, required this.recordReference, required this.backgroundColor});
 
   @override
   _DetailRecordPageState createState() => _DetailRecordPageState();
@@ -30,11 +31,13 @@ class DetailRecordPage extends StatefulWidget {
 class _DetailRecordPageState extends State<DetailRecordPage> {
   Record? thisRecord;
   DocumentReference? thisRecordReference;
+  Color? thisBackgroundColor;
 
   @override
   void initState() {
     thisRecord = this.widget.record;
     thisRecordReference = this.widget.recordReference;
+    thisBackgroundColor = this.widget.backgroundColor;
     super.initState();
   }
 
@@ -168,9 +171,9 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlueAccent[200],
+        backgroundColor: Colors.purple,
       ),
-      backgroundColor: Colors.lightBlue[100],
+      backgroundColor: Colors.purple[100],
       body: SafeArea(
         child: Container(
           child: Column(
@@ -185,7 +188,7 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
                 child: Container(
                   padding: EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
-                    color: Colors.lightBlue[200],
+                    color: thisBackgroundColor,
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Column(

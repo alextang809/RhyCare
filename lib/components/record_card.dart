@@ -17,13 +17,34 @@ class RecordCard extends StatelessWidget {
     Record thisRecord = Record.fromSnapshot(record);
     FirebaseAuth _firebaseauth = FirebaseAuth.instance;
 
+    Color cardColor(String bmi_string) {
+      double bmi = double.parse(bmi_string);
+      Color color = Color(0xffffffff);
+      if (bmi < 18.5) {
+        color = Color(0x851bd0ed);
+      } else if (bmi <= 24.9) {
+        color = Color(0x8513D57B);
+      } else if (bmi <= 29.9) {
+        color = Color(0x85FECE00);
+      } else if (bmi <= 34.9) {
+        color = Color(0x85FD5A00);
+      } else if (bmi <= 39.9) {
+        color = Color(0x85FE0047);
+      } else {
+        color = Color(0x85FE0047);
+      }
+      return color;
+    }
+
+    Color recordColor = cardColor(thisRecord.bmi);
+
     return InkWell(
       splashColor: Color(0x6600c1b7),
       child: Container(
         margin: EdgeInsets.all(6.0),
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: Color(0x8a66f6f5),
+          color: recordColor,
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: [
             BoxShadow(
@@ -97,8 +118,7 @@ class RecordCard extends StatelessWidget {
         // check whether email has been verified
         if (!_firebaseauth.currentUser!.emailVerified) {
           Fluttertoast.showToast(
-            msg:
-            'Please verify your email address before viewing details!',
+            msg: 'Please verify your email address before viewing details!',
             toastLength: Toast.LENGTH_LONG,
           );
           return;
@@ -107,7 +127,12 @@ class RecordCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => DetailRecordPage(record: thisRecord, recordReference: record.reference)),
+            builder: (context) => DetailRecordPage(
+              record: thisRecord,
+              recordReference: record.reference,
+              backgroundColor: recordColor,
+            ),
+          ),
         );
       },
     );
