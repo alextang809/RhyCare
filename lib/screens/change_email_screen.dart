@@ -97,7 +97,15 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         String errorCode = (error as FirebaseAuthException).code;
         if (errorCode == 'email-already-in-use') {
           Fluttertoast.showToast(
-            msg: 'This email address already exists.',
+            msg: 'The email address already exists. If you are the owner of this email address, please sign out and use the "Forgot your password?" function on the Login page to reset a password!',
+            toastLength: Toast.LENGTH_LONG,
+          );
+          Fluttertoast.showToast(
+            msg: 'The email address already exists. If you are the owner of this email address, please sign out and use the "Forgot your password?" function on the Login page to reset a password!',
+            toastLength: Toast.LENGTH_LONG,
+          );
+          Fluttertoast.showToast(
+            msg: 'The email address already exists. If you are the owner of this email address, please sign out and use the "Forgot your password?" function on the Login page to reset a password!',
             toastLength: Toast.LENGTH_LONG,
           );
         } else if (errorCode == 'invalid-email') {

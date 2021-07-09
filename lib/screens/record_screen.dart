@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../components/record_card.dart';
 
@@ -20,6 +21,7 @@ class RecordScreen extends StatefulWidget {
 class _RecordScreenState extends State<RecordScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   bool delete = false;
+  bool reversed = true;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,26 @@ class _RecordScreenState extends State<RecordScreen> {
     return SafeArea(
       child: Column(
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                InkWell(
+                  splashColor: Colors.purple,
+                  onTap: () {
+                    setState(() {
+                      reversed = !reversed;
+                    });
+                  },
+                  child: Icon(
+                    FontAwesomeIcons.sort,
+                    size: 26.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
           Expanded(
             child: StreamBuilder(
                 stream: records.orderBy('date_time').snapshots(),
@@ -43,12 +65,21 @@ class _RecordScreenState extends State<RecordScreen> {
                       ),
                     );
                   } else {
-                    return ListView.builder(
-                        itemCount: snapshot.data!.docs.reversed.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return RecordCard(
-                              snapshot.data!.docs.reversed.elementAt(index));
-                        });
+                    if (reversed) {
+                      return ListView.builder(
+                          itemCount: snapshot.data!.docs.reversed.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return RecordCard(
+                                snapshot.data!.docs.reversed.elementAt(index));
+                          });
+                    } else {
+                      return ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return RecordCard(
+                                snapshot.data!.docs.elementAt(index));
+                          });
+                    }
                   }
                 }),
           ),

@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rhythmcare/screens/login_screen.dart';
 
 import 'screens/home_screen.dart';
@@ -60,10 +62,10 @@ class _NavigationState extends State<Navigation> {
     if (!_firebaseAuth.currentUser!.emailVerified) {
       Fluttertoast.showToast(
         msg:
-        'You will be auto signed out after three minutes!',
+        'You will be auto signed out after two minutes!',
         toastLength: Toast.LENGTH_LONG,
       );
-      timer = Timer(Duration(minutes: 3), () async {
+      timer = Timer(Duration(minutes: 2), () async {
         EasyLoading.show(status: 'Signing out...');
         await _firebaseAuth.signOut().then((value) async {
           await Future.delayed(Duration(seconds: 3)).then((value) {
@@ -91,6 +93,21 @@ class _NavigationState extends State<Navigation> {
       backgroundColor: Colors.purple[100],
       appBar: AppBar(
         title: Text(titles[_currentIndex]),
+        actions: <Widget>[
+          Visibility(
+            visible: _currentIndex == 1,
+            child: Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Icon(
+                    FontAwesomeIcons.sort,
+                    size: 26.0,
+                  ),
+                )
+            ),
+          ),
+        ],
       ),
       body: WillPopScope(
         child: pages[_currentIndex],

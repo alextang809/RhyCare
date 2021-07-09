@@ -231,7 +231,7 @@ class _SettingScreenState extends State<SettingScreen> {
             Row(
               children: <Widget>[
                 Container(
-                  width: screen_width * 0.5,
+                  width: screen_width * 0.75,
                   child: Text(
                     '${user!.providerData[0].email}',
                     textAlign: TextAlign.right,
@@ -272,15 +272,15 @@ class _SettingScreenState extends State<SettingScreen> {
       return SafeArea(
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Text(
                 'Settings Page',
                 style: TextStyle(fontSize: 30.0),
               ),
-              SizedBox(
-                height: screen_height * 0.1,
-              ),
+              // SizedBox(
+              //   height: screen_height * 0.05,
+              // ),
               Column(
                 children: <Widget>[
                   changeEmailAddress(context),
@@ -317,7 +317,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ],
               ),
               SizedBox(
-                height: screen_height * 0.2,
+                height: screen_height * 0.1,
               ),
               ElevatedButton(
                 onPressed: () async {
