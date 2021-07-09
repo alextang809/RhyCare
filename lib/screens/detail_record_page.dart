@@ -122,12 +122,12 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
 
     final directory = (await getApplicationDocumentsDirectory()).path;
     print('$directory');
-    File imgFile = await new File('$directory/$currentTime.png').create();
+    File imgFile = await new File('$directory/rhythmcare_$currentTime.png').create();
     await imgFile.writeAsBytes(capturedImage!);
 
     // EasyLoading.dismiss();
 
-    await Share.shareFiles(['$directory/$currentTime.png']);
+    await Share.shareFiles(['$directory/rhythmcare_$currentTime.png']);
     await imgFile.delete();
     print('finish');
   }
