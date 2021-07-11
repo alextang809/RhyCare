@@ -354,7 +354,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         .collection("user_records")
                         .add(
                       Record(
-                        date_time: now.toString(),
+                        date_time: Timestamp.fromDate(now),
                         height: height.toStringAsFixed(1),
                         weight: weight.toStringAsFixed(1),
                         bmi: bmi.toStringAsFixed(1),
