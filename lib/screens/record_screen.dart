@@ -30,8 +30,8 @@ class _RecordScreenState extends State<RecordScreen> {
   bool loading = true;
 
   String? parse(String? time) {
-    print(time);
-    print('2222222222');
+    // print(time);
+    // print('2222222222');
     if (time == null || time == 'null') {
       return null;
     } else {
@@ -61,6 +61,9 @@ class _RecordScreenState extends State<RecordScreen> {
   }
 
   Widget body() {
+    if (!user!.emailVerified) {
+      return Container();
+    }
     if (loading == true) {
       retrieveUserPreferences().then((value) {
         Future.delayed(Duration(milliseconds: 100)).then((value) {
