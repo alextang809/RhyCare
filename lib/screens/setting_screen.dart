@@ -337,6 +337,9 @@ class _SettingScreenState extends State<SettingScreen> {
                     prefs.remove('filter_start');
                     prefs.remove('filter_end');
                     prefs.remove('reversed');
+                    prefs.remove('height');
+                    prefs.remove('weight');
+                    prefs.remove('age');
                     EasyLoading.dismiss();
 
                     Navigator.of(context)
