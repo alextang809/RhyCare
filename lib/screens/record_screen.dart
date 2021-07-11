@@ -31,6 +31,8 @@ class _RecordScreenState extends State<RecordScreen> {
         .doc(user!.uid)
         .collection('user_records');
 
+    
+
     return SafeArea(
       child: Column(
         children: <Widget>[

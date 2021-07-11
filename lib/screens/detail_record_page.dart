@@ -194,7 +194,7 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(thisRecord!.date_time),
+                      Text(thisRecord!.date_time.toDate().toString().substring(0, 16)),
                       Text('Height: ${thisRecord!.height}'),
                       Text('Weight: ${thisRecord!.weight}'),
                       Text('BMI: ${thisRecord!.bmi}'),

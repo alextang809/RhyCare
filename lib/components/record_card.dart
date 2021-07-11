@@ -61,7 +61,7 @@ class RecordCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  thisRecord.date_time,
+                  thisRecord.date_time.toDate().toString().substring(0, 16),
                   style: TextStyle(
                     color: Colors.grey[700],
                   ),
