@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Timer? _weightPlusTimer;
   Timer? _ageMinusTimer;
   Timer? _agePlusTimer;
-  bool loading = false;
+  bool loading = true;
 
   Future<void> retrieveUserLastUpdatedData() async {
     await SharedPreferences.getInstance().then((prefs) {
@@ -47,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
       weight =
           prefs.getDouble('weight') == null ? 55.0 : prefs.getDouble('weight')!;
       age = prefs.getInt('age') == null ? 20 : prefs.getInt('age')!;
-      setState(() {});
     });
   }
 
@@ -68,10 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget body() {
-    if (loading == false) {
+    if (loading == true) {
       retrieveUserLastUpdatedData().then((value) {
         Future.delayed(Duration(milliseconds: 100)).then((value) {
-          loading = true;
+          loading = false;
           setState(() {});
         });
       });

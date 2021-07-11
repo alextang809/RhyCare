@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class TimeFilterCard extends StatefulWidget {
-  const TimeFilterCard({Key? key}) : super(key: key);
+  // const TimeFilterCard({Key? key}) : super(key: key);
+
+  DateTime? start;
+  DateTime? end;
+
+  TimeFilterCard({required this.start, required this.end});
 
   @override
   _TimeFilterCardState createState() => _TimeFilterCardState();
@@ -114,6 +119,13 @@ class _TimeFilterCardState extends State<TimeFilterCard> {
     startDateTime = null;
     endDateTime = null;
     applyFilter();
+  }
+
+  @override
+  void initState() {
+    startDateTime = widget.start;
+    endDateTime = widget.end;
+    super.initState();
   }
 
   @override
@@ -243,11 +255,14 @@ class _TimeFilterCardState extends State<TimeFilterCard> {
                       SizedBox(
                         width: 5.0,
                       ),
-                      ElevatedButton(
+                      TextButton(
                         onPressed: () {
                           clearFilter();
                         },
-                        child: Text('Clear Filter'),
+                        child: Text(
+                          'Clear Filter',
+                          style: TextStyle(color: Colors.blueGrey),
+                        ),
                       ),
                     ],
                   ),
