@@ -30,24 +30,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
-  double height = 165.0;
-  double weight = 55.0;
+  double height = 160.0;
+  double weight = 60.0;
   int age = 20;
   Timer? _weightMinusTimer;
   Timer? _weightPlusTimer;
   Timer? _ageMinusTimer;
   Timer? _agePlusTimer;
-  bool loading = false;
+  bool loading = true;
 
   Future<void> retrieveUserLastUpdatedData() async {
     await SharedPreferences.getInstance().then((prefs) {
       height = prefs.getDouble('height') == null
-          ? 165.0
+          ? 160.0
           : prefs.getDouble('height')!;
       weight =
-          prefs.getDouble('weight') == null ? 55.0 : prefs.getDouble('weight')!;
+          prefs.getDouble('weight') == null ? 60.0 : prefs.getDouble('weight')!;
       age = prefs.getInt('age') == null ? 20 : prefs.getInt('age')!;
-      setState(() {});
     });
   }
 
@@ -68,10 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget body() {
-    if (loading == false) {
+    if (loading == true) {
       retrieveUserLastUpdatedData().then((value) {
         Future.delayed(Duration(milliseconds: 100)).then((value) {
-          loading = true;
+          loading = false;
           setState(() {});
         });
       });
@@ -127,9 +126,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         child: Slider(
                             value: height.toDouble(),
-                            min: 130.0,
-                            max: 200.0,
-                            divisions: 140,
+                            min: 100.0,
+                            max: 220.0,
+                            divisions: 240,
                             onChanged: (double newValue) {
                               setState(() {
                                 height = newValue;
@@ -177,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               _weightMinusTimer =
                                   Timer.periodic(Duration(milliseconds: 3), (t) {
                                     setState(() {
-                                      if (weight > 30) weight -= 0.1;
+                                      if (weight > 12.0) weight -= 0.1;
                                     });
                                     // print('value $weight');
                                   });
@@ -194,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               icon: FontAwesomeIcons.minus,
                               onPressed: () {
                                 setState(() {
-                                  if (weight > 30) weight -= 0.1;
+                                  if (weight > 12.0) weight -= 0.1;
                                 });
                               },
                             ),
@@ -208,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               _weightPlusTimer =
                                   Timer.periodic(Duration(milliseconds: 3), (t) {
                                     setState(() {
-                                      if (weight < 200) weight += 0.1;
+                                      if (weight < 250.0) weight += 0.1;
                                     });
                                     // print('value $weight');
                                   });
@@ -225,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               icon: FontAwesomeIcons.plus,
                               onPressed: () {
                                 setState(() {
-                                  if (weight < 200) weight += 0.1;
+                                  if (weight < 250.0) weight += 0.1;
                                 });
                               },
                             ),
@@ -262,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               _ageMinusTimer =
                                   Timer.periodic(Duration(milliseconds: 50), (t) {
                                     setState(() {
-                                      if (age > 10) age--;
+                                      if (age > 8) age--;
                                     });
                                     // print('value $weight');
                                   });
@@ -279,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               icon: FontAwesomeIcons.minus,
                               onPressed: () {
                                 setState(() {
-                                  if (age > 10) age--;
+                                  if (age > 8) age--;
                                 });
                               },
                             ),

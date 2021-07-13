@@ -95,7 +95,8 @@ class _NavigationState extends State<Navigation> {
         title: Text(titles[_currentIndex]),
         actions: <Widget>[
           Visibility(
-            visible: _currentIndex == 1,
+            // visible: _currentIndex == 1,
+            visible: false,
             child: Padding(
                 padding: EdgeInsets.only(right: 20.0),
                 child: GestureDetector(

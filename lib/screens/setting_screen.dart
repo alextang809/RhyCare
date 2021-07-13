@@ -323,8 +323,8 @@ class _SettingScreenState extends State<SettingScreen> {
                 onPressed: () async {
                   EasyLoading.show(status: 'signing out...');
 
-                  print(_signedInWithGoogle);
-                  print('22222222222222');
+                  // print(_signedInWithGoogle);
+                  // print('22222222222222');
                   // print(GoogleSignIn().currentUser);
                   if (_signedInWithGoogle!) {
                     await googleSignIn.signOut();
@@ -334,6 +334,12 @@ class _SettingScreenState extends State<SettingScreen> {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     prefs.remove('email');
+                    prefs.remove('filter_start');
+                    prefs.remove('filter_end');
+                    prefs.remove('reversed');
+                    prefs.remove('height');
+                    prefs.remove('weight');
+                    prefs.remove('age');
                     EasyLoading.dismiss();
 
                     Navigator.of(context)
