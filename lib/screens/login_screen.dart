@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
               .get()
               .then((snapshot) {
             newUser = snapshot.get('google_sign_in').toString() == 'false';
-            print('11111111111111: $newUser');
+            // print('11111111111111: $newUser');
           });
           if (newUser) {
             EasyLoading.dismiss();

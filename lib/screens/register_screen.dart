@@ -48,6 +48,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           'google_sign_in': 'false',  // If a user can register, it is for sure that he hasn't signed in with Google before.
         });
 
+        await FirebaseFirestore.instance.collection('settings').doc(user.uid).set({
+          'height_enabled': true,
+          'weight_enabled': true,
+          'age_enabled': true,
+          'bmi_enabled': true,
+        });
+
         // print('Registered user: ${userCredential.user!.uid}');
 
         // SharedPreferences prefs = await SharedPreferences.getInstance();

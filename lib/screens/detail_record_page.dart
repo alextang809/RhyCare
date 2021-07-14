@@ -197,6 +197,7 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
                       Text(thisRecord!.date_time.toDate().toString().substring(0, 16)),
                       Text('Height: ${thisRecord!.height}'),
                       Text('Weight: ${thisRecord!.weight}'),
+                      Text('Age: ${thisRecord!.age}'),
                       Text('BMI: ${thisRecord!.bmi}'),
                     ],
                   ),

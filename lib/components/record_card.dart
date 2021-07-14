@@ -18,6 +18,9 @@ class RecordCard extends StatelessWidget {
     FirebaseAuth _firebaseauth = FirebaseAuth.instance;
 
     Color cardColor(String bmi_string) {
+      if (bmi_string == '-') {
+        return Color(0xffffffff);
+      }
       double bmi = double.parse(bmi_string);
       Color color = Color(0xffffffff);
       if (bmi < 18.5) {
@@ -71,45 +74,73 @@ class RecordCard extends StatelessWidget {
             SizedBox(
               height: 12.0,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Height: ${thisRecord.height} cm',
-                      style: kRecordSmallTextStyle,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Visibility(
+                        visible: thisRecord.height != '-',
+                        child: Text(
+                          'Height: ${thisRecord.height} cm',
+                          style: kRecordSmallTextStyle,
+                        ),
+                      ),
+                      Visibility(
+                        visible: thisRecord.height != '-',
+                        child: SizedBox(
+                          height: 8.0,
+                        ),
+                      ),
+                      Visibility(
+                        visible: thisRecord.weight != '-',
+                        child: Text(
+                          'Weight: ${thisRecord.weight} kg',
+                          style: kRecordSmallTextStyle,
+                        ),
+                      ),
+                      Visibility(
+                        visible: thisRecord.weight != '-',
+                        child: SizedBox(
+                          height: 8.0,
+                        ),
+                      ),
+                      Visibility(
+                        visible: thisRecord.age != '-',
+                        child: Text(
+                          'Age: ${thisRecord.age}',
+                          style: kRecordSmallTextStyle,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 25.0,
+                  ),
+                  Visibility(
+                    visible: thisRecord.bmi != '-',
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Your BMI',
+                          style: kRecordSmallTextStyle,
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text(
+                          '${thisRecord.bmi}',
+                          style: kRecordLargeTextStyle,
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    Text(
-                      'Weight: ${thisRecord.weight} kg',
-                      style: kRecordSmallTextStyle,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: 25.0,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Your BMI',
-                      style: kRecordSmallTextStyle,
-                    ),
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    Text(
-                      '${thisRecord.bmi}',
-                      style: kRecordLargeTextStyle,
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),

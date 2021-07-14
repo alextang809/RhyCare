@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rhythmcare/screens/change_function_screen.dart';
 import 'package:rhythmcare/screens/change_password_screen.dart';
 import 'package:rhythmcare/screens/change_email_screen.dart';
 import 'package:rhythmcare/screens/email_verify_screen.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
           ChangePasswordScreen.routeName: (context) => ChangePasswordScreen(),
           ChangeEmailScreen.routeName: (context) => ChangeEmailScreen(),
           ResetPasswordScreen.routeName: (context) => ResetPasswordScreen(),
+          ChangeFunctionScreen.routeName: (context) => ChangeFunctionScreen(),
           // HomeScreen.routeName: (context) => HomeScreen(),
           // RecordScreen.routeName: (context) => RecordScreen(),
         },

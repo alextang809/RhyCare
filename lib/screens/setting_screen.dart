@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:rhythmcare/screens/change_function_screen.dart';
 import 'package:rhythmcare/screens/change_password_screen.dart';
 import 'package:rhythmcare/screens/change_email_screen.dart';
 import 'email_verify_screen.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../navigation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'login_screen.dart';
 
@@ -112,7 +114,8 @@ class _SettingScreenState extends State<SettingScreen> {
                           await SharedPreferences.getInstance();
                       prefs.setString('email', 'VERIFIED');
                       EasyLoading.dismiss();
-                      Navigator.pushNamedAndRemoveUntil(context, Navigation.p2RouteName, (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Navigation.p2RouteName, (route) => false);
                     }
                     EasyLoading.dismiss();
                     setState(() {});
@@ -314,6 +317,40 @@ class _SettingScreenState extends State<SettingScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (!user!.emailVerified) {
+                        Fluttertoast.showToast(
+                          msg: 'Please verify your email address first!',
+                          toastLength: Toast.LENGTH_SHORT,
+                        );
+                        return;
+                      }
+                      Navigator.pushNamed(
+                              context, ChangeFunctionScreen.routeName)
+                          //     .then((value) => setState(() {
+                          //   user = _firebaseAuth.currentUser;
+                          // }))
+                          ;
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      color: buttonColor,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text('Functions'),
+                          Icon(Icons.arrow_forward_ios_rounded),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
@@ -321,30 +358,7 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  EasyLoading.show(status: 'signing out...');
-
-                  // print(_signedInWithGoogle);
-                  // print('22222222222222');
-                  // print(GoogleSignIn().currentUser);
-                  if (_signedInWithGoogle!) {
-                    await googleSignIn.signOut();
-                    (await SharedPreferences.getInstance()).remove('google');
-                  }
-                  await _firebaseAuth.signOut().then((value) async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.remove('email');
-                    prefs.remove('filter_start');
-                    prefs.remove('filter_end');
-                    prefs.remove('reversed');
-                    prefs.remove('height');
-                    prefs.remove('weight');
-                    prefs.remove('age');
-                    EasyLoading.dismiss();
-
-                    Navigator.of(context)
-                        .pushReplacementNamed(LoginScreen.routeName);
-                  });
+                  await signOut();
                 },
                 child: Text('Sign out'),
               ),
@@ -353,6 +367,31 @@ class _SettingScreenState extends State<SettingScreen> {
         ),
       );
     }
+  }
+
+  Future<void> signOut() async {
+    EasyLoading.show(status: 'signing out...');
+
+    // print(_signedInWithGoogle);
+    // print('22222222222222');
+    // print(GoogleSignIn().currentUser);
+    if (_signedInWithGoogle!) {
+      await googleSignIn.signOut();
+      (await SharedPreferences.getInstance()).remove('google');
+    }
+    await _firebaseAuth.signOut().then((value) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove('email');
+      prefs.remove('filter_start');
+      prefs.remove('filter_end');
+      prefs.remove('reversed');
+      prefs.remove('height');
+      prefs.remove('weight');
+      prefs.remove('age');
+      EasyLoading.dismiss();
+
+      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+    });
   }
 
   @override
