@@ -113,8 +113,10 @@ class _RecordScreenState extends State<RecordScreen> {
                         );
                       })).then((value) {
                         setState(() {
-                          startDateTime = value[0];
-                          endDateTime = value[1];
+                          if (value != null) {
+                            startDateTime = value[0];
+                            endDateTime = value[1];
+                          }
                         });
                       });
                     },

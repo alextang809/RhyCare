@@ -11,7 +11,11 @@ import 'dart:async';
 import 'login_screen.dart';
 import '../navigation.dart';
 
+
+
 class LoadingScreen extends StatefulWidget {
+  static const routeName = 'loading_screen';
+
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
@@ -22,14 +26,16 @@ class _LoadingScreenState extends State<LoadingScreen> {
     super.initState();
     Future<void> initialization = initializeApp();
     initialization.timeout(
-      Duration(seconds: 15),
+      Duration(seconds: 20),
       onTimeout: () {
         Fluttertoast.showToast(
-          msg: 'Loading is taking longer than normal... You may want to check your Internet connection or try again later.',
+          msg:
+              'Loading is taking longer than normal... You may want to check your Internet connection or try again later.',
           toastLength: Toast.LENGTH_LONG,
         );
         Fluttertoast.showToast(
-          msg: 'Loading is taking longer than normal... You may want to check your Internet connection or try again later.',
+          msg:
+              'Loading is taking longer than normal... You may want to check your Internet connection or try again later.',
           toastLength: Toast.LENGTH_LONG,
         );
       },
@@ -38,7 +44,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   Future<void> initializeApp() async {
     try {
-      WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var email = prefs.getString('email');
@@ -48,8 +53,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
         await _firebaseAuth.currentUser!.reload();
       }
 
-      await Future.delayed(Duration(seconds: 8));
-      print(email);
+      await Future.delayed(Duration(seconds: 3));
+      // print(email);
       if (email == null) {
         Navigator.pushReplacementNamed(context, LoginScreen.routeName);
       } else {
@@ -78,7 +83,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
             Expanded(
               flex: 22,
               child: Image.asset(
-                'images/icon.png',
+                'images/app_icon.png',
                 scale: 4.0,
               ),
             ),

@@ -55,14 +55,15 @@ class _NavigationState extends State<Navigation> {
     return Future.value(true);
   }
 
+
+
   @override
   void initState() {
     _currentIndex = widget.initialPageIndex;
     print('init');
     if (!_firebaseAuth.currentUser!.emailVerified) {
       Fluttertoast.showToast(
-        msg:
-        'You will be auto signed out after two minutes!',
+        msg: 'You will be auto signed out after two minutes!',
         toastLength: Toast.LENGTH_LONG,
       );
       timer = Timer(Duration(minutes: 2), () async {
@@ -105,8 +106,7 @@ class _NavigationState extends State<Navigation> {
                     FontAwesomeIcons.sort,
                     size: 26.0,
                   ),
-                )
-            ),
+                )),
           ),
         ],
       ),

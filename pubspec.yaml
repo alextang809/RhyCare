@@ -55,6 +55,11 @@ dependencies:
   image_gallery_saver: ^1.6.9
   gallery_saver: ^2.1.2
 
+  flutter_local_notifications: ^6.0.0
+  rxdart: ^0.27.1
+  flutter_native_timezone: ^1.0.10
+  day_night_time_picker: ^1.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

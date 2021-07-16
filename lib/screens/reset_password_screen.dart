@@ -108,7 +108,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             children: <Widget>[
               Container(
                 child: Text(
-                  "NOTE: If you have only used your Google account to sign in before, we do not recommend resetting your password by entering your Google account's email address. However, you can use this function to set a password and login later using both Google account and your email address. Your records will be the same no matter which way you use to login.",
+                  "NOTE: If you have only used your Google account to sign in before, we do not recommend resetting your password by entering your Google account's email address. However, you can do this to set a password for the email address and login later using both your Google account and the email address with password. Your records will be the same no matter which way you use to login.",
                 ),
               ),
               SizedBox(

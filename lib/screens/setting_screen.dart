@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:rhythmcare/screens/change_function_screen.dart';
 import 'package:rhythmcare/screens/change_password_screen.dart';
 import 'package:rhythmcare/screens/change_email_screen.dart';
@@ -16,6 +15,8 @@ import '../navigation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'login_screen.dart';
+import 'reminder_screen.dart';
+import '../services/notification.dart' as nt;
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -271,7 +272,7 @@ class _SettingScreenState extends State<SettingScreen> {
         ),
       );
     } else {
-      double screen_height = MediaQuery.of(context).size.height;
+      // double screen_height = MediaQuery.of(context).size.height;
       return SafeArea(
         child: Center(
           child: Column(
@@ -281,9 +282,6 @@ class _SettingScreenState extends State<SettingScreen> {
                 'Settings Page',
                 style: TextStyle(fontSize: 30.0),
               ),
-              // SizedBox(
-              //   height: screen_height * 0.05,
-              // ),
               Column(
                 children: <Widget>[
                   changeEmailAddress(context),
@@ -306,7 +304,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         color: buttonColor,
                         padding: EdgeInsets.symmetric(
                             horizontal: 10.0, vertical: 8.0),
-                        margin: EdgeInsets.symmetric(vertical: 10.0),
+                        margin: EdgeInsets.symmetric(vertical: 5.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -316,9 +314,6 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 5.0,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -341,7 +336,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       color: buttonColor,
                       padding:
                           EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      margin: EdgeInsets.symmetric(vertical: 5.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -351,10 +346,38 @@ class _SettingScreenState extends State<SettingScreen> {
                       ),
                     ),
                   ),
+                  GestureDetector(
+                    onTap: () {
+                      if (!user!.emailVerified) {
+                        Fluttertoast.showToast(
+                          msg: 'Please verify your email address first!',
+                          toastLength: Toast.LENGTH_SHORT,
+                        );
+                        return;
+                      }
+                      Navigator.pushNamed(
+                          context, ReminderScreen.routeName)
+                      //     .then((value) => setState(() {
+                      //   user = _firebaseAuth.currentUser;
+                      // }))
+                          ;
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      color: buttonColor,
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                      margin: EdgeInsets.symmetric(vertical: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text('Reminder'),
+                          Icon(Icons.arrow_forward_ios_rounded),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
-              ),
-              SizedBox(
-                height: screen_height * 0.1,
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -369,7 +392,35 @@ class _SettingScreenState extends State<SettingScreen> {
     }
   }
 
+  Future<bool> confirmSignOut() async {
+    bool confirmSignOut = false;
+
+    await Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "SIGN OUT",
+      desc: "Are you sure to sign out? All the reminders will be deleted.",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Sign out",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            confirmSignOut = true;
+            Navigator.pop(context);
+          },
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+        ),
+      ],
+    ).show();
+
+    return confirmSignOut;
+  }
+
   Future<void> signOut() async {
+    if (await confirmSignOut() == false) return;
+
     EasyLoading.show(status: 'signing out...');
 
     // print(_signedInWithGoogle);
@@ -388,6 +439,10 @@ class _SettingScreenState extends State<SettingScreen> {
       prefs.remove('height');
       prefs.remove('weight');
       prefs.remove('age');
+
+      prefs.remove('reminder1');
+      await nt.Notification.cancelAllNotifications();
+
       EasyLoading.dismiss();
 
       Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);

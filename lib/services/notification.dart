@@ -1,0 +1,124 @@
+import 'dart:ffi';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rhythmcare/screens/set_reminder_screen.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+class Notification {
+  static Future<void> scheduleNotification(
+      Repeat repeat, TimeOfDay time) async {
+    switch (repeat) {
+      case Repeat.once:
+        await scheduleOneNotification(time);
+        return;
+      case Repeat.day:
+        await scheduleDailyNotification(time);
+        return;
+      case Repeat.week:
+        await scheduleWeeklyNotification(time);
+        return;
+    }
+  }
+
+  static Future<void> scheduleOneNotification(TimeOfDay time) async {
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      0,
+      'rhythmcare',
+      'Make a record now!',
+      _nextInstanceOfTime(time),
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          // TODO: update channel id etc.
+          'Notification channel id',
+          'Notification',
+          '',
+          importance: Importance.high,
+          priority: Priority.high,
+          sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+          playSound: true,
+        ),
+      ),
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      payload: 'once',
+    );
+  }
+
+  static Future<void> scheduleDailyNotification(TimeOfDay time) async {
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        'rhythmcare',
+        'Make a daily record now!',
+        _nextInstanceOfTime(time),
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            // TODO: update channel id etc.
+            'Daily notification channel id',
+            'Daily notification',
+            '',
+            importance: Importance.high,
+            priority: Priority.high,
+            sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+            playSound: true,
+          ),
+        ),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time);
+  }
+
+  static Future<void> scheduleWeeklyNotification(TimeOfDay time) async {
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        'rhythmcare',
+        'Make a weekly record now!',
+        _nextInstanceOfTime(time),
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            // TODO: update channel id etc.
+            'Weekly notification channel id',
+            'Weekly notification',
+            '',
+            importance: Importance.high,
+            priority: Priority.high,
+            sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+            playSound: true,
+          ),
+        ),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
+  }
+
+  static tz.TZDateTime _nextInstanceOfTime(TimeOfDay time) {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate = tz.TZDateTime(
+        tz.local, now.year, now.month, now.day, time.hour, time.minute);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+    return scheduledDate;
+  }
+
+  static Future<void> cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  static Future<void> cancelAllNotifications() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  static Future<int> checkPendingNotifications() async {
+    final List<PendingNotificationRequest> pendingNotificationRequests =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    return pendingNotificationRequests.length;
+  }
+}
