@@ -138,6 +138,14 @@ class _ReminderScreenState extends State<ReminderScreen> {
                       builder: (context) => SetReminderScreen(reminder1),
                     ),
                   ).then((value) {
+                    if (timer != null) {
+                      timer!.cancel();
+                      print('timer cancel');
+                    }
+                    timer = Timer.periodic(Duration(seconds: 1), (timer) async {
+                      await checkPendingNotifications();
+                    });
+                    print('timer start');
                     setState(() {
                       loading = true;
                     });
