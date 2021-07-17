@@ -1,10 +1,10 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:rhythmcare/screens/set_reminder_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:rhythmcare/components/repeat.dart';
+
+// TODO: release sound
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -19,8 +19,8 @@ class Notification {
       case Repeat.day:
         await scheduleDailyNotification(time);
         return;
-      case Repeat.week:
-        await scheduleWeeklyNotification(time);
+      default:
+        await scheduleWeeklyNotification(time, repeat);
         return;
     }
   }
@@ -39,7 +39,7 @@ class Notification {
           '',
           importance: Importance.high,
           priority: Priority.high,
-          sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+          sound: RawResourceAndroidNotificationSound('goes_without_saying_608'),
           playSound: true,
         ),
       ),
@@ -64,7 +64,7 @@ class Notification {
             '',
             importance: Importance.high,
             priority: Priority.high,
-            sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+            sound: RawResourceAndroidNotificationSound('goes_without_saying_608'),
             playSound: true,
           ),
         ),
@@ -74,12 +74,12 @@ class Notification {
         matchDateTimeComponents: DateTimeComponents.time);
   }
 
-  static Future<void> scheduleWeeklyNotification(TimeOfDay time) async {
+  static Future<void> scheduleWeeklyNotification(TimeOfDay time, Repeat repeat) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         0,
         'rhythmcare',
         'Make a weekly record now!',
-        _nextInstanceOfTime(time),
+        _nextInstanceOfTimeWeekly(time, repeat),
         const NotificationDetails(
           android: AndroidNotificationDetails(
             // TODO: update channel id etc.
@@ -88,7 +88,7 @@ class Notification {
             '',
             importance: Importance.high,
             priority: Priority.high,
-            sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+            sound: RawResourceAndroidNotificationSound('goes_without_saying_608'),
             playSound: true,
           ),
         ),
@@ -103,6 +103,14 @@ class Notification {
     tz.TZDateTime scheduledDate = tz.TZDateTime(
         tz.local, now.year, now.month, now.day, time.hour, time.minute);
     if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+    return scheduledDate;
+  }
+
+  static tz.TZDateTime _nextInstanceOfTimeWeekly(TimeOfDay time, Repeat repeat) {
+    tz.TZDateTime scheduledDate = _nextInstanceOfTime(time);
+    while (scheduledDate.weekday != RepeatString.repeatToDateTime(repeat)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
     return scheduledDate;

@@ -1,4 +1,4 @@
-import 'package:rhythmcare/screens/set_reminder_screen.dart';
+import 'repeat.dart';
 
 class Reminder {
   int hour;

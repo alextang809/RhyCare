@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import '../services/notification.dart' as nt;
+import '../components/repeat.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -31,40 +32,18 @@ class _ReminderScreenState extends State<ReminderScreen> {
   Timer? timer;
 
   Reminder reminder1 =
-      Reminder(hour: 17, minute: 0, repeat: Repeat.week, active: false);
+      Reminder(hour: 17, minute: 0, repeat: Repeat.day, active: false);
 
   Future<void> retrieveReminders() async {
     prefs = await SharedPreferences.getInstance();
     List<String>? list = prefs!.getStringList('reminder1');
     if (list != null) {
-      Repeat repeat = Repeat.once;
-      switch (list[2]) {
-        case 'Repeat.once':
-          repeat = Repeat.once;
-          break;
-        case 'Repeat.day':
-          repeat = Repeat.day;
-          break;
-        case 'Repeat.week':
-          repeat = Repeat.week;
-          break;
-      }
+      Repeat repeat = RepeatString.stringToRepeat(list[2])!;
       reminder1 = Reminder(
           hour: int.parse(list[0]),
           minute: int.parse(list[1]),
           repeat: repeat,
           active: list[3] == 'active');
-    }
-  }
-
-  String getRepeatText(Repeat repeat) {
-    switch (repeat) {
-      case Repeat.once:
-        return 'Once';
-      case Repeat.day:
-        return 'Every Day';
-      case Repeat.week:
-        return 'Every Week';
     }
   }
 
@@ -79,7 +58,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
       prefs!.setStringList('reminder1', [
         reminder1.hour.toString(),
         reminder1.minute.toString(),
-        reminder1.repeat.toString(),
+        RepeatString.repeatToString(reminder1.repeat),
         'inactive',
       ]);
       nt.Notification.cancelNotification(0);
@@ -98,7 +77,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
       prefs!.setStringList('reminder1', [
         reminder1.hour.toString(),
         reminder1.minute.toString(),
-        reminder1.repeat.toString(),
+        RepeatString.repeatToString(reminder1.repeat),
         'active',
       ]);
       nt.Notification.scheduleNotification(
@@ -170,7 +149,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
                               child: Text('Reminder 1'),
                             ),
                             Text(
-                              getRepeatText(reminder1.repeat),
+                              RepeatString.repeatToString(reminder1.repeat),
                               style: TextStyle(fontSize: 16.0),
                               textAlign: TextAlign.left,
                             ),

@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
-          child: Flexible(
+          child: Container(
             child: Text(
               'All functions have been disabled. Please go to "Settings" to enable at least one function first.',
               style: TextStyle(fontSize: 20.0),

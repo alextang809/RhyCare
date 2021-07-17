@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rhythmcare/components/reminder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import '../services/notification.dart' as nt;
-
-enum Repeat { once, day, week }
+import '../components/repeat.dart';
 
 class SetReminderScreen extends StatefulWidget {
   // const SetReminderScreen({Key? key}) : super(key: key);
@@ -24,7 +22,7 @@ class SetReminderScreen extends StatefulWidget {
 
 class _SetReminderScreenState extends State<SetReminderScreen> {
   TimeOfDay _time = TimeOfDay.now().replacing(minute: 30);
-  Repeat _repeat = Repeat.once;
+  Repeat _repeat = Repeat.day;
 
   void onTimeChanged(TimeOfDay newTime) {
     setState(() {
@@ -38,7 +36,7 @@ class _SetReminderScreenState extends State<SetReminderScreen> {
     await prefs.setStringList('reminder1', [
       _time.hour.toString(),
       _time.minute.toString(),
-      _repeat.toString(),
+      RepeatString.repeatToString(_repeat),
       'active'
     ]);
 
@@ -108,17 +106,13 @@ class _SetReminderScreenState extends State<SetReminderScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    flex: 1,
-                    child: SizedBox(),
-                  ),
-                  Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: Text(
                       'Repeat',
                       style: TextStyle(
@@ -129,36 +123,26 @@ class _SetReminderScreenState extends State<SetReminderScreen> {
                   ),
                   Expanded(
                     flex: 3,
-                    child: Column(
-                      children: <Widget>[
-                        RadioListTile(
-                            value: Repeat.once,
-                            title: Text('Once'),
-                            groupValue: _repeat,
-                            onChanged: (Repeat? value) {
-                              setState(() {
-                                _repeat = value!;
-                              });
-                            }),
-                        RadioListTile(
-                            value: Repeat.day,
-                            title: Text('Every day'),
-                            groupValue: _repeat,
-                            onChanged: (Repeat? value) {
-                              setState(() {
-                                _repeat = value!;
-                              });
-                            }),
-                        RadioListTile(
-                            value: Repeat.week,
-                            title: Text('Every week'),
-                            groupValue: _repeat,
-                            onChanged: (Repeat? value) {
-                              setState(() {
-                                _repeat = value!;
-                              });
-                            }),
-                      ],
+                    child: Container(
+                      child: DropdownButton(
+                        value: _repeat,
+                        items: Repeat.values.map((Repeat item) {
+                          return DropdownMenuItem<Repeat>(
+                            child: Text(RepeatString.repeatToString(item)),
+                            value: item,
+                          );
+                        }).toList(),
+                        onChanged: (Repeat? value) {
+                          setState(() {
+                            _repeat = value!;
+                          });
+                        },
+                        elevation: 8,
+                        style: TextStyle(color: Colors.black, fontSize: 16),
+                        icon: Icon(Icons.arrow_drop_down_circle),
+                        iconEnabledColor: Colors.purple[400],
+                        isExpanded: true,
+                      ),
                     ),
                   ),
                 ],
@@ -171,7 +155,7 @@ class _SetReminderScreenState extends State<SetReminderScreen> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.blueGrey[400],
+                primary: Colors.blue,
               ),
               onPressed: () async {
                 await saveReminderAndActivate();
