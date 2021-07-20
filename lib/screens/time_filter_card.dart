@@ -41,6 +41,7 @@ class _TimeFilterCardState extends State<TimeFilterCard> {
       startDate.day,
       startTime.hour,
       startTime.minute,
+      0,
     );
 
     // print('finish');
@@ -72,6 +73,7 @@ class _TimeFilterCardState extends State<TimeFilterCard> {
       endDate.day,
       endTime.hour,
       endTime.minute,
+      0,
     );
 
     // print('finish');

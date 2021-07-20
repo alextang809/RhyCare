@@ -4,7 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rhythmcare/components/time_filter_card.dart';
+import 'package:rhythmcare/screens/chart_screen.dart';
+import 'package:rhythmcare/screens/generate_chart_card.dart';
+import 'package:rhythmcare/screens/time_filter_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/record_card.dart';
@@ -82,14 +84,13 @@ class _RecordScreenState extends State<RecordScreen> {
           .collection('records')
           .doc(user!.uid)
           .collection('user_records');
-      Stream<QuerySnapshot<Object?>> stream = records
+      Query<Object?> query = records
           .where(
             'date_time',
             isGreaterThanOrEqualTo: startDateTime,
-            isLessThanOrEqualTo: endDateTime,
+            isLessThanOrEqualTo: endDateTime == null ? null : endDateTime!.add(Duration(minutes: 1)),
           )
-          .orderBy('date_time')
-          .snapshots();
+          .orderBy('date_time');
 
       return SafeArea(
         child: Column(
@@ -127,7 +128,38 @@ class _RecordScreenState extends State<RecordScreen> {
                     ),
                   ),
                   SizedBox(
-                    width: 15.0,
+                    width: 20.0,
+                  ),
+                  InkWell(
+                    splashColor: Colors.purple,
+                    customBorder: new CircleBorder(),
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(HeroDialogRoute(builder: (context) {
+                        return GenerateChartCard();
+                      })).then((value) async {
+                        if (value != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ChartScreen(
+                                    query: query,
+                                    item: value[0],
+                                  ),
+                            ),
+                          );
+                        }
+                      });
+                    },
+                    child: Icon(
+                      FontAwesomeIcons.chartLine,
+                      size: 28.0,
+                      color: Colors.purple,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20.0,
                   ),
                   InkWell(
                     splashColor: Colors.purple,
@@ -148,7 +180,7 @@ class _RecordScreenState extends State<RecordScreen> {
             ),
             Expanded(
               child: StreamBuilder(
-                  stream: stream,
+                  stream: query.snapshots(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (!snapshot.hasData) {
                       return Center(

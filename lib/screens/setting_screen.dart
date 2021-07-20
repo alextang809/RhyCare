@@ -278,10 +278,6 @@ class _SettingScreenState extends State<SettingScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Text(
-                'Settings Page',
-                style: TextStyle(fontSize: 30.0),
-              ),
               Column(
                 children: <Widget>[
                   changeEmailAddress(context),

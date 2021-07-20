@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:rhythmcare/constants.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:typed_data';
@@ -22,7 +23,10 @@ class DetailRecordPage extends StatefulWidget {
   final DocumentReference recordReference;
   final Color backgroundColor;
 
-  DetailRecordPage({required this.record, required this.recordReference, required this.backgroundColor});
+  DetailRecordPage(
+      {required this.record,
+      required this.recordReference,
+      required this.backgroundColor});
 
   @override
   _DetailRecordPageState createState() => _DetailRecordPageState();
@@ -43,9 +47,7 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
 
   ScreenshotController screenshotController = ScreenshotController();
   Future<Uint8List?> takeScreenshot() async {
-    double pixelRatio = MediaQuery
-        .of(context)
-        .devicePixelRatio;
+    double pixelRatio = MediaQuery.of(context).devicePixelRatio;
     Uint8List? image;
     await screenshotController
         .capture(pixelRatio: pixelRatio, delay: Duration(milliseconds: 10))
@@ -81,11 +83,13 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
       // EasyLoading.show(status: 'saving...');
 
       Uint8List? capturedImage = await takeScreenshot();
-      final String currentTime = DateTime.now().toIso8601String().substring(0, 22);
+      final String currentTime =
+          DateTime.now().toIso8601String().substring(0, 22);
 
       final directory = (await getApplicationDocumentsDirectory()).path;
       print('$directory');
-      File imgFile = await new File('$directory/rhythmcare_$currentTime.png').create();
+      File imgFile =
+          await new File('$directory/rhythmcare_$currentTime.png').create();
       await imgFile.writeAsBytes(capturedImage!);
 
       final result = await GallerySaver.saveImage(imgFile.path.toString());
@@ -118,11 +122,13 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
     // EasyLoading.show(status: 'processing...');
 
     Uint8List? capturedImage = await takeScreenshot();
-    final String currentTime = DateTime.now().toIso8601String().substring(0, 22);
+    final String currentTime =
+        DateTime.now().toIso8601String().substring(0, 22);
 
     final directory = (await getApplicationDocumentsDirectory()).path;
     print('$directory');
-    File imgFile = await new File('$directory/rhythmcare_$currentTime.png').create();
+    File imgFile =
+        await new File('$directory/rhythmcare_$currentTime.png').create();
     await imgFile.writeAsBytes(capturedImage!);
 
     // EasyLoading.dismiss();
@@ -175,7 +181,8 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
       ),
       backgroundColor: Colors.purple[100],
       body: SafeArea(
-        child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -186,19 +193,52 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
               Screenshot(
                 controller: screenshotController,
                 child: Container(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.fromLTRB(10.0, 8.0, 40.0, 8.0),
                   decoration: BoxDecoration(
                     color: thisBackgroundColor,
-                    borderRadius: BorderRadius.circular(10.0),
+                    // borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(thisRecord!.date_time.toDate().toString().substring(0, 16)),
-                      Text('Height: ${thisRecord!.height}'),
-                      Text('Weight: ${thisRecord!.weight}'),
-                      Text('Age: ${thisRecord!.age}'),
-                      Text('BMI: ${thisRecord!.bmi}'),
+                      Text(
+                        thisRecord!.date_time
+                            .toDate()
+                            .toString()
+                            .substring(0, 19),
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      Text(
+                        'Height: ${thisRecord!.height}',
+                        style: kRecordDetailTextStyle,
+                      ),
+                      SizedBox(
+                        height: 3.0,
+                      ),
+                      Text(
+                        'Weight: ${thisRecord!.weight}',
+                        style: kRecordDetailTextStyle,
+                      ),
+                      SizedBox(
+                        height: 3.0,
+                      ),
+                      Text(
+                        'Age: ${thisRecord!.age}',
+                        style: kRecordDetailTextStyle,
+                      ),
+                      SizedBox(
+                        height: 3.0,
+                      ),
+                      Text(
+                        'BMI: ${thisRecord!.bmi}',
+                        style: kRecordDetailTextStyle,
+                      ),
                     ],
                   ),
                 ),
@@ -209,23 +249,44 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () async {
-                      await save();
-                    },
-                    child: Text('Save as image'),
+                  Container(
+                    width: 150.0,
+                    height: 35.0,
+                    margin: EdgeInsets.symmetric(
+                      vertical: 5.0,
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await save();
+                      },
+                      child: Text('Save as image'),
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await share();
-                    },
-                    child: Text('Share as image'),
+                  Container(
+                    width: 150.0,
+                    height: 35.0,
+                    margin: EdgeInsets.symmetric(
+                      vertical: 5.0,
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await share();
+                      },
+                      child: Text('Share as image'),
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await delete();
-                    },
-                    child: Text('Delete this record'),
+                  Container(
+                    width: 150.0,
+                    height: 35.0,
+                    margin: EdgeInsets.symmetric(
+                      vertical: 5.0,
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await delete();
+                      },
+                      child: Text('Delete this record'),
+                    ),
                   ),
                 ],
               ),

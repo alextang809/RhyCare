@@ -41,3 +41,7 @@ const kRecordLargeTextStyle = TextStyle(
   fontSize: 25.0,
   fontWeight: FontWeight.bold,
 );
+
+const kRecordDetailTextStyle = TextStyle(
+  fontSize: 15.0,
+);
