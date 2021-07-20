@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:block_ui/block_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -63,18 +64,33 @@ class _NavigationState extends State<Navigation> {
     print('init');
     if (!_firebaseAuth.currentUser!.emailVerified) {
       Fluttertoast.showToast(
-        msg: 'You will be auto signed out after two minutes!',
+        msg: 'You will be auto signed out in about one minute with unverified email address!',
         toastLength: Toast.LENGTH_LONG,
       );
-      timer = Timer(Duration(minutes: 2), () async {
-        EasyLoading.show(status: 'Signing out...');
-        await _firebaseAuth.signOut().then((value) async {
-          await Future.delayed(Duration(seconds: 3)).then((value) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, LoginScreen.routeName, (route) => false);
-            EasyLoading.dismiss();
+      timer = Timer(Duration(seconds: 75), () async {
+        EasyLoading.show(status: 'Auto Signing out...');
+        BlockUi.show(
+          context,
+          backgroundColor: Colors.transparent,
+          child: Container(),
+        );
+        try {
+          await _firebaseAuth.signOut().then((value) async {
+            await Future.delayed(Duration(seconds: 3)).then((value) {
+              EasyLoading.dismiss();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, LoginScreen.routeName, (route) => false);
+            });
           });
-        });
+        } catch (error) {
+          EasyLoading.dismiss();
+          Navigator.pushNamedAndRemoveUntil(
+              context, LoginScreen.routeName, (route) => false);
+          Fluttertoast.showToast(
+            msg: 'An error occurs',
+            toastLength: Toast.LENGTH_LONG,
+          );
+        }
       });
     }
     super.initState();

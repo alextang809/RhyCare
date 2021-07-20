@@ -1,8 +1,9 @@
+import 'package:block_ui/block_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:rhythmcare/constants.dart';
 import 'package:rhythmcare/screens/change_function_screen.dart';
 import 'package:rhythmcare/screens/change_password_screen.dart';
 import 'package:rhythmcare/screens/change_email_screen.dart';
@@ -10,7 +11,6 @@ import 'email_verify_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../navigation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -417,13 +417,25 @@ class _SettingScreenState extends State<SettingScreen> {
   Future<void> signOut() async {
     if (await confirmSignOut() == false) return;
 
-    EasyLoading.show(status: 'signing out...');
+    EasyLoading.show(status: 'Signing out...');
+    BlockUi.show(
+      context,
+      backgroundColor: Colors.transparent,
+      child: Container(),
+    );
 
     // print(_signedInWithGoogle);
     // print('22222222222222');
     // print(GoogleSignIn().currentUser);
     if (_signedInWithGoogle!) {
-      await googleSignIn.signOut();
+      await googleSignIn.signOut().timeout(kTimeoutDuration, onTimeout: () {
+        EasyLoading.dismiss();
+        BlockUi.hide(context);
+        Fluttertoast.showToast(
+          msg: kTimeoutMsg,
+          toastLength: Toast.LENGTH_LONG,
+        );
+      });
       (await SharedPreferences.getInstance()).remove('google');
     }
     await _firebaseAuth.signOut().then((value) async {
@@ -439,9 +451,23 @@ class _SettingScreenState extends State<SettingScreen> {
       prefs.remove('reminder1');
       await nt.Notification.cancelAllNotifications();
 
+      await Future.delayed(Duration(seconds: 2));
       EasyLoading.dismiss();
+      // BlockUi.hide(context);
 
-      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+      Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
+      Fluttertoast.showToast(
+        msg: 'You have successfully logged out.',
+        toastLength: Toast.LENGTH_SHORT,
+      );
+    }).timeout(kTimeoutDuration, onTimeout: () {
+      EasyLoading.dismiss();
+      // BlockUi.hide(context);
+      Fluttertoast.showToast(
+        msg: kTimeoutMsg,
+        toastLength: Toast.LENGTH_LONG,
+      );
+      Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
     });
   }
 

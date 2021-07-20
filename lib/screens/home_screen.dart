@@ -1,11 +1,9 @@
+import 'package:block_ui/block_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rhythmcare/services/add_record.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -85,43 +83,60 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> upload() async {
-    EasyLoading.show(status: 'processing...');
-
     if (!user!.emailVerified) {
-      EasyLoading.dismiss();
-
       Fluttertoast.showToast(
-        msg:
-        'Upload failed! Please verify your email address first!',
+        msg: 'Upload failed! Please verify your email address first!',
         toastLength: Toast.LENGTH_LONG,
       );
       return;
     }
+    EasyLoading.show(status: 'Uploading...');
+    BlockUi.show(
+      context,
+      backgroundColor: Colors.transparent,
+      child: Container(),
+    );
     var now = DateTime.now();
     double bmi = weight / pow(height / 100, 2);
     // print(now);
+    try {
+      await FirebaseFirestore.instance
+          .collection('records')
+          .doc(user!.uid)
+          .collection("user_records")
+          .add(Record(
+            date_time: Timestamp.fromDate(now),
+            height: heightEnabled ? height.toStringAsFixed(1) : '-',
+            weight: weightEnabled ? weight.toStringAsFixed(1) : '-',
+            age: ageEnabled ? age.toString() : '-',
+            bmi: bmiEnabled ? bmi.toStringAsFixed(1) : '-',
+          ).toJson())
+          .then((value) async {
+        await Future.delayed(Duration(milliseconds: 30));
+        EasyLoading.dismiss();
+        BlockUi.hide(context);
 
-    await FirebaseFirestore.instance
-        .collection('records')
-        .doc(user!.uid)
-        .collection("user_records")
-        .add(
-      Record(
-        date_time: Timestamp.fromDate(now),
-        height: heightEnabled ? height.toStringAsFixed(1) : '-',
-        weight: weightEnabled ? weight.toStringAsFixed(1) : '-',
-        age: ageEnabled ? age.toString() : '-',
-        bmi: bmiEnabled ? bmi.toStringAsFixed(1) : '-',
-      ).toJson(),
-    )
-        .then((value) {
+        Fluttertoast.showToast(
+          msg: 'Upload successfully',
+          toastLength: Toast.LENGTH_SHORT,
+        );
+      }).timeout(kTimeoutDuration, onTimeout: () {
+        EasyLoading.dismiss();
+        BlockUi.hide(context);
+
+        Fluttertoast.showToast(
+          msg: kTimeoutMsg,
+          toastLength: Toast.LENGTH_LONG,
+        );
+      });
+    } catch (error) {
       EasyLoading.dismiss();
-
+      BlockUi.hide(context);
       Fluttertoast.showToast(
-        msg: 'Upload successfully',
-        toastLength: Toast.LENGTH_SHORT,
+        msg: 'Upload failed! Please try again later.',
+        toastLength: Toast.LENGTH_LONG,
       );
-    }); // TODO: catch any error
+    }
   }
 
   // @override

@@ -1,7 +1,10 @@
+import 'package:block_ui/block_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rhythmcare/constants.dart';
 
 class ChangeFunctionScreen extends StatefulWidget {
   const ChangeFunctionScreen({Key? key}) : super(key: key);
@@ -23,13 +26,27 @@ class _ChangeFunctionScreenState extends State<ChangeFunctionScreen> {
 
   Future<void> save() async {
     EasyLoading.show(status: 'Saving...');
+    BlockUi.show(
+      context,
+      backgroundColor: Colors.transparent,
+      child: Container(),
+    );
     await FirebaseFirestore.instance.collection('settings').doc(user.uid).set({
       'height_enabled': heightEnabled,
       'weight_enabled': weightEnabled,
       'age_enabled': ageEnabled,
       'bmi_enabled': bmiEnabled,
+    }).then((value) {
+      EasyLoading.dismiss();
+      BlockUi.hide(context);
+    }).timeout(kTimeoutDuration, onTimeout: () {
+      EasyLoading.dismiss();
+      BlockUi.hide(context);
+      Fluttertoast.showToast(
+        msg: kTimeoutMsg,
+        toastLength: Toast.LENGTH_LONG,
+      );
     });
-    EasyLoading.dismiss();
     Navigator.pop(context);
   }
 

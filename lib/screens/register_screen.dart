@@ -1,14 +1,11 @@
+import 'package:block_ui/block_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rhythmcare/components/record.dart';
-import 'package:rhythmcare/navigation.dart';
 import 'package:rhythmcare/screens/email_verify_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'login_screen.dart';
@@ -33,7 +30,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (form!.validate()) {
       form.save();
 
-      EasyLoading.show(status: 'processing...');
+      EasyLoading.show(status: 'Just a moment...');
+      BlockUi.show(
+        context,
+        backgroundColor: Colors.transparent,
+        child: Container(),
+      );
 
       try {
         // print('Form is valid.');
@@ -61,6 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // prefs.setString('email', email);
 
         EasyLoading.dismiss();
+        BlockUi.hide(context);
 
         Fluttertoast.showToast(
           msg: 'Please verify your email address!',
@@ -70,6 +73,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         Navigator.of(context).pushReplacementNamed(EmailVerifyScreen.routeName);
       } catch (error) {
         EasyLoading.dismiss();
+        await Future.delayed(Duration(milliseconds: 100));
+        BlockUi.hide(context);
         
         print('$error');
         String errorCode = (error as FirebaseAuthException).code;

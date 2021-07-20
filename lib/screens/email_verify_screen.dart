@@ -46,6 +46,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
   }
 
   static Future<void> updateUserInfo() async {
+    EasyLoading.show(status: 'Just a moment...');
     final user = FirebaseAuth.instance.currentUser;
     // await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
     //   'userId': user.uid,
@@ -54,6 +55,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
     // });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('email', 'VERIFIED');
+    EasyLoading.dismiss();
   }
 
   @override
@@ -107,9 +109,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
           ),
           ElevatedButton(
             onPressed: () async {
-              EasyLoading.show(status: 'just a moment...');
               await updateUserInfo();
-              EasyLoading.dismiss();
               Navigator.of(context)
                   .pushReplacementNamed(Navigation.p2RouteName);
             },

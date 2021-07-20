@@ -1,8 +1,9 @@
+import 'package:block_ui/block_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rhythmcare/constants.dart';
 import 'package:rhythmcare/navigation.dart';
 import 'package:rhythmcare/screens/reset_password_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,7 +35,12 @@ class _LoginScreenState extends State<LoginScreen> {
     if (form!.validate()) {
       form.save();
 
-      EasyLoading.show(status: 'processing...');
+      EasyLoading.show(status: 'Just a moment...');
+      BlockUi.show(
+        context,
+        backgroundColor: Colors.transparent,
+        child: Container(),
+      );
 
       try {
         // print('Form is valid.');
@@ -46,15 +52,18 @@ class _LoginScreenState extends State<LoginScreen> {
         prefs.setString('email', email);
 
         EasyLoading.dismiss();
+        // BlockUi.hide(context);
 
         if (!userCredential.user!.emailVerified) {
           prefs.remove('email');
-          Navigator.of(context).pushReplacementNamed(Navigation.p2RouteName);
+          Navigator.of(context).pushNamedAndRemoveUntil(Navigation.p2RouteName, (route) => false);
         } else {
-          Navigator.of(context).pushReplacementNamed(Navigation.p0RouteName);
+          Navigator.of(context).pushNamedAndRemoveUntil(Navigation.p0RouteName, (route) => false);
         }
       } catch (error) {
+        await Future.delayed(Duration(milliseconds: 100));
         EasyLoading.dismiss();
+        BlockUi.hide(context);
 
         print('$error');
         String errorCode = (error as FirebaseAuthException).code;
@@ -83,14 +92,30 @@ class _LoginScreenState extends State<LoginScreen> {
     FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
     User? user;
     final GoogleSignIn googleSignIn = GoogleSignIn();
+    late final GoogleSignInAccount? googleSignInAccount;
 
     EasyLoading.show();
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
-    EasyLoading.dismiss();
+    BlockUi.show(
+      context,
+      backgroundColor: Colors.transparent,
+      child: Container(),
+    );
+    try {
+      googleSignInAccount = await googleSignIn.signIn();
+      EasyLoading.dismiss();
+      BlockUi.hide(context);
+    } catch (error) {
+      EasyLoading.dismiss();
+      BlockUi.hide(context);
+      Fluttertoast.showToast(
+        msg: 'Login failed! Please try again later or contact support.',
+        toastLength: Toast.LENGTH_LONG,
+      );
+      return;
+    }
 
-    print('111111111111');
-    print(googleSignInAccount);
+    // print('111111111111');
+    // print(googleSignInAccount);
 
     if (googleSignInAccount != null) {
       final GoogleSignInAuthentication googleSignInAuthentication =
@@ -101,10 +126,15 @@ class _LoginScreenState extends State<LoginScreen> {
         idToken: googleSignInAuthentication.idToken,
       );
 
-      print('google signed in');
+      // print('google signed in');
 
+      EasyLoading.show();
+      BlockUi.show(
+        context,
+        backgroundColor: Colors.transparent,
+        child: Container(),
+      );
       try {
-        EasyLoading.show();
         final UserCredential userCredential =
             await _firebaseAuth.signInWithCredential(credential!);
         newUser = userCredential.additionalUserInfo!.isNewUser;
@@ -118,10 +148,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
         // user!.linkWithCredential(ac);
         //
-        print(user!.providerData);
+        // print(user!.providerData);
         // print(googleSignIn.currentUser == null);
 
-        if (user.providerData.length > 1) {
+        if (user!.providerData.length > 1) {
           await FirebaseFirestore.instance
               .collection('users')
               .doc(user.uid)
@@ -129,9 +159,19 @@ class _LoginScreenState extends State<LoginScreen> {
               .then((snapshot) {
             newUser = snapshot.get('google_sign_in').toString() == 'false';
             // print('11111111111111: $newUser');
+          }).timeout(kTimeoutDuration, onTimeout: () {
+            EasyLoading.dismiss();
+            // BlockUi.hide(context);
+            Fluttertoast.showToast(
+              msg: kTimeoutMsg,
+              toastLength: Toast.LENGTH_LONG,
+            );
+            Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
+            return;
           });
           if (newUser) {
             EasyLoading.dismiss();
+            BlockUi.hide(context);
             // print('show alert!');
             await Alert(
               context: context,
@@ -167,7 +207,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ).show();
 
             if (merge) {
-              EasyLoading.show(status: 'processing...');
+              EasyLoading.show(status: 'Processing...');
+              BlockUi.show(
+                context,
+                backgroundColor: Colors.transparent,
+                child: Container(),
+              );
               // await user.unlink('password');
 
               // String googleEmail = user.providerData[0].email!;
@@ -194,42 +239,69 @@ class _LoginScreenState extends State<LoginScreen> {
                   'google_sign_in': 'true',
                 },
                 SetOptions(merge: true),
-              );
+              ).timeout(kTimeoutDuration, onTimeout: () {
+                EasyLoading.dismiss();
+                // BlockUi.hide(context);
+                Fluttertoast.showToast(
+                  msg: kTimeoutMsg,
+                  toastLength: Toast.LENGTH_LONG,
+                );
+                Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
+                return;
+              });
 
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.setString('email', user.providerData[0].email!);
               prefs.setString('google', 'true');
               EasyLoading.dismiss();
+              // BlockUi.hide(context);
 
-              Navigator.pushReplacementNamed(context, Navigation.p0RouteName);
+              Navigator.pushNamedAndRemoveUntil(context, Navigation.p0RouteName, (route) => false);
             } else {
               EasyLoading.show();
-              await googleSignIn.signOut();
-              await user.unlink('google.com');
-              await _firebaseAuth
-                  .signOut(); // pay attention to the order of these 3 lines!
-              EasyLoading.dismiss();
-              Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+              BlockUi.show(
+                context,
+                backgroundColor: Colors.transparent,
+                child: Container(),
+              );
+              try {
+                await googleSignIn.signOut();
+                await user.unlink('google.com');
+                await _firebaseAuth
+                    .signOut(); // pay attention to the order of these 3 lines!
+                EasyLoading.dismiss();
+                // BlockUi.hide(context);
+                Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
+                return;
+              } catch (error) {
+                EasyLoading.dismiss();
+                // BlockUi.hide(context);
+                Fluttertoast.showToast(
+                  msg: error.toString(),
+                  toastLength: Toast.LENGTH_LONG,
+                );
+                Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
+                return;
+              }
             }
           } else {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('email', user.providerData[0].email!);
             prefs.setString('google', 'true');
             EasyLoading.dismiss();
+            // BlockUi.hide(context);
 
-            Navigator.pushReplacementNamed(context, Navigation.p0RouteName);
+            Navigator.pushNamedAndRemoveUntil(context, Navigation.p0RouteName, (route) => false);
           }
         } else {
           // user's google account's email address has never been registered with before or has been registered with but not verified
-          // TODO: add shared_preferences
-
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('email', user.providerData[0].email!);
           prefs.setString('google', 'true');
 
           // print('work');
           if (newUser) {
-            print('working');
+            // print('working');
             await FirebaseFirestore.instance
                 .collection('users')
                 .doc(user.uid)
@@ -239,7 +311,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 'email': user.providerData[0].email,
                 'google_sign_in': 'true',
               },
-            );
+            ).timeout(kTimeoutDuration, onTimeout: () {
+              EasyLoading.dismiss();
+              // BlockUi.hide(context);
+              Fluttertoast.showToast(
+                msg: kTimeoutMsg,
+                toastLength: Toast.LENGTH_LONG,
+              );
+              Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
+              return;
+            });
 
             // try {
             //   user.unlink('password').then((value) => print('unlink succeed!'));
@@ -272,20 +353,38 @@ class _LoginScreenState extends State<LoginScreen> {
           // await _firebaseAuth.signInWithCredential(credential!);
 
           EasyLoading.dismiss();
+          // BlockUi.hide(context);
 
-          Navigator.pushReplacementNamed(context, Navigation.p0RouteName);
+          Navigator.pushNamedAndRemoveUntil(context, Navigation.p0RouteName, (route) => false);
         }
       } on FirebaseAuthException catch (e) {
         // TODO: handle these errors
+        await Future.delayed(Duration(milliseconds: 100));
         EasyLoading.dismiss();
+        // BlockUi.hide(context);
         if (e.code == 'account-exists-with-different-credential') {
-          print(e.email);
+          Fluttertoast.showToast(
+            msg: e.toString(),
+            toastLength: Toast.LENGTH_LONG,
+          );
         } else if (e.code == 'invalid-credential') {
-          print('invalid-credential');
+          Fluttertoast.showToast(
+            msg: e.toString(),
+            toastLength: Toast.LENGTH_LONG,
+          );
         }
+        Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
+        return;
       } catch (e) {
+        await Future.delayed(Duration(milliseconds: 100));
         EasyLoading.dismiss();
-        print(e);
+        // BlockUi.hide(context);
+        Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_LONG,
+        );
+        Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
+        return;
       }
     }
   }

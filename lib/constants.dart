@@ -45,3 +45,7 @@ const kRecordLargeTextStyle = TextStyle(
 const kRecordDetailTextStyle = TextStyle(
   fontSize: 15.0,
 );
+
+const kTimeoutMsg = 'Timeout: Please check your Internet connection.';
+
+const kTimeoutDuration = Duration(seconds: 15);

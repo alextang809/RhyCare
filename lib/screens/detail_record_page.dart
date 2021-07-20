@@ -1,3 +1,4 @@
+import 'package:block_ui/block_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -10,7 +11,6 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 
@@ -162,13 +162,25 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
     ).show();
 
     if (delete) {
-      EasyLoading.show(status: 'deleting...');
-      await thisRecordReference!.delete();
-      EasyLoading.dismiss();
-      Fluttertoast.showToast(
-        msg: 'Record deleted',
-        toastLength: Toast.LENGTH_SHORT,
+      await Future.delayed(Duration(milliseconds: 30));
+      EasyLoading.show(status: 'Deleting...');
+      BlockUi.show(
+        context,
+        backgroundColor: Colors.transparent,
+        child: Container(),
       );
+      await thisRecordReference!.delete().then((value) async {
+        await Future.delayed(Duration(milliseconds: 30));
+        EasyLoading.dismiss();
+        BlockUi.hide(context);
+      }).timeout(kTimeoutDuration, onTimeout: () {
+        EasyLoading.dismiss();
+        BlockUi.hide(context);
+        Fluttertoast.showToast(
+          msg: kTimeoutMsg,
+          toastLength: Toast.LENGTH_LONG,
+        );
+      });
       Navigator.pop(context);
     }
   }

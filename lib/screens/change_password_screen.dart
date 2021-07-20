@@ -1,8 +1,10 @@
+import 'package:block_ui/block_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:rhythmcare/navigation.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);
@@ -25,15 +27,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     if (form!.validate()) {
       form.save();
 
-      EasyLoading.show(status: 'processing...');
-
-      try {
-        if (oldPassword.toString() == newPassword.toString()) {
-          throw Exception();
-        }
-      } catch (error) {
-        EasyLoading.dismiss();
-
+      if (oldPassword.toString() == newPassword.toString()) {
         Fluttertoast.showToast(
           msg: 'Your new password is the same as the original one!',
           toastLength: Toast.LENGTH_LONG,
@@ -41,13 +35,22 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         return;
       }
 
+      EasyLoading.show(status: 'Processing...');
+      BlockUi.show(
+        context,
+        backgroundColor: Colors.transparent,
+        child: Container(),
+      );
+
       try {
         AuthCredential credential = EmailAuthProvider.credential(
             email: _firebaseAuth.currentUser!.email!, password: oldPassword!);
         await _firebaseAuth.currentUser!
             .reauthenticateWithCredential(credential);
       } catch (error) {
+        await Future.delayed(Duration(milliseconds: 100));
         EasyLoading.dismiss();
+        BlockUi.hide(context);
 
         String errorCode = (error as FirebaseAuthException).code;
         if (errorCode == 'wrong-password') {
@@ -69,16 +72,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             .updatePassword(newPassword!)
             .then((value) {
           EasyLoading.dismiss();
+          // BlockUi.hide(context);
 
           // print('success');
           Fluttertoast.showToast(
             msg: 'Your password has been reset.',
             toastLength: Toast.LENGTH_SHORT,
           );
-          Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(context, Navigation.p2RouteName, (route) => false);
         });
       } catch (error) {
+        await Future.delayed(Duration(milliseconds: 100));
         EasyLoading.dismiss();
+        BlockUi.hide(context);
 
         Fluttertoast.showToast(
           msg: 'Failed! Please try again later or contact support.',

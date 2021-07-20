@@ -1,7 +1,9 @@
+import 'package:block_ui/block_ui.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rhythmcare/constants.dart';
 import 'package:rhythmcare/screens/email_verify_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -30,16 +32,8 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
     if (form!.validate()) {
       form.save();
 
-      EasyLoading.show(status: 'processing...');
-
-      try {
-        if (newEmail.toString() ==
-            _firebaseAuth.currentUser!.email!.toString()) {
-          throw Exception();
-        }
-      } catch (error) {
-        EasyLoading.dismiss();
-
+      if (newEmail.toString() ==
+          _firebaseAuth.currentUser!.email!.toString()) {
         Fluttertoast.showToast(
           msg: 'Your new email address is the same as the current one!',
           toastLength: Toast.LENGTH_LONG,
@@ -47,13 +41,22 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         return;
       }
 
+      EasyLoading.show(status: 'Processing...');
+      BlockUi.show(
+        context,
+        backgroundColor: Colors.transparent,
+        child: Container(),
+      );
+
       try {
         AuthCredential credential = EmailAuthProvider.credential(
             email: _firebaseAuth.currentUser!.email!, password: password!);
         await _firebaseAuth.currentUser!
             .reauthenticateWithCredential(credential);
       } catch (error) {
+        await Future.delayed(Duration(milliseconds: 100));
         EasyLoading.dismiss();
+        BlockUi.hide(context);
 
         String errorCode = (error as FirebaseAuthException).code;
         if (errorCode == 'wrong-password') {
@@ -80,19 +83,29 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
               // 'google_sign_in': 'false',
             },
             SetOptions(merge: true),
-          );
+          ).timeout(kTimeoutDuration, onTimeout: () {
+            EasyLoading.dismiss();
+            BlockUi.hide(context);
+            Fluttertoast.showToast(
+              msg: kTimeoutMsg,
+              toastLength: Toast.LENGTH_LONG,
+            );
+            Navigator.pushNamedAndRemoveUntil(context, Navigation.p2RouteName, (route) => false);
+          });
 
           EasyLoading.dismiss();
+          // BlockUi.hide(context);
 
           // print('success');
           Fluttertoast.showToast(
             msg: 'Your email address has been updated.',
             toastLength: Toast.LENGTH_SHORT,
           );
-          Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(context, Navigation.p2RouteName, (route) => false);
         });
       } catch (error) {
         EasyLoading.dismiss();
+        BlockUi.hide(context);
 
         String errorCode = (error as FirebaseAuthException).code;
         if (errorCode == 'email-already-in-use') {

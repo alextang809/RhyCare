@@ -1,8 +1,10 @@
+import 'package:block_ui/block_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:rhythmcare/screens/login_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({Key? key}) : super(key: key);
@@ -48,7 +50,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     if (form!.validate()) {
       form.save();
 
-      EasyLoading.show(status: 'processing...');
+      EasyLoading.show(status: 'Processing...');
+      BlockUi.show(
+        context,
+        backgroundColor: Colors.transparent,
+        child: Container(),
+      );
 
       // try {
       //   await checkGoogleSignIn(email).then((value) {
@@ -65,20 +72,24 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
       try {
         await _firebaseAuth.sendPasswordResetEmail(email: email);
+        await Future.delayed(Duration(milliseconds: 100));
         EasyLoading.dismiss();
+        // BlockUi.hide(context);
         Fluttertoast.showToast(
           msg:
               'A password reset email has been sent to your email address.',
           toastLength: Toast.LENGTH_LONG,
         );
-        Navigator.pop(context);
+        Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
       } catch (error) {
+        await Future.delayed(Duration(milliseconds: 100));
         EasyLoading.dismiss();
+        BlockUi.hide(context);
 
         String errorCode = (error as FirebaseAuthException).code;
         if (errorCode == 'invalid-email' || errorCode == 'user-not-found') {
           Fluttertoast.showToast(
-            msg: 'User not found or you used Sign In with Google before.',
+            msg: 'User not found.',
             toastLength: Toast.LENGTH_LONG,
           );
         } else {

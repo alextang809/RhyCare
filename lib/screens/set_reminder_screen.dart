@@ -3,8 +3,6 @@ import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rhythmcare/components/reminder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 import '../services/notification.dart' as nt;
 import '../components/repeat.dart';
 
