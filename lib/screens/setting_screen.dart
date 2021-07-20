@@ -263,7 +263,9 @@ class _SettingScreenState extends State<SettingScreen> {
       SharedPreferences.getInstance().then((prefs) {
         _signedInWithGoogle = (prefs.get('google') == 'true');
         Future.delayed(Duration(milliseconds: 150)).then((value) {
-          setState(() {});
+          if (this.mounted) {
+            setState(() {});
+          }
         });
       });
       return Center(

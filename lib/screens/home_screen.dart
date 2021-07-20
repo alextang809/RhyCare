@@ -174,7 +174,9 @@ class _HomeScreenState extends State<HomeScreen> {
       retrieveUserInfo().then((value) {
         Future.delayed(Duration(milliseconds: 100)).then((value) {
           loading = false;
-          setState(() {});
+          if (this.mounted) {
+            setState(() {});
+          }
         });
       });
       return Center(

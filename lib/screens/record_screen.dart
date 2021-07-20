@@ -70,7 +70,9 @@ class _RecordScreenState extends State<RecordScreen> {
       retrieveUserPreferences().then((value) {
         Future.delayed(Duration(milliseconds: 100)).then((value) {
           loading = false;
-          setState(() {});
+          if (this.mounted) {
+            setState(() {});
+          }
         });
       });
       return Center(

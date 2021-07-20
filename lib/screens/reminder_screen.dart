@@ -90,7 +90,9 @@ class _ReminderScreenState extends State<ReminderScreen> {
       retrieveReminders().then((value) {
         Future.delayed(Duration(milliseconds: 100)).then((value) {
           loading = false;
-          setState(() {});
+          if (this.mounted) {
+            setState(() {});
+          }
         });
       });
       return Center(
