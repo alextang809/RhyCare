@@ -168,6 +168,5 @@ class _ChangeFunctionScreenState extends State<ChangeFunctionScreen> {
       ),
       body: body(),
     );
-    ;
   }
 }

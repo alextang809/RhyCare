@@ -214,7 +214,7 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        thisRecord!.date_time
+                        thisRecord!.dateTime
                             .toDate()
                             .toString()
                             .substring(0, 19),

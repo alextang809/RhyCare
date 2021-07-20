@@ -217,6 +217,5 @@ class _ReminderScreenState extends State<ReminderScreen> {
       ),
       body: body(),
     );
-    ;
   }
 }

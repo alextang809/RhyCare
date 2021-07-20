@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
           .doc(user!.uid)
           .collection("user_records")
           .add(Record(
-            date_time: Timestamp.fromDate(now),
+            dateTime: Timestamp.fromDate(now),
             height: heightEnabled ? height.toStringAsFixed(1) : '-',
             weight: weightEnabled ? weight.toStringAsFixed(1) : '-',
             age: ageEnabled ? age.toString() : '-',

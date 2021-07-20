@@ -17,11 +17,11 @@ class RecordCard extends StatelessWidget {
     Record thisRecord = Record.fromSnapshot(record);
     FirebaseAuth _firebaseauth = FirebaseAuth.instance;
 
-    Color cardColor(String bmi_string) {
-      if (bmi_string == '-') {
+    Color cardColor(String bmiString) {
+      if (bmiString == '-') {
         return Color(0xffffffff);
       }
-      double bmi = double.parse(bmi_string);
+      double bmi = double.parse(bmiString);
       Color color = Color(0xffffffff);
       if (bmi < 18.5) {
         color = Color(0x851bd0ed);
@@ -64,7 +64,7 @@ class RecordCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  thisRecord.date_time.toDate().toString().substring(0, 16),
+                  thisRecord.dateTime.toDate().toString().substring(0, 16),
                   style: TextStyle(
                     color: Colors.grey[700],
                   ),

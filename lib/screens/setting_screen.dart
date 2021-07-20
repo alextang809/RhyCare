@@ -1,6 +1,5 @@
 import 'package:block_ui/block_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:rhythmcare/constants.dart';
@@ -180,7 +179,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   Widget changeEmailAddress(BuildContext context) {
     // user will only be allowed to change email address if he has not verified it
-    double screen_width = MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery.of(context).size.width;
 
     if (false) {
       return GestureDetector(
@@ -206,7 +205,7 @@ class _SettingScreenState extends State<SettingScreen> {
               Row(
                 children: <Widget>[
                   Container(
-                    width: screen_width * 0.5,
+                    width: screenWidth * 0.5,
                     child: Text(
                       '${user!.email}',
                       textAlign: TextAlign.right,
@@ -235,7 +234,7 @@ class _SettingScreenState extends State<SettingScreen> {
             Row(
               children: <Widget>[
                 Container(
-                  width: screen_width * 0.75,
+                  width: screenWidth * 0.75,
                   child: Text(
                     '${user!.providerData[0].email}',
                     textAlign: TextAlign.right,

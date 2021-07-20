@@ -1,15 +1,14 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Record {
-  final Timestamp date_time;
+  final Timestamp dateTime;
   final String height;
   final String weight;
   final String age;
   final String bmi;
 
   Record({
-    required this.date_time,
+    required this.dateTime,
     required this.height,
     required this.weight,
     required this.age,
@@ -17,7 +16,7 @@ class Record {
   });
 
   Record.fromSnapshot(QueryDocumentSnapshot record)
-      : this.date_time = record['date_time'],
+      : this.dateTime = record['date_time'],
         this.height = record['height'].toString(),
         this.weight = record['weight'].toString(),
         this.age = record['age'].toString(),
@@ -25,7 +24,7 @@ class Record {
 
   Map<String, dynamic> toJson() {
     return {
-      'date_time': date_time,
+      'date_time': dateTime,
       'height': height,
       'weight': weight,
       'age': age,
