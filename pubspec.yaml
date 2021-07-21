@@ -53,7 +53,6 @@ dependencies:
   share_plus: ^2.1.4
 
   permission_handler: ^8.1.2
-  image_gallery_saver: ^1.6.9
   gallery_saver: ^2.1.2
 
   flutter_local_notifications: ^6.0.0

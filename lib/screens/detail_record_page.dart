@@ -10,7 +10,6 @@ import 'dart:typed_data';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
-// import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 
@@ -173,6 +172,10 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
         await Future.delayed(Duration(milliseconds: 30));
         EasyLoading.dismiss();
         BlockUi.hide(context);
+        Fluttertoast.showToast(
+          msg: 'Record deleted.',
+          toastLength: Toast.LENGTH_SHORT,
+        );
       }).timeout(kTimeoutDuration, onTimeout: () {
         EasyLoading.dismiss();
         BlockUi.hide(context);

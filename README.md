@@ -1,16 +1,62 @@
 # RhythmCare (Orbital 2021)
 
-A lightweight Android app that helps record your body height and weight.
+A lightweight Android app for users to record their body height and weight.
 
 <br/>
 
-**NOTE: THIS IS A BRAND NEW APP DUE TO A REFACTOR OF OUR PROJECT IDEA. We apologize for any inconvenience caused, but don't worry since this app is much simpler than the last one.**
+### Disclaimer
+
+All the inputs during Milestone 2 evaluation have been cleared due to a refactor of database. Please register again and make new records. Thank you!
 
 <br/>
 
 ### Proposed Level of Achievement
 
-~~Apollo 11~~ Gemini
+Gemini
+
+<br/>
+
+### Answer Comments from Milestone 2 Evaluation
+
+1. *"README can be done on Google Docs"*
+
+   If you prefer viewing this in Google Docs, please click [here]().
+
+2. *"creating a Manual-testing flowchart"/ "do be more specific in describing your test cases" / "Include detailed description of testing" / "give evidence of these test cases"*
+
+   Some details of manual system testing will be provided.
+
+3. *"allow user to manually type in their Height/Weight"*
+
+   Sorry, this function will NOT be implemented due to design considerations.
+
+4. *"would the reminders be done through push notifications?"*
+
+   The only reminder currently is done through local notification.
+
+5. *"can have more information about how you think this app would solve user problems, ..." / "..., add a plan to cut out fat ( a very basic ) for people with high BMI, suggesting the problems that come with a high BMI and pushing them to improve it" / "Could focus on alerting user of high BMI" / "Consider colour-labelling of health level (e.g. average, overweight, severely overweight) based on BMI."*
+
+   Hmm, I agree that this app is quite simple, because I just want to make it a simple recorder without many complex functions. Providing suggestions for people with high BMI could be considered, but it has NOT been implemented by Milestone 3. Card with BMI within different BMI levels are painted with different colors now but I am aware that the meaning of different colors is not clear to users.
+
+6. *"The "so that" part is missing from your documentation."*
+
+   Since I do not list features under the User Stories part, I do not want to add the "so that" part.
+
+7. *"Should add decimals option for weight."*
+
+   Decimals feature is not provided as an option. Instead, weight number is accurate to one decimal place now.
+
+8. *"could implement edit function for records" / "Consider editing of records, in case users input previous records wrongly."*
+
+   Sorry, this function will NOT be implemented. This is because I do not want users to edit their records freely. Instead, users should be careful when making records or delete wrong records.
+
+9. *"Interactions with database can accompanied with sequence diagrams"*
+
+   Sorry, I am aware that this is a good suggestion but sequence diagrams will NOT be provided since it is above my current level. Instead, I will remove the whole part since it is found not very useful in the documentation.
+
+10. *"Consider providing both slider and +/- buttons. Also consider showing an immediate calculation of BMI before the upload button."*
+
+    Sorry, these features will NOT be implemented due to design considerations.
 
 <br/>
 
@@ -29,8 +75,8 @@ We hope to provide users with a platform (specifically, an Android mobile app) t
 ### User Stories
 
 1. As someone who is trying to lose weight, I want to be able to use the app to keep track of my weight, so that I can know my progress.
-
-2. As someone who is growing up, I want to be able to use the app to keep track of my height, so that I can see the process of my physical growth.
+2. As someone who is sick, I want to be able to use the app to keep track of my weight, so that I can better know my physical condition.
+3. As someone who is growing up, I want to be able to use the app to keep track of my height, so that I can see the process of my physical growth.
 
 <br/>
 
@@ -50,49 +96,60 @@ The app requires users to sign up for an account before logging in to use it. Us
 
 Features completed by the end of June [must-have features]:
 
-**Home Page** allows users to make an input of their current height, weight, and age, after which they can upload the data to the system to make a record.
+**Home Page** allows users to make an input of their current height, weight, and age, after which they can upload the data to the database to make a record.
 
-**Records Page** allows users to view all the records (including height, weight, and calculated BMI) they have made so far in a list form. The latest record is shown at the top. Users can long press a record to delete it.
+**Records Page** allows users to view all the records (including height, weight, age, and calculated BMI) they have made so far in a list form. The latest record is shown at the top by default. ~~Users can long press a record to delete it.~~
 
 **Settings Page** allows users to sign out.
 
 <br/>
 
-Features to be completed by the end of July:
+Features completed by the end of July:
 
 **Sign up/Login function**
 
-1. [should-have] The app should check that the email users register with is valid by sending confirmation emails to check.
-
-2. [could-have] Users could also use their Google account to sign up.
+1. [should-have] The app asks users to verify their email address by sending confirmation emails. In general, an unverified user is signed out automatically in about one minute.
+2. [could-have] The app allows users to sign in with Google.
 
 **Home Page**
 
-1. [should-have] The **–** and **+** buttons for adjusting weight should be able to be long pressed to faster decrease and increase.
-
-2. [won’t-have] The input of age data will be removed if it is proven to be useless.
+1. [should-have] The **–** and **+** buttons for adjusting weight and age are able to be long pressed to adjust faster.
+2. ~~[won’t-have] The input of age data will be removed if it is proven to be useless.~~ (The age input is kept to serve users' own purposes.)
+3. A few UI elements have been improved.
 
 **Records Page**
 
-1. [should-have] The app should have a filter for users to select to only view height/weight/BMI data.
-
-2. [could-have] The app could have functions to generate graphs to better reflect changes of height/weight.
-
-3. [could-have] Users could share a record (and share graphs generated) to their friends.
+1. ~~[should-have] The app should have a filter for users to select to only view height/weight/BMI data.~~
+2. [could-have] The app has a "filter by time" function for users to select to view records within a specific period.
+3. [could-have] The app has a "generate chart" function generating charts to better reflect changes of height/weight/BMI.
+4. [could-have] The app has a "sort" function to reverse the order of the list. (Note that the list can only be sorted by time automatically.)
+5. [could-have] Each record is clickable. Users can save/share a record as image or delete the record.
+6. A few UI elements have been improved (including coloring cards according to BMI levels).
 
 **Settings Page**
 
-1. [should-have] The app should provide a way for users to change their password.
-
-2. [could-have] The app could provide a way for users to change their email address.
-
-3. [could-have] The app could allow users to have a nickname and an avatar (for sharing their records).
-
-4. [could-have] The app could have a reminder function to remind users to make records periodically.
+1. [should-have] The app provides a way for users to change their password. This is only applicable to users logging in using email address and password.
+2. [should-have] The app provides a way for users to change their email address. This is only applicable to users logging in using email address and password AND when the email address has not been verified. This is to say, once a user has verified his/her email address, he/she will not be able to change it any more.
+3. ~~[could-have] The app could allow users to have a nickname and an avatar (for sharing their records).~~
+4. [could-have] The app has a "reminder" function to remind users to make records periodically. Currently, only one reminder is provided with a few fixed periods to choose from.
+5. [should-have] The app has a "enable/disable specific functions" function for users to enable/disable specific items when making records.
+6. A few UI elements have been improved.
 
 <br/>
 
-### Development Processes
+Features could be implemented in the future:
+
+1. [should-have] The "filter by time" function should allow showing records before/after a specific time.
+2. [should-have] The "generate chart" function should allow users to save and/or share the charts generated.
+3. [should-have] The "reminder" function should allow more than one reminder. Also, the reminder should be more flexible.
+4. [should-have] The "record page" should explain to users the meaning of different color.
+5. [should-have] The "generate chart" function should handle multiple records made on the same date in a better way.
+6. [could-have] The "record page" could allow users to select multiple records once to delete and/or share.
+7. [could-have] The app could alert users with too low/high BMI.
+
+<br/>
+
+### Development
 
 1. Tech Stack
 
@@ -100,78 +157,59 @@ Features to be completed by the end of July:
 
 2. Backend database
 
-   We chose to use Firebase as our backend and database. More specifically, we are using the Authentication function as well as the Firebase Database.
+   We chose Firebase as our backend and database. More specifically, we are using Firebase Authentication and Firestore Database.
 
    - Database structure:
 
-     Firebase Cloud Firestore simply consists of collections and documents.
+     Firebase Cloud Firestore consists of simply collections and documents.
 
-     ![Cloud Firestore Structure](https://github.com/alextang809/RhyCare/blob/main/pictures/structure.png)
+     ![Cloud Firestore Structure 1](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud Firestore Structure 1.png)
 
-   - Interactions with database:
-     - A user is created by Firebase Authentication when a user presses the “Register” button.
-     - The user will be signed in by Firebase Authentication when he/she presses the “Login” button.
-     - The user will be signed out by Firebase Authentication when he/she presses the “Sign out” button.
-     - A document is created under collection “users” **when a user registers a new account**, and the document id is the same as the users’ id issued by Firebase Authentication.
-     - A document is created under collection “records” **when a user registers a new account**, and the document id is the same as the users’ id issued by Firebase Authentication.
-     - A sub-collection named “user_records” with a dummy document (i.e., one dummy record) under it is created, under the above-mentioned document with the users’ id under collection “records”, **when a user registers a new account**.
-     - A new document with specific fields and values is created when the user presses the “UPLOAD” button on the Home Page.
-     - The specific document is deleted from the database when the user deletes a record.
-     - Any changes made to the user’s “user_records” collection are listened to using Streams, so that any upload of records can be immediately shown on the Record Page.
+     ![Cloud Firestore Structure 2](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud Firestore Structure 2.png)
 
-3. A rough development process so far
+     ![Cloud Firestore Structure 3](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud Firestore Structure 3.png)
 
-   1. create a new GitHub repository
+     ![Cloud Firestore Structure 4](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud Firestore Structure 4.png)
 
-   2. create a new Flutter project locally
+3. Notes
 
-   3. git push the project to GitHub
+   - Link project with GitHub
+     1. create a new GitHub repository
+     2. create a new Flutter project locally
+     3. git push the project to GitHub
 
-   4. create a new project on Firebase and link the app to the Firebase project
+   - Link project with Firebase
+     - create a new project on Firebase and link the app to the project following instructions
+   - Bottom navigation bar
+     - Using variable makes it possible to have different titles on app bar on different pages with a single navigation bar.
 
-   5. Login/Register frontend
-
-      * Design note: The app uses the “fluttertoast” package to show toast messages during many situations to provide feedbacks to users’ actions, such as successful registration, wrong email address/password, and successful upload of record.
-
-   6. Login/Register backend
-
-   7. Settings Page and Sign out
-
-      * Design note: The app uses the “shared_preferences” package to memorize a user’s signed in/out status. When a user has logged in and exits the app, he/she won’t be required to login again next time he/she opens the app. When a user has signed out and exits the app, he/she will be required to login again next time he/she opens the app.
-
-   8. add a bottom navigation bar
-
-      * Implementation note: Using variables makes it possible to have different titles on app bar on different pages with a single navigation bar.
-
-   9. Home Page frontend
-
-   10. Home Page backend
-
-   11. Records Page backend
-
-       * Design note: The app shows a progress indicator when data are being fetched from database.
-
-       * Implementation note: We first developed the backend of Records Page to make sure the system is working since this is more crucial to this page, and then proceeded to develop the frontend.
-
-   12. Records Page frontend
-
-       * Design note: The app uses the “rflutter_alert” package to pop out an alert message when user long presses a record. Only when the user confirms the deletion, the record will be deleted.
-
-   13. Generate apk
-
-       * To generate apk, run “flutter build apk --split-per-abi”
-
-       * The apk is located at <project>/build/app/outputs/apk/release/
+   - Useful packages/plugins/dependencies
+     - “fluttertoast” package
+       - The app uses the “fluttertoast” package to show toast messages during many situations to provide feedbacks to users’ actions, such as successful registration, invalid email address/password, and successful upload of record, etc.
+     - “shared_preferences” package
+       - The app uses the “shared_preferences” package to memorize a user’s signed in/out status. When a user has logged in and exits the app, he/she won’t be required to login again next time he/she opens the app. When a user has signed out and exits the app, he/she will be required to login again next time he/she opens the app.
+       - The package is also used to memorize any latest changes on the Home Page, time range filter and reverse order preferences on the Records Page, and a few more scenarios.
+     - “rflutter_alert” package
+       - The app uses the “rflutter_alert” package to pop out an alert message before a users deletes a record. Only when the user confirms the deletion, the record will be deleted.
+     - "flutter_easyloading" and "block_ui" packages
+       - The app uses the "flutter_easyloading" package and the "block_ui" package to show a loading screen when it may take some time to interact with backend. It blocks the UI when a loading screen is being shown to prevent users from interacting with the app. Timeout features are also implemented to unblock the UI and cancel the loading screen. **Complicated testing has been done, but there might still be potential bugs for these features. Try force closing the app when your UI is blocked abnormally. Please report any bugs.**
+     - "flutter_local_notifications" package
+       - The app uses the "flutter_local_notifications" package to schedule local notifications. **Complicated testing has been done to make sure the reminder work normally. If you cannot receive any notifications, check your phone settings to make sure you provide the app with relevant permissions (including notification sounds). You may need to turn off battery optimization for the app to receive notifications when the app is closed.**
+     - "syncfusion_flutter_charts" package
+       - The app uses the "syncfusion_flutter_charts" package to generate charts. Maybe due to package limitations, the charts may not look very nice when intervals between records are inconsistent and large. You can zoom the chart to view details.
+     - "share_plus" package
+       - The app uses the "share_plus" package to share a record. **Due to some unknown reasons, the package does not work well when sharing to some platforms. There may be a platform mismatch.**
+     - View \<project>/pubspec.yaml for more packages used
+   - Generate apk
+     - Modify \<project>/android/app/src/main/res/raw/keep.xml to keep the resources for local notifications.
+     - To generate apk, run “flutter build apk --split-per-abi”
+     - The apk is located at \<project>/build/app/outputs/apk/release/
 
 <br/>
 
 ### System Testing
 
-1. End to end scenario testing: the application works fine and components interact with one another is smooth and bug free
-   
-2. Many types of input were checked in the text boxes, desired outputs was generated well
-   
-3. User experience testing: only our team was involved in, but user experience is fine, deriving from the large possibility of extension although the application is super easy to use
+
 
 <br/>
 
@@ -181,8 +219,8 @@ It’s very easy to use the app since it has a very simple and clear interface.
 
 To use it on an Android phone:
 
-1. Download the apk at [here](https://drive.google.com/file/d/1wv20UUb5xNFdzZyDafMFh3PBvEQjk8oV/view?usp=sharing) (not the latest version) for Milestone 2 evaluation and install it on your phone
+1. Download the apk [here]() (not the latest version) for Milestone 3 evaluation and install it on your phone
+2. Register an account or Sign in with Google
+3. Start using the app
 
-2. Register an account and start using it
-
-Note that the app must be used inside countries where Google services are not banned or you can connect to a stable VPN before using it.
+Note that the app must be used inside countries where Google services are not banned or you can connect to a stable VPN before opening the app.

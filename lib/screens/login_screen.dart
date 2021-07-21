@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
               type: AlertType.warning,
               title: "Existing Email",
               desc:
-                  "The email address linked to your Google account has been registered with and verified before. If you are sure you are the owner of this email address, press Merge to merge the data from your previous account. If you don't intend to do these, press Cancel or anywhere else to cancel this login!",
+                  "The email address linked to your Google account has been registered with and verified before. If you are sure you are the owner of this email address, press Merge to merge the data from your previous account. If you don't intend to do these, press anywhere else to cancel this login!",
               buttons: [
                 DialogButton(
                   child: Text(
