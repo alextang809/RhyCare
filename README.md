@@ -163,13 +163,13 @@ Features could be implemented in the future:
 
      Firebase Cloud Firestore consists of simply collections and documents.
 
-     [Cloud Firestore Structure 1](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud Firestore Structure 1.png)
+     ![Cloud Firestore Structure 1](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud%20Firestore%20Structure%201.png)
 
-     [Cloud Firestore Structure 2](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud Firestore Structure 2.png)
+     ![Cloud Firestore Structure 2](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud%20Firestore%20Structure%202.png)
 
-     [Cloud Firestore Structure 3](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud Firestore Structure 3.png)
+     ![Cloud Firestore Structure 3](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud%20Firestore%20Structure%203.png)
 
-     [Cloud Firestore Structure 4](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud Firestore Structure 4.png)
+     ![Cloud Firestore Structure 4](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud%20Firestore%20Structure%204.png)
 
 3. Notes
 
