@@ -117,7 +117,7 @@ class _ChartScreenState extends State<ChartScreen> {
           edgeLabelPlacement: EdgeLabelPlacement.shift,
           intervalType: DateTimeIntervalType.days,
           dateFormat: DateFormat.yMd(),
-          rangePadding: ChartRangePadding.normal,
+          rangePadding: ChartRangePadding.auto,
           enableAutoIntervalOnZooming: true,
           majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:rhythmcare/screens/change_function_screen.dart';
@@ -10,9 +11,7 @@ import 'package:rhythmcare/screens/loading_screen.dart';
 import 'package:rhythmcare/screens/reset_password_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rhythmcare/screens/reminder_screen.dart';
-import 'package:rhythmcare/screens/set_reminder_screen.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -84,6 +83,11 @@ class MyApp extends StatelessWidget {
     // }
     //
     // _configureSelectNotificationSubject();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

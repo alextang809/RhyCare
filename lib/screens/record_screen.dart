@@ -183,18 +183,22 @@ class _RecordScreenState extends State<RecordScreen> {
                       ),
                     ],
                   ),
-                  InkWell(
-                    splashColor: Colors.purple,
-                    customBorder: new CircleBorder(),
-                    onTap: () {
-                      Navigator.of(context).push(HeroDialogRoute(
-                          builder: (context) => RecordInfoCard()));
-                    },
-                    child: Icon(
-                      FontAwesomeIcons.infoCircle,
-                      size: 28.0,
-                      color: Colors.purple,
-                    ),
+                  Row(
+                    children: <Widget>[
+                      InkWell(
+                        splashColor: Colors.purple,
+                        customBorder: new CircleBorder(),
+                        onTap: () {
+                          Navigator.of(context).push(HeroDialogRoute(
+                              builder: (context) => RecordInfoCard()));
+                        },
+                        child: Icon(
+                          FontAwesomeIcons.infoCircle,
+                          size: 28.0,
+                          color: Colors.purple,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
