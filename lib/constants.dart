@@ -48,4 +48,4 @@ const kRecordDetailTextStyle = TextStyle(
 
 const kTimeoutMsg = 'Timeout: Please check your Internet connection.';
 
-const kTimeoutDuration = Duration(seconds: 15);
+const kTimeoutDuration = Duration(seconds: 20);

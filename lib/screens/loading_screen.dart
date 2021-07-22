@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
+import 'package:rhythmcare/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -24,7 +26,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     super.initState();
     Future<void> initialization = initializeApp();
     initialization.timeout(
-      Duration(seconds: 20),
+      kTimeoutDuration,
       onTimeout: () {
         Fluttertoast.showToast(
           msg:
@@ -51,7 +53,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         await _firebaseAuth.currentUser!.reload();
       }
 
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(Duration(seconds: 2));
       // print(email);
       if (email == null) {
         Navigator.pushReplacementNamed(context, LoginScreen.routeName);
@@ -61,15 +63,21 @@ class _LoadingScreenState extends State<LoadingScreen> {
     } catch (error) {
       Fluttertoast.showToast(
         msg: error.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+      );
+      Fluttertoast.showToast(
+        msg: 'Sorry, an error just occurred. Please check your Internet connection and try again later.',
         toastLength: Toast.LENGTH_LONG,
       );
+      await Future.delayed(Duration(seconds: 5));
+      SystemNavigator.pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.orange[50],
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -81,14 +89,16 @@ class _LoadingScreenState extends State<LoadingScreen> {
             Expanded(
               flex: 22,
               child: Image.asset(
-                'images/app_icon.png',
-                scale: 4.0,
+                'images/app_icon_round.png',
+                height: 200.0,
+                width: 200.0,
               ),
             ),
             Expanded(
               flex: 14,
-              child: SpinKitCubeGrid(
-                color: Colors.teal,
+              child: SpinKitPouringHourglass(
+                color: Colors.blue,
+                size: 60.0,
               ),
             ),
           ],
