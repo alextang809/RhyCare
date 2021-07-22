@@ -11,7 +11,6 @@ import 'package:rhythmcare/screens/loading_screen.dart';
 import 'package:rhythmcare/screens/reset_password_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rhythmcare/screens/reminder_screen.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -21,8 +20,6 @@ import 'navigation.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
-final BehaviorSubject<String?> selectNotificationSubject =
-    BehaviorSubject<String?>();
 String? selectedNotificationPayload;
 
 Future<void> _configureLocalTimeZone() async {

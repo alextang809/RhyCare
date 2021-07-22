@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // TODO: update this later
 
       Fluttertoast.showToast(
-        msg: 'An error occurred.',
+        msg: 'An error occurred. Please contact support.',
         toastLength: Toast.LENGTH_LONG,
       );
 

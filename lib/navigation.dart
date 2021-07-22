@@ -60,7 +60,7 @@ class _NavigationState extends State<Navigation> {
   @override
   void initState() {
     _currentIndex = widget.initialPageIndex;
-    print('init');
+    // print('init');
     if (!_firebaseAuth.currentUser!.emailVerified) {
       Fluttertoast.showToast(
         msg: 'You will be auto signed out in about one minute with unverified email address!',

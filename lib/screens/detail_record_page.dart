@@ -86,7 +86,7 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
           DateTime.now().toIso8601String().substring(0, 22);
 
       final directory = (await getApplicationDocumentsDirectory()).path;
-      print('$directory');
+      // print('$directory');
       File imgFile =
           await new File('$directory/rhythmcare_$currentTime.png').create();
       await imgFile.writeAsBytes(capturedImage!);
@@ -99,7 +99,7 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
       //   name: 'rhythmcare_$currentTime',
       // );
 
-      print(result);
+      // print(result);
 
       imgFile.delete();
 
@@ -125,7 +125,7 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
         DateTime.now().toIso8601String().substring(0, 22);
 
     final directory = (await getApplicationDocumentsDirectory()).path;
-    print('$directory');
+    // print('$directory');
     File imgFile =
         await new File('$directory/rhythmcare_$currentTime.png').create();
     await imgFile.writeAsBytes(capturedImage!);
@@ -134,7 +134,7 @@ class _DetailRecordPageState extends State<DetailRecordPage> {
 
     await Share.shareFiles(['$directory/rhythmcare_$currentTime.png']);
     await imgFile.delete();
-    print('finish');
+    // print('finish');
   }
 
   Future<void> delete() async {

@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // print('Form is valid.');
         final userCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
-        print('Signed in: ${userCredential.user!.providerData}');
+        // print('Signed in: ${userCredential.user!.providerData}');
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('email', email);
@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
         EasyLoading.dismiss();
         BlockUi.hide(context);
 
-        print('$error');
+        // print('$error');
         String errorCode = (error as FirebaseAuthException).code;
         if (errorCode == 'invalid-email') {
           Fluttertoast.showToast(

@@ -45,7 +45,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
   void cancelOrActivateReminder(bool value) {
     if (value == false) {
       // cancel reminder
-      print('cancel');
+      // print('cancel');
       reminder1.active = false;
       if (timer != null) {
         timer!.cancel();
@@ -59,15 +59,15 @@ class _ReminderScreenState extends State<ReminderScreen> {
       nt.Notification.cancelNotification(0);
     } else {
       // activate reminder
-      print('activate');
+      // print('activate');
       if (timer != null) {
         timer!.cancel();
-        print('timer cancel');
+        // print('timer cancel');
       }
       timer = Timer.periodic(Duration(seconds: 1), (timer) async {
         await checkPendingNotifications();
       });
-      print('timer start');
+      // print('timer start');
       reminder1.active = true;
       prefs!.setStringList('reminder1', [
         reminder1.hour.toString(),
@@ -116,12 +116,12 @@ class _ReminderScreenState extends State<ReminderScreen> {
                   ).then((value) {
                     if (timer != null) {
                       timer!.cancel();
-                      print('timer cancel');
+                      // print('timer cancel');
                     }
                     timer = Timer.periodic(Duration(seconds: 1), (timer) async {
                       await checkPendingNotifications();
                     });
-                    print('timer start');
+                    // print('timer start');
                     setState(() {
                       loading = true;
                     });
@@ -177,7 +177,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
     int length = await nt.Notification.checkPendingNotifications();
     if (length == 0) {
       timer!.cancel();
-      print('cancel timer');
+      // print('cancel timer');
       setState(() {
         reminder1.active = false;
       });
@@ -187,13 +187,13 @@ class _ReminderScreenState extends State<ReminderScreen> {
         prefs.setStringList(
             'reminder1', [list[0], list[1], list[2], 'inactive']);
       }
-      print('clear');
+      // print('clear');
     }
   }
 
   @override
   void initState() {
-    print('start timer');
+    // print('start timer');
     timer = Timer.periodic(Duration(seconds: 1), (timer) async {
       await checkPendingNotifications();
     });

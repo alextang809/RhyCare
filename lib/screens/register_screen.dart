@@ -75,7 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         await Future.delayed(Duration(milliseconds: 100));
         BlockUi.hide(context);
         
-        print('$error');
+        // print('$error');
         String errorCode = (error as FirebaseAuthException).code;
         if (errorCode == 'email-already-in-use') {
           Fluttertoast.showToast(
