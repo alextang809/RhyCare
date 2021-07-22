@@ -67,6 +67,12 @@ class _ChangeFunctionScreenState extends State<ChangeFunctionScreen> {
         bmiEnabled = snapshot.get('bmi_enabled');
       });
     } catch (e) {  // TODO: update this later
+
+      Fluttertoast.showToast(
+        msg: 'An error occurred.',
+        toastLength: Toast.LENGTH_LONG,
+      );
+
       heightEnabled = true;
       weightEnabled = true;
       ageEnabled = true;

@@ -33,7 +33,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
     // print('${user!.emailVerified}');
     if (user!.emailVerified) {
       timer!.cancel();
-      updateUserInfo(); // TODO: potential bugs
+      updateUserInfo();
       // print('44444');
       setState(() {
         // print('55555');

@@ -3,8 +3,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:rhythmcare/components/repeat.dart';
 
-// TODO: release sound
-
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
@@ -32,7 +30,6 @@ class Notification {
       _nextInstanceOfTime(time),
       const NotificationDetails(
         android: AndroidNotificationDetails(
-          // TODO: update channel id etc.
           'Notification channel id',
           'Notification',
           '',
@@ -57,7 +54,6 @@ class Notification {
         _nextInstanceOfTime(time),
         const NotificationDetails(
           android: AndroidNotificationDetails(
-            // TODO: update channel id etc.
             'Daily notification channel id',
             'Daily notification',
             '',
@@ -81,7 +77,6 @@ class Notification {
         _nextInstanceOfTimeWeekly(time, repeat),
         const NotificationDetails(
           android: AndroidNotificationDetails(
-            // TODO: update channel id etc.
             'Weekly notification channel id',
             'Weekly notification',
             '',

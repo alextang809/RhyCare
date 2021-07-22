@@ -140,7 +140,7 @@ class _ChartScreenState extends State<ChartScreen> {
 
   Future<List<_ChartData>> parse(Query<Object?> query) async {
     QuerySnapshot<Object?> querySnapshot =
-        await widget.query.get(); // TODO: right or wrong?
+        await widget.query.get();
     List<QueryDocumentSnapshot<Object?>> list = querySnapshot.docs;
     List<QueryDocumentSnapshot<Object?>> newList = [];
 

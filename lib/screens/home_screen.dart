@@ -73,6 +73,12 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     } catch (e) {
       // TODO: update this later
+
+      Fluttertoast.showToast(
+        msg: 'An error occurred.',
+        toastLength: Toast.LENGTH_LONG,
+      );
+
       heightEnabled = true;
       weightEnabled = true;
       ageEnabled = true;
