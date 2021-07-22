@@ -209,7 +209,9 @@ Features could be implemented in the future:
 
 ### System Testing
 
+Complicated system tests instead of unit tests have been done. Those listed below are some special test cases and they have been passed or fixed by now unless otherwise stated. (Actual result is not documented.)
 
+![System Testing](https://github.com/alextang809/RhyCare/blob/main/pictures/System%20Testing.png)
 
 <br/>
 
