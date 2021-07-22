@@ -36,7 +36,7 @@ Gemini
 
 5. *"can have more information about how you think this app would solve user problems, ..." / "..., add a plan to cut out fat ( a very basic ) for people with high BMI, suggesting the problems that come with a high BMI and pushing them to improve it" / "Could focus on alerting user of high BMI" / "Consider colour-labelling of health level (e.g. average, overweight, severely overweight) based on BMI."*
 
-   Hmm, I agree that this app is quite simple, because I just want to make it a simple recorder without many complex functions. Providing suggestions for people with high BMI could be considered, but it has NOT been implemented by Milestone 3. Card with BMI within different BMI levels are painted with different colors now but I am aware that the meaning of different colors is not clear to users.
+   Hmm, I agree that this app is quite simple, because I just want to make it a simple recorder without many complex functions. Providing suggestions for people with high BMI could be considered, but it has NOT been implemented by Milestone 3. Cards with BMI within different BMI levels are painted with different colors now but I am aware that the meaning of different colors is not clear to users.
 
 6. *"The "so that" part is missing from your documentation."*
 
@@ -48,7 +48,7 @@ Gemini
 
 8. *"could implement edit function for records" / "Consider editing of records, in case users input previous records wrongly."*
 
-   Sorry, this function will NOT be implemented. This is because I do not want users to edit their records freely. Instead, users should be careful when making records or delete wrong records.
+   Sorry, this function will NOT be implemented. This is because I do not want users to edit their records freely. Instead, users should be careful when making records or deleting wrong records.
 
 9. *"Interactions with database can accompanied with sequence diagrams"*
 
@@ -123,7 +123,7 @@ Features completed by the end of July:
 2. [could-have] The app has a "filter by time" function for users to select to view records within a specific period.
 3. [could-have] The app has a "generate chart" function generating charts to better reflect changes of height/weight/BMI.
 4. [could-have] The app has a "sort" function to reverse the order of the list. (Note that the list can only be sorted by time automatically.)
-5. [could-have] Each record is clickable. Users can save/share a record as image or delete the record.
+5. [could-have] Each record is clickable. Users can save/share a record as an image or delete the record.
 6. A few UI elements have been improved (including coloring cards according to BMI levels).
 
 **Settings Page**
@@ -142,7 +142,7 @@ Features could be implemented in the future:
 1. [should-have] The "filter by time" function should allow showing records before/after a specific time.
 2. [should-have] The "generate chart" function should allow users to save and/or share the charts generated.
 3. [should-have] The "reminder" function should allow more than one reminder. Also, the reminder should be more flexible.
-4. [should-have] The "record page" should explain to users the meaning of different color.
+4. [should-have] The "record page" should explain to users the meaning of different colors.
 5. [should-have] The "generate chart" function should handle multiple records made on the same date in a better way.
 6. [could-have] The "record page" could allow users to select multiple records once to delete and/or share.
 7. [could-have] The app could alert users with too low/high BMI.
@@ -161,7 +161,7 @@ Features could be implemented in the future:
 
    - Database structure:
 
-     Firebase Cloud Firestore consists of simply collections and documents.
+     Firebase Cloud Firestore simply consists of collections and documents.
 
      ![Cloud Firestore Structure 1](https://github.com/alextang809/RhyCare/blob/main/pictures/Cloud%20Firestore%20Structure%201.png)
 
@@ -181,7 +181,7 @@ Features could be implemented in the future:
    - Link project with Firebase
      - create a new project on Firebase and link the app to the project following instructions
    - Bottom navigation bar
-     - Using variable makes it possible to have different titles on app bar on different pages with a single navigation bar.
+     - Using variables makes it possible to have different titles on the app bar on different pages with a single navigation bar.
 
    - Useful packages/plugins/dependencies
      - “fluttertoast” package
@@ -190,11 +190,11 @@ Features could be implemented in the future:
        - The app uses the “shared_preferences” package to memorize a user’s signed in/out status. When a user has logged in and exits the app, he/she won’t be required to login again next time he/she opens the app. When a user has signed out and exits the app, he/she will be required to login again next time he/she opens the app.
        - The package is also used to memorize any latest changes on the Home Page, time range filter and reverse order preferences on the Records Page, and a few more scenarios.
      - “rflutter_alert” package
-       - The app uses the “rflutter_alert” package to pop out an alert message before a users deletes a record. Only when the user confirms the deletion, the record will be deleted.
+       - The app uses the “rflutter_alert” package to pop out an alert message before a user deletes a record. Only when the user confirms the deletion, the record will be deleted.
      - "flutter_easyloading" and "block_ui" packages
-       - The app uses the "flutter_easyloading" package and the "block_ui" package to show a loading screen when it may take some time to interact with backend. It blocks the UI when a loading screen is being shown to prevent users from interacting with the app. Timeout features are also implemented to unblock the UI and cancel the loading screen. **Complicated testing has been done, but there might still be potential bugs for these features. Try force closing the app when your UI is blocked abnormally. Please report any bugs.**
+       - The app uses the "flutter_easyloading" package and the "block_ui" package to show a loading screen when it may take some time to interact with the backend. It blocks the UI when a loading screen is being shown to prevent users from interacting with the app. Timeout features are also implemented to unblock the UI and cancel the loading screen. **Complicated testing has been done, but there might still be potential bugs for these features. Try force closing the app when your UI is blocked abnormally. Please report any bugs.**
      - "flutter_local_notifications" package
-       - The app uses the "flutter_local_notifications" package to schedule local notifications. **Complicated testing has been done to make sure the reminder work normally. If you cannot receive any notifications, check your phone settings to make sure you provide the app with relevant permissions (including notification sounds). You may need to turn off battery optimization for the app to receive notifications when the app is closed.**
+       - The app uses the "flutter_local_notifications" package to schedule local notifications. **Complicated testing has been done to make sure the reminder works normally. If you cannot receive any notifications, check your phone settings to make sure you provide the app with relevant permissions (including notification sounds). You may need to turn off battery optimization for the app to receive notifications when the app is closed.**
      - "syncfusion_flutter_charts" package
        - The app uses the "syncfusion_flutter_charts" package to generate charts. Maybe due to package limitations, the charts may not look very nice when intervals between records are inconsistent and large. You can zoom the chart to view details.
      - "share_plus" package
