@@ -52,7 +52,7 @@ class _SetReminderScreenState extends State<SetReminderScreen> {
     EasyLoading.dismiss();
     BlockUi.hide(context);
     Fluttertoast.showToast(
-      msg: 'Reminder is active now.',
+      msg: 'Reminder has been set.',
       toastLength: Toast.LENGTH_SHORT,
     );
     Navigator.pop(context);
