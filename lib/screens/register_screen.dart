@@ -122,8 +122,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Text(
                 'Rhythm Care',
                 style: TextStyle(
+                  fontFamily: 'Otomanopee_One',
                   fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
+                  // fontWeight: FontWeight.bold,
                 ),
               ),
 

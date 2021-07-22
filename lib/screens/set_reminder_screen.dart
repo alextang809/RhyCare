@@ -1,6 +1,8 @@
+import 'package:block_ui/block_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rhythmcare/components/reminder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/notification.dart' as nt;
@@ -29,18 +31,30 @@ class _SetReminderScreenState extends State<SetReminderScreen> {
   }
 
   Future<void> saveReminderAndActivate() async {
-    EasyLoading.show();
+    EasyLoading.show(status: 'Saving...');
+    BlockUi.show(
+      context,
+      backgroundColor: Colors.transparent,
+      child: Container(),
+    );
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('reminder1', [
       _time.hour.toString(),
       _time.minute.toString(),
       RepeatString.repeatToString(_repeat),
-      'active'
+      'active',
     ]);
 
+    await nt.Notification.cancelAllNotifications();
     await nt.Notification.scheduleNotification(_repeat, _time);
 
+    await Future.delayed(Duration(milliseconds: 100));
     EasyLoading.dismiss();
+    BlockUi.hide(context);
+    Fluttertoast.showToast(
+      msg: 'Reminder is active now.',
+      toastLength: Toast.LENGTH_SHORT,
+    );
     Navigator.pop(context);
   }
 
@@ -104,7 +118,8 @@ class _SetReminderScreenState extends State<SetReminderScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rhythmcare/screens/chart_screen.dart';
 import 'package:rhythmcare/screens/generate_chart_card.dart';
+import 'package:rhythmcare/screens/record_info_card.dart';
 import 'package:rhythmcare/screens/time_filter_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -89,7 +90,9 @@ class _RecordScreenState extends State<RecordScreen> {
           .where(
             'date_time',
             isGreaterThanOrEqualTo: startDateTime,
-            isLessThanOrEqualTo: endDateTime == null ? null : endDateTime!.add(Duration(minutes: 1)),
+            isLessThanOrEqualTo: endDateTime == null
+                ? null
+                : endDateTime!.add(Duration(minutes: 1)),
           )
           .orderBy('date_time');
 
@@ -100,78 +103,95 @@ class _RecordScreenState extends State<RecordScreen> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  InkWell(
-                    splashColor: Colors.purple,
-                    customBorder: new CircleBorder(),
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(HeroDialogRoute(builder: (context) {
-                        // TODO: why can't change name
-                        return TimeFilterCard(
-                          start: startDateTime,
-                          end: endDateTime,
-                        );
-                      })).then((value) {
-                        setState(() {
-                          if (value != null) {
-                            startDateTime = value[0];
-                            endDateTime = value[1];
-                          }
-                        });
-                      });
-                    },
-                    child: Icon(
-                      FontAwesomeIcons.clock,
-                      size: 28.0,
-                      color: Colors.purple,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20.0,
-                  ),
-                  InkWell(
-                    splashColor: Colors.purple,
-                    customBorder: new CircleBorder(),
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(HeroDialogRoute(builder: (context) {
-                        return GenerateChartCard();
-                      })).then((value) async {
-                        if (value != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ChartScreen(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      InkWell(
+                        splashColor: Colors.purple,
+                        customBorder: new CircleBorder(),
+                        onTap: () {
+                          setState(() {
+                            reversed = !reversed;
+                          });
+                        },
+                        child: Icon(
+                          FontAwesomeIcons.sort,
+                          size: 28.0,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 17.0,
+                      ),
+                      InkWell(
+                        splashColor: Colors.purple,
+                        customBorder: new CircleBorder(),
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(HeroDialogRoute(builder: (context) {
+                            // TODO: why can't change name
+                            return TimeFilterCard(
+                              start: startDateTime,
+                              end: endDateTime,
+                            );
+                          })).then((value) {
+                            setState(() {
+                              if (value != null) {
+                                startDateTime = value[0];
+                                endDateTime = value[1];
+                              }
+                            });
+                          });
+                        },
+                        child: Icon(
+                          FontAwesomeIcons.clock,
+                          size: 28.0,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20.0,
+                      ),
+                      InkWell(
+                        splashColor: Colors.purple,
+                        customBorder: new CircleBorder(),
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(HeroDialogRoute(builder: (context) {
+                            return GenerateChartCard();
+                          })).then((value) async {
+                            if (value != null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChartScreen(
                                     query: query,
                                     item: value[0],
                                   ),
-                            ),
-                          );
-                        }
-                      });
-                    },
-                    child: Icon(
-                      FontAwesomeIcons.chartLine,
-                      size: 28.0,
-                      color: Colors.purple,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20.0,
+                                ),
+                              );
+                            }
+                          });
+                        },
+                        child: Icon(
+                          FontAwesomeIcons.chartLine,
+                          size: 28.0,
+                          color: Colors.purple,
+                        ),
+                      ),
+                    ],
                   ),
                   InkWell(
                     splashColor: Colors.purple,
                     customBorder: new CircleBorder(),
                     onTap: () {
-                      setState(() {
-                        reversed = !reversed;
-                      });
+                      Navigator.of(context).push(HeroDialogRoute(
+                          builder: (context) => RecordInfoCard()));
                     },
                     child: Icon(
-                      FontAwesomeIcons.sort,
+                      FontAwesomeIcons.infoCircle,
                       size: 28.0,
                       color: Colors.purple,
                     ),

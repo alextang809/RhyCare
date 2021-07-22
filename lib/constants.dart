@@ -49,3 +49,9 @@ const kRecordDetailTextStyle = TextStyle(
 const kTimeoutMsg = 'Timeout: Please check your Internet connection.';
 
 const kTimeoutDuration = Duration(seconds: 20);
+
+const kRecordColor1 = Color(0x851bd0ed);
+const kRecordColor2 = Color(0x8513D57B);
+const kRecordColor3 = Color(0x85FECE00);
+const kRecordColor4 = Color(0x85FD5A00);
+const kRecordColor5 = Color(0x85FE0047);

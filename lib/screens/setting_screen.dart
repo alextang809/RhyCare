@@ -281,6 +281,17 @@ class _SettingScreenState extends State<SettingScreen> {
             children: <Widget>[
               Column(
                 children: <Widget>[
+                  Text(
+                    'Rhythm Care',
+                    style: TextStyle(
+                      fontFamily: 'Otomanopee_One',
+                      fontSize: 30.0,
+                      // fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25.0,
+                  ),
                   changeEmailAddress(context),
                   Container(
                     child: emailStatus(),
@@ -352,18 +363,17 @@ class _SettingScreenState extends State<SettingScreen> {
                         );
                         return;
                       }
-                      Navigator.pushNamed(
-                          context, ReminderScreen.routeName)
-                      //     .then((value) => setState(() {
-                      //   user = _firebaseAuth.currentUser;
-                      // }))
+                      Navigator.pushNamed(context, ReminderScreen.routeName)
+                          //     .then((value) => setState(() {
+                          //   user = _firebaseAuth.currentUser;
+                          // }))
                           ;
                     },
                     child: Container(
                       width: double.infinity,
                       color: buttonColor,
                       padding:
-                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
                       margin: EdgeInsets.symmetric(vertical: 5.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -456,7 +466,8 @@ class _SettingScreenState extends State<SettingScreen> {
       EasyLoading.dismiss();
       // BlockUi.hide(context);
 
-      Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
       Fluttertoast.showToast(
         msg: 'You have successfully logged out.',
         toastLength: Toast.LENGTH_SHORT,
@@ -468,7 +479,8 @@ class _SettingScreenState extends State<SettingScreen> {
         msg: kTimeoutMsg,
         toastLength: Toast.LENGTH_LONG,
       );
-      Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
     });
   }
 

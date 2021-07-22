@@ -39,6 +39,10 @@ class _ChangeFunctionScreenState extends State<ChangeFunctionScreen> {
     }).then((value) {
       EasyLoading.dismiss();
       BlockUi.hide(context);
+      Fluttertoast.showToast(
+        msg: 'Any changes have been saved.',
+        toastLength: Toast.LENGTH_SHORT,
+      );
     }).timeout(kTimeoutDuration, onTimeout: () {
       EasyLoading.dismiss();
       BlockUi.hide(context);
