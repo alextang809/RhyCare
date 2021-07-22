@@ -6,7 +6,7 @@ A lightweight Android app for users to record their body height and weight.
 
 ### Disclaimer
 
-All the inputs during Milestone 2 evaluation have been cleared due to a refactor of database. Please register again and make new records. Thank you!
+All the inputs during Milestone 2 evaluation have been cleared due to a refactor of the database. Please register again and make new records. Thank you!
 
 <br/>
 
@@ -20,7 +20,7 @@ Gemini
 
 1. *"README can be done on Google Docs"*
 
-   If you prefer viewing this in Google Docs, please click [here]().
+   If you prefer viewing this in Google Docs, please click [here](https://docs.google.com/document/d/1XzzudgT6EZTC1SsPwSLVZbSPlHsNoM5eIdVm4NhKD0s/edit?usp=sharing).
 
 2. *"creating a Manual-testing flowchart"/ "do be more specific in describing your test cases" / "Include detailed description of testing" / "give evidence of these test cases"*
 
