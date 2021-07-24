@@ -74,10 +74,10 @@ class _HomeScreenState extends State<HomeScreen> {
     } catch (e) {
       // TODO: update this later
 
-      Fluttertoast.showToast(
-        msg: 'An error occurred. Please contact support.',
-        toastLength: Toast.LENGTH_LONG,
-      );
+      // Fluttertoast.showToast(
+      //   msg: 'An error occurred. Please contact support.',
+      //   toastLength: Toast.LENGTH_LONG,
+      // );
 
       heightEnabled = true;
       weightEnabled = true;
